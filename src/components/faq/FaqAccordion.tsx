@@ -25,11 +25,11 @@ export default function FaqAccordion({ items }: FaqAccordionProps) {
       {items.map((item, index) => (
         <div
           key={index}
-          className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg overflow-hidden"
+          className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg overflow-hidden"
         >
           <button
             onClick={() => toggleItem(index)}
-            className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-[#EDF2F7] transition-colors"
+            className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-[#F3F4F6] transition-colors"
           >
             <span className="text-[19.2px] font-medium text-text-primary">
               {item.question}

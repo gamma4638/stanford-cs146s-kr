@@ -6,22 +6,25 @@ export const syllabus: Week[] = [
     title: 'Introduction to Coding LLMs and AI Development',
     titleKr: '코딩 LLM과 AI 개발 입문',
     topics: [
-      'Course logistics',
-      'What is an LLM actually',
-      'How to prompt effectively',
+      '강의 소개 및 운영 안내',
+      'LLM이란 무엇인가',
+      '효과적인 프롬프팅 방법',
     ],
     readings: [
       {
         title: 'Deep Dive into LLMs',
         url: 'https://www.youtube.com/watch?v=7xTGNNLPyMI',
+        krSlug: 'deep-dive-llms',
       },
       {
         title: 'Prompt Engineering Overview',
         url: 'https://cloud.google.com/discover/what-is-prompt-engineering',
+        krSlug: 'prompt-engineering-overview',
       },
       {
         title: 'Prompt Engineering Guide',
         url: 'https://www.promptingguide.ai/techniques',
+        // krSlug: 'prompt-engineering-guide', // TODO: 번역 완료 후 공개
       },
       {
         title: 'AI Prompt Engineering: A Deep Dive',
@@ -40,13 +43,13 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 9/22',
-        title: 'Introduction and how an LLM is made',
+        day: '1차시',
+        title: 'LLM 소개와 작동 원리',
         slidesUrl: 'https://docs.google.com/presentation/d/1zT2Ofy88cajLTLkd7TcuSM4BCELvF9qQdHmlz33i4t0/edit?usp=sharing',
       },
       {
-        day: 'Fri 9/26',
-        title: 'Power prompting for LLMs',
+        day: '2차시',
+        title: 'LLM을 위한 고급 프롬프팅',
         slidesUrl: 'https://docs.google.com/presentation/d/1MIhw8p6TLGdbQ9TcxhXSs5BaPf5d_h77QY70RHNfeGs/edit?usp=drive_link',
       },
     ],
@@ -56,14 +59,15 @@ export const syllabus: Week[] = [
     title: 'The Anatomy of Coding Agents',
     titleKr: '코딩 에이전트의 구조',
     topics: [
-      'Agent architecture and components',
-      'Tool use and function calling',
+      '에이전트 아키텍처와 구성 요소',
+      '도구 사용과 함수 호출',
       'MCP (Model Context Protocol)',
     ],
     readings: [
       {
         title: 'MCP Introduction',
         url: 'https://stytch.com/blog/model-context-protocol-introduction/',
+        // krSlug: 'mcp-documentation', // TODO: 번역 완료 후 공개
       },
       {
         title: 'Sample MCP Server Implementations',
@@ -94,8 +98,8 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 9/29',
-        title: 'Building a coding agent from scratch',
+        day: '1차시',
+        title: '코딩 에이전트 직접 만들기',
         slidesUrl: 'https://docs.google.com/presentation/d/11CP26VhsjnZOmi9YFgLlonzdib9BLyAlgc4cEvC5Fps/edit?usp=sharing',
         additionalResources: [
           {
@@ -105,8 +109,8 @@ export const syllabus: Week[] = [
         ],
       },
       {
-        day: 'Fri 10/3',
-        title: 'Building a custom MCP server',
+        day: '2차시',
+        title: '커스텀 MCP 서버 구축',
         slidesUrl: 'https://docs.google.com/presentation/d/1zSC2ra77XOUrJeyS85houg1DU7z9hq5Y4ebagTch-5o/edit?usp=drive_link',
         additionalResources: [
           {
@@ -122,9 +126,9 @@ export const syllabus: Week[] = [
     title: 'The AI IDE',
     titleKr: 'AI IDE',
     topics: [
-      'Context management and code understanding',
-      'PRDs for agents',
-      'IDE integrations and extensions',
+      '컨텍스트 관리와 코드 이해',
+      '에이전트를 위한 PRD 작성',
+      'IDE 통합과 확장 기능',
     ],
     readings: [
       {
@@ -160,8 +164,8 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 10/6',
-        title: 'From first prompt to optimal IDE setup',
+        day: '1차시',
+        title: '첫 프롬프트부터 최적의 IDE 설정까지',
         slidesUrl: 'https://docs.google.com/presentation/d/11pQNCde_mmRnImBat0Zymnp8TCS_cT_1up7zbcj6Sjg/edit?usp=sharing',
         additionalResources: [
           {
@@ -171,7 +175,7 @@ export const syllabus: Week[] = [
         ],
       },
       {
-        day: 'Fri 10/10',
+        day: '2차시',
         title: '',
         slidesUrl: 'https://docs.google.com/presentation/d/1i0pRttHf72lgz8C-n7DSegcLBgncYZe_ppU7dB9zhUA/edit?usp=sharing',
         guest: {
@@ -189,8 +193,8 @@ export const syllabus: Week[] = [
     title: 'Coding Agent Patterns',
     titleKr: '코딩 에이전트 패턴',
     topics: [
-      'Managing agent autonomy levels',
-      'Human-agent collaboration patterns',
+      '에이전트 자율성 수준 관리',
+      '인간-에이전트 협업 패턴',
     ],
     readings: [
       {
@@ -226,12 +230,12 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 10/13',
-        title: 'How to be an agent manager',
+        day: '1차시',
+        title: '에이전트 매니저가 되는 법',
         slidesUrl: 'https://docs.google.com/presentation/d/19mgkwAnJDc7JuJy0zhhoY0ZC15DiNpxL8kchPDnRkRQ/edit?usp=sharing',
       },
       {
-        day: 'Fri 10/17',
+        day: '2차시',
         title: '',
         slidesUrl: 'https://docs.google.com/presentation/d/1bv7Zozn6z45CAh-IyX99dMPMyXCHC7zj95UfwErBYQ8/edit?usp=sharing',
         guest: {
@@ -249,8 +253,8 @@ export const syllabus: Week[] = [
     title: 'The Modern Terminal',
     titleKr: '현대적 터미널',
     topics: [
-      'AI-enhanced command line interfaces',
-      'Terminal automation and scripting',
+      'AI 강화 커맨드라인 인터페이스',
+      '터미널 자동화와 스크립팅',
     ],
     readings: [
       {
@@ -274,12 +278,12 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 10/20',
-        title: 'How to Build a Breakout AI Developer Product',
+        day: '1차시',
+        title: '혁신적인 AI 개발자 제품 만들기',
         slidesUrl: 'https://docs.google.com/presentation/d/1Djd4eBLBbRkma8rFnJAWMT0ptct_UGB8hipmoqFVkxQ/edit?usp=sharing',
       },
       {
-        day: 'Fri 10/24',
+        day: '2차시',
         title: '',
         slidesUrl: 'https://www.figma.com/slides/kwbcmtqTFQMfUhiMH8BiEx/Warp---Stanford--Copy-?node-id=9-116&t=oBWBCk8mjg2l2NR5-1',
         guest: {
@@ -297,9 +301,9 @@ export const syllabus: Week[] = [
     title: 'AI Testing and Security',
     titleKr: 'AI 테스팅과 보안',
     topics: [
-      'Secure vibe coding',
-      'History of vulnerability detection',
-      'AI-generated test suites',
+      '안전한 바이브 코딩',
+      '취약점 탐지의 역사',
+      'AI 생성 테스트 스위트',
     ],
     readings: [
       {
@@ -339,12 +343,12 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 10/27',
-        title: 'AI QA, SAST, DAST, and Beyond',
+        day: '1차시',
+        title: 'AI QA, SAST, DAST, 그리고 그 너머',
         slidesUrl: 'https://docs.google.com/presentation/d/1C05bCLasMDigBbkwdWbiz4WrXibzi6ua4hQQbTod_8c/edit?usp=sharing',
       },
       {
-        day: 'Fri 10/31',
+        day: '2차시',
         title: '',
         guest: {
           name: 'Isaac Evans',
@@ -361,9 +365,9 @@ export const syllabus: Week[] = [
     title: 'Modern Software Support',
     titleKr: '현대적 소프트웨어 지원',
     topics: [
-      'What AI code systems can we trust',
-      'Debugging and diagnostics',
-      'Intelligent documentation generation',
+      '신뢰할 수 있는 AI 코드 시스템',
+      '디버깅과 진단',
+      '지능형 문서 생성',
     ],
     readings: [
       {
@@ -399,12 +403,12 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 11/3',
-        title: 'AI code review',
+        day: '1차시',
+        title: 'AI 코드 리뷰',
         slidesUrl: 'https://docs.google.com/presentation/d/1NkPzpuSQt6Esbnr2-EnxM9007TL6ebSPFwITyVY-QxU/edit?usp=sharing',
       },
       {
-        day: 'Fri 11/7',
+        day: '2차시',
         title: '',
         slidesUrl: 'https://drive.google.com/file/d/1hwF-RIkOJ_OFy17BKhzFyCtxSS7Pcf7p/view?usp=drive_link',
         guest: {
@@ -422,8 +426,8 @@ export const syllabus: Week[] = [
     title: 'Automated UI and App Building',
     titleKr: '자동화된 UI 및 앱 개발',
     topics: [
-      'Design and frontend for everyone',
-      'Rapid UI/UX prototyping and iteration',
+      '모두를 위한 디자인과 프론트엔드',
+      '빠른 UI/UX 프로토타이핑과 반복',
     ],
     readings: [],
     assignments: [
@@ -434,12 +438,12 @@ export const syllabus: Week[] = [
     ],
     lectures: [
       {
-        day: 'Mon 11/10',
-        title: 'End-to-end apps with a single prompt',
+        day: '1차시',
+        title: '프롬프트 하나로 완성하는 앱',
         slidesUrl: 'https://docs.google.com/presentation/d/1GrVLsfMFIXMiGjIW9D7EJIyLYh_-3ReHHNd_vRfZUoo/edit?usp=sharing',
       },
       {
-        day: 'Fri 11/14',
+        day: '2차시',
         title: '',
         slidesUrl: 'https://docs.google.com/presentation/d/1Jf2aN5zIChd5tT86rZWWqY-iDWbxgR-uynKJxBR7E9E/edit?usp=sharing',
         guest: {
@@ -457,9 +461,9 @@ export const syllabus: Week[] = [
     title: 'Agents Post-Deployment',
     titleKr: '배포 후 에이전트 관리',
     topics: [
-      'Monitoring and observability for AI systems',
-      'Automated incident response',
-      'Triaging and debugging',
+      'AI 시스템 모니터링과 관측성',
+      '자동화된 장애 대응',
+      '트리아지와 디버깅',
     ],
     readings: [
       {
@@ -490,12 +494,12 @@ export const syllabus: Week[] = [
     assignments: [],
     lectures: [
       {
-        day: 'Mon 11/17',
-        title: 'Incident response and DevOps',
+        day: '1차시',
+        title: '장애 대응과 DevOps',
         slidesUrl: 'https://docs.google.com/presentation/d/1Mfe-auWAsg9URCujneKnHr0AbO8O-_U4QXBVOlO4qp0/edit?usp=sharing',
       },
       {
-        day: 'Fri 11/21',
+        day: '2차시',
         title: '',
         slidesUrl: 'https://drive.google.com/file/d/11WnEbMGc9kny_WBpMN10I8oP8XsiQOnM/view?usp=sharing',
         guest: {
@@ -520,19 +524,19 @@ export const syllabus: Week[] = [
     title: "What's Next for AI Software Engineering",
     titleKr: 'AI 소프트웨어 엔지니어링의 미래',
     topics: [
-      'Future of software development roles',
-      'Emerging AI coding paradigms',
-      'Industry trends and predictions',
+      '소프트웨어 개발 역할의 미래',
+      '새로운 AI 코딩 패러다임',
+      '업계 트렌드와 전망',
     ],
     readings: [],
     assignments: [],
     lectures: [
       {
-        day: 'Mon 12/1',
-        title: 'Software development in 10 years',
+        day: '1차시',
+        title: '10년 후의 소프트웨어 개발',
       },
       {
-        day: 'Fri 12/5',
+        day: '2차시',
         title: '',
         guest: {
           name: 'Martin Casado',

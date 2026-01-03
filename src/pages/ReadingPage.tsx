@@ -25,21 +25,52 @@ export default function ReadingPage() {
     )
   }
 
+  // 아직 공개되지 않은 번역 페이지
+  if (!reading.published) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-12 text-center">
+        <h1 className="text-2xl font-bold text-stanford-red mb-4">
+          번역 준비 중입니다
+        </h1>
+        <p className="text-text-secondary mb-6">
+          "{reading.titleKr}" 페이지는 현재 번역 작업 중입니다.<br />
+          곧 한국어 버전을 제공해 드리겠습니다.
+        </p>
+        <div className="mb-6">
+          <a
+            href={reading.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-stanford-red hover:underline"
+          >
+            원본 자료 보기 →
+          </a>
+        </div>
+        <Link
+          to="/#syllabus"
+          className="inline-block px-6 py-3 bg-stanford-red text-white rounded hover:bg-stanford-red-dark transition-colors"
+        >
+          강의계획으로 돌아가기
+        </Link>
+      </div>
+    )
+  }
+
   return (
     <>
       {/* Header */}
       <header className="bg-stanford-red text-white py-8">
         <div className="max-w-3xl mx-auto px-6">
-          <div className="text-sm opacity-80 mb-4">
-            <Link to="/" className="text-white hover:underline">
+          <div className="text-sm mb-4">
+            <Link to="/" style={{ color: '#FFD0D0' }} className="hover:text-white hover:underline">
               CS146S Korean Edition
             </Link>
-            {' / '}
-            <Link to="/#syllabus" className="text-white hover:underline">
+            <span style={{ color: '#FF9999' }}> / </span>
+            <Link to="/#syllabus" style={{ color: '#FFD0D0' }} className="hover:text-white hover:underline">
               강의계획
             </Link>
-            {' / '}
-            Week {reading.week} Reading
+            <span style={{ color: '#FF9999' }}> / </span>
+            <span className="text-white font-medium">Week {reading.week} Reading</span>
           </div>
           <h1 className="text-2xl font-bold mb-2">
             {reading.title} ({reading.titleKr})
@@ -105,38 +136,6 @@ export default function ReadingPage() {
           </div>
         ))}
 
-        {/* Related Readings */}
-        {reading.relatedReadings && reading.relatedReadings.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-xl font-bold text-stanford-red mb-4 pb-2 border-b border-border">
-              관련 읽기 자료
-            </h2>
-            <ul className="space-y-2">
-              {reading.relatedReadings.map((related, i) => (
-                <li key={i}>
-                  {related.slug ? (
-                    <Link
-                      to={`/readings/${week}/${related.slug}`}
-                      className="text-stanford-red hover:underline"
-                    >
-                      {related.title} [한국어]
-                    </Link>
-                  ) : (
-                    <a
-                      href={related.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-stanford-red hover:underline"
-                    >
-                      {related.title}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
         {/* Navigation */}
         <div className="flex justify-between items-center pt-6 mt-8 border-t border-border">
           <Link
@@ -148,7 +147,7 @@ export default function ReadingPage() {
           {reading.nextReading && (
             <Link
               to={`/readings/${week}/${reading.nextReading.slug}`}
-              className="px-4 py-2 bg-stanford-red text-white rounded hover:bg-stanford-red-dark transition-colors"
+              className="px-4 py-2 border-2 border-stanford-red text-stanford-red rounded hover:bg-stanford-red hover:text-white transition-colors font-medium"
             >
               다음: {reading.nextReading.title} →
             </Link>

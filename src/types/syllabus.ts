@@ -25,7 +25,7 @@ export interface Guest {
 }
 
 export interface Lecture {
-  day: string // "Mon 9/22" 또는 "Fri 9/26"
+  day: string // "1차시", "2차시" 등 강의 순서
   title: string
   slidesUrl?: string
   krSlidesSlug?: string

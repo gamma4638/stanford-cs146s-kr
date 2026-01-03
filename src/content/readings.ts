@@ -7,6 +7,7 @@ export interface ReadingContent {
   readTime: string
   sourceUrl: string
   sourceTitle: string
+  published?: boolean // 한국어 번역 페이지 공개 여부 (기본값: false)
   sections: {
     title: string
     content: string
@@ -31,55 +32,129 @@ export const readings: Record<string, ReadingContent> = {
   'week1/deep-dive-llms': {
     slug: 'deep-dive-llms',
     week: 1,
-    title: 'Deep Dive into LLMs',
-    titleKr: 'LLM 심층 분석',
+    title: 'Deep Dive into LLMs like ChatGPT',
+    titleKr: 'ChatGPT 같은 LLM 심층 분석',
     author: 'Andrej Karpathy',
-    readTime: '약 3시간 30분',
+    readTime: '약 3시간 31분',
     sourceUrl: 'https://www.youtube.com/watch?v=7xTGNNLPyMI',
-    sourceTitle: 'YouTube - Deep Dive into LLMs by Andrej Karpathy',
+    sourceTitle: 'YouTube - Deep Dive into LLMs like ChatGPT (2025.02.05)',
+    published: true,
     sections: [
       {
         title: '개요',
         content:
-          'Andrej Karpathy의 이 강의는 대형 언어 모델(LLM)이 어떻게 작동하는지에 대한 포괄적인 설명을 제공합니다. GPT 시리즈 모델의 내부 작동 원리부터 트레이닝 과정, 그리고 실제 활용까지 다룹니다.',
+          'OpenAI 공동창업자이자 전 Tesla AI Director인 Andrej Karpathy가 LLM의 전체 훈련 파이프라인을 일반 청중도 이해할 수 있도록 설명하는 종합 강의입니다. Pre-training부터 RLHF까지, 그리고 모델의 "심리학"적 특성까지 다룹니다.',
       },
       {
-        title: '1. LLM의 기본 구조',
+        title: '1. Pre-training: 인터넷을 다운로드하다',
         content:
-          '대형 언어 모델은 본질적으로 다음 토큰을 예측하는 시스템입니다. 입력된 텍스트를 토큰화하고, 각 토큰에 대해 다음에 올 가능성이 높은 토큰을 예측합니다.',
+          'LLM 훈련의 첫 단계는 인터넷 데이터를 수집하고 처리하는 것입니다. HuggingFace의 FineWeb 데이터셋은 약 44TB, 15조 토큰으로 구성됩니다.',
         items: [
-          '토큰화 (Tokenization): 텍스트를 작은 단위로 분할',
-          '임베딩 (Embedding): 토큰을 고차원 벡터로 변환',
-          '어텐션 (Attention): 문맥을 이해하기 위한 핵심 메커니즘',
-          '트랜스포머 블록: 어텐션과 피드포워드 레이어의 반복 구조',
+          'Common Crawl: 2007년부터 27억 웹페이지 인덱싱',
+          'URL 필터링: 악성/스팸/성인 사이트 제거',
+          '텍스트 추출: HTML에서 본문만 추출',
+          '언어 필터링: 영어 65% 이상 등 조건 적용',
+          'PII 제거: 개인정보 필터링',
         ],
       },
       {
-        title: '2. 트레이닝 과정',
-        content: 'LLM의 트레이닝은 크게 세 단계로 나뉩니다:',
+        title: '2. Tokenization: 텍스트를 숫자로',
+        content:
+          '신경망은 유한한 심볼 집합의 1차원 시퀀스를 입력으로 받습니다. Byte Pair Encoding(BPE) 알고리즘으로 텍스트를 토큰으로 변환합니다.',
         items: [
-          '사전 학습 (Pre-training): 인터넷의 대규모 텍스트 데이터로 기본 언어 능력 학습',
-          '지도 미세조정 (Supervised Fine-tuning, SFT): 고품질의 대화 데이터로 응답 형식 학습',
-          'RLHF (Reinforcement Learning from Human Feedback): 인간의 선호도를 반영하여 응답 품질 개선',
+          'GPT-4 어휘 크기: 100,277개 토큰',
+          '"hello world" → 2개 토큰: [15339, 1917]',
+          '대소문자 구분: "Hello world" → 3개 토큰',
+          'Tiktokenizer (tiktokenizer.vercel.app): GPT-4 토큰화 시각화',
         ],
       },
       {
-        title: '3. 스케일링 법칙',
-        content: '모델의 성능은 세 가지 요소에 의해 결정됩니다:',
+        title: '3. Transformer 신경망',
+        content:
+          'Transformer는 입력 토큰 시퀀스를 받아 다음 토큰의 확률 분포를 출력합니다. 파라미터는 DJ 믹서의 노브와 같습니다.',
         items: [
-          '파라미터 수: 모델의 크기',
-          '데이터 양: 트레이닝에 사용된 토큰 수',
-          '컴퓨팅 자원: 트레이닝에 사용된 연산량',
+          '입력: 0 ~ 최대 컨텍스트 길이 (예: 8,000) 토큰',
+          '출력: 100,277개 토큰에 대한 확률값',
+          '파라미터: GPT-2는 16억, 최신 모델은 수천억 개',
+          '훈련: 예측 확률이 실제 다음 토큰과 일치하도록 조정',
+          '3D 시각화: bbycroft.net/llm',
         ],
       },
       {
-        title: '4. 실용적 시사점',
-        content: '소프트웨어 개발자가 알아야 할 핵심 사항:',
+        title: '4. GPT-2 재현: $672로 가능',
+        content:
+          'Karpathy는 llm.c 프로젝트로 GPT-2를 단 $672에 재현했습니다. 2019년 원본 훈련 비용은 약 $40,000였습니다.',
         items: [
-          'LLM은 확률적 시스템이므로 동일한 입력에 다른 출력이 나올 수 있음',
-          '컨텍스트 윈도우의 제한을 이해하고 활용해야 함',
-          '프롬프트 엔지니어링이 결과에 큰 영향을 미침',
-          '모델의 지식 컷오프 날짜를 고려해야 함',
+          'GPT-2 스펙: 16억 파라미터, 1,000억 토큰, 컨텍스트 1,024',
+          '2019년 훈련 비용: ~$40,000',
+          'llm.c 재현 비용: $672',
+          '최적화 시: ~$100까지 가능',
+        ],
+      },
+      {
+        title: '5. Base Model vs Chat Model',
+        content:
+          'Base Model은 "문서 자동완성기"이고, Chat Model은 대화 데이터로 추가 훈련된 "AI 어시스턴트"입니다.',
+        items: [
+          'Base Model: 다음 토큰 예측만 학습, 프롬프트 = 문서 시작',
+          'Chat Model: 대화 형식으로 추가 훈련, 일관된 도움 응답',
+          'SFT (Supervised Fine-tuning): 고품질 대화 데이터로 응답 형식 학습',
+          'RLHF: 인간 피드백으로 응답 품질 개선',
+        ],
+      },
+      {
+        title: '6. Hallucination (환각)',
+        content:
+          'LLM은 "꿈꾸는 기계"입니다. 그럴듯하게 들리지만 사실이 아닌 내용을 생성할 수 있습니다.',
+        items: [
+          '원인: 훈련 데이터의 패턴을 재조합하여 생성',
+          '해결책 1: 웹 검색 도구 연결 (RAG)',
+          '해결책 2: "확실하지 않음" 명시적 표시',
+          '해결책 3: 인용 및 출처 제공 요청',
+        ],
+      },
+      {
+        title: '7. Models Need Tokens to Think',
+        content:
+          'LLM은 "생각할 토큰"이 필요합니다. 중간 토큰들이 "작업 메모리" 역할을 합니다.',
+        items: [
+          '나쁜 프롬프트: "13 * 17 = ?" → 한 토큰으로 답해야 함',
+          '좋은 프롬프트: "단계별로 계산해줘" → 중간 과정 토큰 생성',
+          'Chain-of-Thought: 추론 과정을 명시적으로 요청',
+          '더 많은 토큰 = 더 많은 "생각 시간"',
+        ],
+      },
+      {
+        title: '8. Jagged Intelligence (들쭉날쭉한 지능)',
+        content:
+          'LLM은 어떤 영역에서는 인간을 압도하고, 다른 영역에서는 유아 수준입니다.',
+        items: [
+          '강점: 암기, 패턴 매칭, 넓은 지식',
+          '약점: 철자 세기, 공간 추론, 새로운 논리',
+          '"strawberry에 r이 몇 개?" → 자주 틀림',
+          '원인: 토큰화로 인해 철자를 직접 "보지" 못함',
+        ],
+      },
+      {
+        title: '9. Reinforcement Learning & DeepSeek-R1',
+        content:
+          'SFT의 한계를 넘어서 RL로 자기 개선이 가능합니다. DeepSeek-R1은 RL로 추론 능력을 획득했습니다.',
+        items: [
+          'SFT 한계: 전문가 시연만 학습 (탐색 없음)',
+          'RL 장점: 시행착오를 통한 자기 개선',
+          'DeepSeek-R1: "aha moment" 발견, Chain-of-Thought 자발적 생성',
+          'AlphaGo Move 37: RL의 힘을 보여준 역사적 사례',
+        ],
+      },
+      {
+        title: '10. 미래 전망',
+        content:
+          'LLM은 멀티모달, 에이전트, System 1 & 2 통합으로 발전할 것입니다.',
+        items: [
+          '멀티모달: 텍스트, 이미지, 오디오 네이티브 처리',
+          '에이전트: 장시간 작업 수행, 컴퓨터 사용',
+          'System 1 & 2 통합: 직관적 응답 + 심층 추론',
+          'LM Arena (lmarena.ai): 모델 랭킹 확인',
         ],
       },
     ],
@@ -87,12 +162,17 @@ export const readings: Record<string, ReadingContent> = {
       {
         title: '핵심 인사이트',
         content:
-          'LLM은 단순히 "다음 단어 예측"을 수행하지만, 이 과정에서 언어의 문법, 의미, 심지어 세계 지식까지 학습합니다. 이것이 LLM의 놀라운 능력의 핵심입니다.',
+          'LLM은 본질적으로 "다음 토큰 예측기"입니다. 하지만 이 단순한 목표를 달성하기 위해 언어의 문법, 의미, 세계 지식까지 학습합니다. 파라미터는 DJ 믹서의 노브와 같고, 훈련은 데이터의 통계와 일치하는 노브 설정을 찾는 것입니다.',
       },
       {
         title: '개발자를 위한 팁',
         content:
-          'LLM을 효과적으로 활용하려면 모델의 작동 원리를 이해하는 것이 중요합니다. "마법의 블랙박스"로 취급하지 말고, 확률적 텍스트 생성 시스템으로 이해하세요.',
+          'LLM을 "마법의 블랙박스"가 아닌 "확률적 텍스트 생성 시스템"으로 이해하세요. 생각할 토큰을 제공하고, 들쭉날쭉한 지능을 인식하고, 환각에 대비하세요.',
+      },
+      {
+        title: '주요 리소스',
+        content:
+          'FineWeb (huggingface.co), Tiktokenizer (tiktokenizer.vercel.app), Transformer 3D Visualizer (bbycroft.net/llm), llm.c (github.com/karpathy/llm.c), LM Arena (lmarena.ai)',
       },
     ],
     relatedReadings: [
@@ -109,52 +189,65 @@ export const readings: Record<string, ReadingContent> = {
     week: 1,
     title: 'Prompt Engineering Overview',
     titleKr: '프롬프트 엔지니어링 개요',
-    author: 'Anthropic',
+    author: 'Google Cloud',
     readTime: '약 30분',
-    sourceUrl: 'https://docs.anthropic.com/claude/docs/prompt-engineering',
-    sourceTitle: 'Anthropic Docs - Prompt Engineering',
+    sourceUrl: 'https://cloud.google.com/discover/what-is-prompt-engineering',
+    sourceTitle: 'Google Cloud - What is Prompt Engineering',
+    published: true,
     sections: [
       {
         title: '프롬프트 엔지니어링이란?',
         content:
-          '프롬프트 엔지니어링은 AI 모델이 원하는 출력을 생성하도록 입력(프롬프트)을 설계하고 최적화하는 기술입니다. 효과적인 프롬프트는 모델의 성능을 크게 향상시킬 수 있습니다.',
+          '프롬프트 엔지니어링은 AI 모델, 특히 대형 언어 모델(LLM)이 원하는 응답을 생성하도록 프롬프트를 설계하고 최적화하는 기술이자 예술입니다. 프롬프트를 신중하게 작성함으로써 모델에게 맥락, 지시사항, 예시를 제공하여 의도를 이해하고 의미 있는 방식으로 응답하도록 돕습니다. AI를 위한 로드맵을 제공하여 원하는 특정 출력으로 유도하는 것이라고 생각하면 됩니다.',
       },
       {
-        title: '핵심 원칙',
-        content: '좋은 프롬프트를 작성하기 위한 기본 원칙들:',
+        title: '효과적인 프롬프트의 핵심 요소',
+        content: '효과적인 프롬프트 엔지니어링에 기여하는 핵심 요소들:',
         items: [
-          '명확성: 모호하지 않은 구체적인 지시사항 제공',
-          '맥락 제공: 필요한 배경 정보와 컨텍스트 포함',
-          '예시 활용: Few-shot 학습을 위한 예시 제공',
-          '구조화: 복잡한 태스크는 단계별로 분해',
+          '프롬프트 포맷: 자연어 질문, 직접 명령, 특정 필드가 있는 구조화된 입력 등 모델에 맞는 형식 선택',
+          '맥락과 예시: 프롬프트 내에 관련 맥락과 예시를 제공하여 더 정확하고 관련성 높은 출력 유도',
+          '파인튜닝과 적응: 맞춤형 프롬프트를 사용해 특정 태스크나 도메인에서 AI 모델의 성능 향상',
+          '다중 턴 대화: 연속적이고 맥락을 인식하는 상호작용을 위한 프롬프트 설계',
         ],
       },
       {
-        title: '일반적인 기법들',
-        content: '자주 사용되는 프롬프트 엔지니어링 기법:',
+        title: '프롬프트 유형',
+        content: 'AI에서 사용되는 다양한 프롬프트 유형:',
         items: [
-          'Zero-shot: 예시 없이 직접 지시',
-          'Few-shot: 몇 가지 예시와 함께 지시',
-          'Chain of Thought: 단계별 추론 유도',
-          'Role Playing: 특정 역할이나 페르소나 부여',
+          'Direct prompts (Zero-shot): 추가 맥락이나 예시 없이 직접 지시나 질문 제공. 아이디어 생성, 요약, 번역에 활용',
+          'One-, few-, multi-shot prompts: 실제 프롬프트 전에 원하는 입력-출력 쌍의 예시 제공. 태스크 이해와 정확한 응답 생성에 도움',
+          'Chain of Thought (CoT): 모델이 복잡한 추론을 일련의 중간 단계로 분해하도록 유도하여 포괄적이고 구조화된 출력 생성',
+          'Zero-shot CoT: Chain of Thought와 Zero-shot을 결합하여 추론 단계를 수행하게 함으로써 더 나은 출력 생성',
         ],
       },
       {
-        title: '실전 팁',
-        content: '실제 개발에서 활용할 수 있는 팁:',
+        title: '주요 활용 사례',
+        content: '프롬프트 엔지니어링이 커스터마이즈된 관련 출력을 생성하는 데 도움이 되는 사례들:',
         items: [
-          '반복 실험: 다양한 프롬프트 변형을 테스트',
-          '출력 형식 지정: JSON, 마크다운 등 원하는 형식 명시',
-          '제약 조건 명시: 글자 수, 톤, 스타일 등 제한사항 설정',
-          '에러 처리: 예상치 못한 출력에 대한 대비',
+          '언어 및 텍스트 생성: 창작 글쓰기, 요약, 번역, 대화 시뮬레이션',
+          '질문 답변: 개방형 질문, 구체적 질문, 객관식, 가설적 질문, 의견 기반 질문',
+          '코드 생성: 코드 완성, 코드 번역, 코드 최적화, 코드 디버깅',
+          '이미지 생성: 사실적 이미지, 예술적 이미지, 추상 이미지, 이미지 편집',
+        ],
+      },
+      {
+        title: '더 나은 프롬프트 작성 전략',
+        content: '프롬프트 엔지니어링 능력을 향상시키기 위한 전략들:',
+        items: [
+          '명확한 목표 설정: 행동 동사 사용, 출력의 길이와 형식 정의, 대상 독자 지정',
+          '맥락과 배경 정보 제공: 관련 사실과 데이터 포함, 특정 출처 참조, 핵심 용어와 개념 정의',
+          'Few-shot 프롬프팅 활용: 원하는 입력-출력 쌍의 예시 제공, 원하는 스타일이나 톤 시연, 원하는 세부 수준 보여주기',
+          '구체적으로 작성: 정확한 언어 사용, 가능한 경우 요청을 정량화, 복잡한 태스크를 작은 단계로 분해',
+          '반복과 실험: 다양한 표현과 키워드 시도, 세부 수준 조정, 다양한 프롬프트 길이 테스트',
+          'Chain of Thought 프롬프팅 활용: 단계별 추론 유도, 모델에게 추론 과정 설명 요청, 논리적 사고 순서로 안내',
         ],
       },
     ],
     keyTakeaways: [
       {
-        title: '핵심 인사이트',
+        title: '프롬프트 엔지니어링의 이점',
         content:
-          '프롬프트 엔지니어링은 단순히 "잘 물어보기"가 아닙니다. AI 모델의 특성을 이해하고, 체계적으로 입력을 설계하는 엔지니어링 프로세스입니다.',
+          '효과적인 프롬프트 엔지니어링은 모델 성능 향상, 편향 및 유해 응답 감소, 제어력과 예측 가능성 증가, 사용자 경험 향상 등 다양한 이점을 제공합니다. 잘 작성된 프롬프트는 명확한 지시와 맥락을 제공하여 AI 모델로부터 더 정확하고 관련성 높은 출력을 이끌어냅니다.',
       },
     ],
     relatedReadings: [
@@ -175,6 +268,7 @@ export const readings: Record<string, ReadingContent> = {
     readTime: '약 1시간',
     sourceUrl: 'https://www.promptingguide.ai/',
     sourceTitle: 'Prompting Guide by DAIR.AI',
+    published: false,
     sections: [
       {
         title: '프롬프트의 구성 요소',
@@ -239,6 +333,7 @@ export const readings: Record<string, ReadingContent> = {
     readTime: '약 45분',
     sourceUrl: 'https://modelcontextprotocol.io/',
     sourceTitle: 'Model Context Protocol - Official Documentation',
+    published: false,
     sections: [
       {
         title: 'MCP란?',
@@ -301,6 +396,7 @@ export const readings: Record<string, ReadingContent> = {
     readTime: '약 1시간',
     sourceUrl: 'https://modelcontextprotocol.io/quickstart',
     sourceTitle: 'MCP Quickstart Guide',
+    published: false,
     sections: [
       {
         title: '시작하기',
@@ -373,6 +469,7 @@ export const readings: Record<string, ReadingContent> = {
     readTime: '약 40분',
     sourceUrl: 'https://docs.anthropic.com/claude/docs/tool-use',
     sourceTitle: 'Anthropic Docs - Tool Use',
+    published: false,
     sections: [
       {
         title: 'Tool Use 개요',
