@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  /* Stanford colors - exact match */
+  --color-stanford-red: #8B0000;
+  --color-stanford-red-light: #B22222;
+  --color-stanford-red-dark: #6B0F0F;
+  --color-kr-accent: #0066CC;
+
+  /* Text colors - exact match */
+  --color-text-primary: #2C3E50;
+  --color-text-secondary: #6C757D;
+  --color-text-body: #4A5568;
+
+  /* Background colors */
+  --color-bg-light: #F4F4F4;
+  --color-bg-card: #F9F9F9;
+  --color-border: #E1E8ED;
+
+  /* Font - Inter for English, Noto Sans KR for Korean */
+  --font-sans: Inter, -apple-system, system-ui, "Segoe UI", "Noto Sans KR", sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--color-stanford-red);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header gradient background */
+.header-gradient {
+  background: linear-gradient(135deg, #8B0000, #B22222);
+}
+
+/* Header links should be white */
+.header-gradient a {
+  color: white !important;
+}
+
+.header-gradient a:hover {
+  text-decoration: none;
+}
