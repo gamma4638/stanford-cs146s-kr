@@ -24,7 +24,8 @@ export const syllabus: Week[] = [
       {
         title: 'Prompt Engineering Guide',
         url: 'https://www.promptingguide.ai/techniques',
-        translationStatus: 'in_progress',
+        krSlug: 'prompt-engineering-guide',
+        translationStatus: 'complete',
       },
       {
         title: 'AI Prompt Engineering: A Deep Dive',

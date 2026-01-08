@@ -1,3 +1,24 @@
+// 자식 페이지 정의 (부모-자식 구조용)
+export interface ChildReading {
+  slug: string           // 'zeroshot'
+  title: string          // 'Zero-shot Prompting'
+  titleKr: string        // 'Zero-shot 프롬프팅'
+  sourceUrl: string      // 원본 페이지 URL
+  published?: boolean    // 번역 완료 여부
+  // 콘텐츠 필드 (번역 완료 시 추가)
+  author?: string
+  readTime?: string
+  sections?: {
+    title: string
+    content: string
+    items?: string[]
+  }[]
+  keyTakeaways?: {
+    title: string
+    content: string
+  }[]
+}
+
 export interface ReadingContent {
   slug: string
   week: number
@@ -26,6 +47,10 @@ export interface ReadingContent {
     title: string
     slug: string
   }
+  // 부모-자식 구조 지원
+  isParent?: boolean        // 부모 페이지 여부 (하위 페이지가 있는 경우)
+  children?: ChildReading[] // 하위 페이지 목록
+  parentSlug?: string       // 부모 페이지 slug (자식 페이지인 경우)
 }
 
 export const readings: Record<string, ReadingContent> = {
@@ -265,49 +290,62 @@ export const readings: Record<string, ReadingContent> = {
     title: 'Prompt Engineering Guide',
     titleKr: '프롬프트 엔지니어링 가이드',
     author: 'DAIR.AI',
-    readTime: '약 1시간',
-    sourceUrl: 'https://www.promptingguide.ai/',
-    sourceTitle: 'Prompting Guide by DAIR.AI',
+    readTime: '약 2시간',
+    sourceUrl: 'https://www.promptingguide.ai/techniques',
+    sourceTitle: 'Prompting Guide - Techniques by DAIR.AI',
     published: false,
+    isParent: true,
+    children: [
+      { slug: 'zeroshot', title: 'Zero-shot Prompting', titleKr: 'Zero-shot 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/zeroshot', published: true },
+      { slug: 'fewshot', title: 'Few-shot Prompting', titleKr: 'Few-shot 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/fewshot', published: true },
+      { slug: 'cot', title: 'Chain-of-Thought Prompting', titleKr: 'Chain-of-Thought 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/cot', published: true },
+      { slug: 'meta-prompting', title: 'Meta Prompting', titleKr: '메타 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/meta-prompting', published: true },
+      { slug: 'consistency', title: 'Self-Consistency', titleKr: 'Self-Consistency', sourceUrl: 'https://www.promptingguide.ai/techniques/consistency', published: true },
+      { slug: 'knowledge', title: 'Generate Knowledge Prompting', titleKr: '지식 생성 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/knowledge', published: true },
+      { slug: 'prompt_chaining', title: 'Prompt Chaining', titleKr: '프롬프트 체이닝', sourceUrl: 'https://www.promptingguide.ai/techniques/prompt_chaining', published: true },
+      { slug: 'tot', title: 'Tree of Thoughts', titleKr: 'Tree of Thoughts', sourceUrl: 'https://www.promptingguide.ai/techniques/tot', published: true },
+      { slug: 'rag', title: 'Retrieval Augmented Generation', titleKr: 'RAG (검색 증강 생성)', sourceUrl: 'https://www.promptingguide.ai/techniques/rag', published: true },
+      { slug: 'art', title: 'Automatic Reasoning and Tool-use', titleKr: 'ART (자동 추론 및 도구 사용)', sourceUrl: 'https://www.promptingguide.ai/techniques/art', published: true },
+      { slug: 'ape', title: 'Automatic Prompt Engineer', titleKr: 'APE (자동 프롬프트 엔지니어)', sourceUrl: 'https://www.promptingguide.ai/techniques/ape', published: true },
+      { slug: 'activeprompt', title: 'Active-Prompt', titleKr: 'Active-Prompt', sourceUrl: 'https://www.promptingguide.ai/techniques/activeprompt', published: true },
+      { slug: 'dsp', title: 'Directional Stimulus Prompting', titleKr: '방향성 자극 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/dsp', published: true },
+      { slug: 'pal', title: 'Program-Aided Language Models', titleKr: 'PAL (프로그램 보조 언어 모델)', sourceUrl: 'https://www.promptingguide.ai/techniques/pal', published: true },
+      { slug: 'react', title: 'ReAct', titleKr: 'ReAct', sourceUrl: 'https://www.promptingguide.ai/techniques/react', published: true },
+      { slug: 'reflexion', title: 'Reflexion', titleKr: 'Reflexion', sourceUrl: 'https://www.promptingguide.ai/techniques/reflexion', published: true },
+      { slug: 'multimodalcot', title: 'Multimodal CoT', titleKr: '멀티모달 CoT', sourceUrl: 'https://www.promptingguide.ai/techniques/multimodalcot', published: true },
+      { slug: 'graph', title: 'Graph Prompting', titleKr: '그래프 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/graph', published: true },
+    ],
     sections: [
       {
-        title: '프롬프트의 구성 요소',
-        content: '효과적인 프롬프트는 다음 요소들로 구성됩니다:',
+        title: '프롬프팅 기법 개요',
+        content: '이 가이드는 LLM에서 더 나은 결과를 얻기 위한 다양한 프롬프팅 기법을 다룹니다. 기초적인 zero-shot, few-shot부터 고급 추론 기법인 Chain-of-Thought, Tree of Thoughts까지 18가지 핵심 기법을 상세히 설명합니다.',
+      },
+      {
+        title: '기초 기법',
+        content: '프롬프팅의 기본이 되는 핵심 기법들:',
         items: [
-          '지시문 (Instruction): 모델이 수행할 작업 설명',
-          '맥락 (Context): 관련 배경 정보',
-          '입력 데이터 (Input): 처리할 데이터',
-          '출력 지시자 (Output Indicator): 원하는 출력 형식',
+          'Zero-shot Prompting: 예시 없이 직접 지시',
+          'Few-shot Prompting: 몇 가지 예시를 제공하여 패턴 학습 유도',
+          'Chain-of-Thought: 단계별 추론 유도로 복잡한 문제 해결',
         ],
       },
       {
-        title: '고급 프롬프팅 기법',
+        title: '고급 추론 기법',
         content: '더 복잡한 태스크를 위한 고급 기법들:',
         items: [
-          'Chain-of-Thought (CoT): "단계별로 생각해보자"로 추론 유도',
           'Self-Consistency: 여러 추론 경로 생성 후 다수결',
           'Tree of Thoughts: 트리 구조로 사고 과정 탐색',
-          'ReAct: 추론과 행동을 결합한 프롬프팅',
+          'ReAct: 추론과 행동을 결합한 에이전트 패턴',
+          'Reflexion: 자기 피드백을 통한 반복적 개선',
         ],
       },
       {
-        title: '프롬프트 최적화',
-        content: '프롬프트를 개선하는 방법:',
+        title: '도구 및 외부 지식 활용',
+        content: '외부 시스템과 결합하여 LLM의 한계를 극복:',
         items: [
-          'A/B 테스트: 다양한 버전 비교',
-          '온도 조절: temperature 파라미터로 창의성 조절',
-          '토큰 제한: max_tokens으로 출력 길이 제어',
-          '시스템 프롬프트: 전체 대화의 맥락 설정',
-        ],
-      },
-      {
-        title: '일반적인 실수와 해결책',
-        content: '프롬프트 작성 시 피해야 할 실수들:',
-        items: [
-          '모호한 지시: 구체적인 요구사항으로 수정',
-          '과도한 정보: 핵심 내용만 포함',
-          '비현실적 기대: 모델의 한계 인식',
-          '일관성 부족: 통일된 형식과 톤 유지',
+          'RAG (Retrieval Augmented Generation): 검색을 통한 지식 증강',
+          'ART: 자동으로 도구를 선택하고 사용',
+          'PAL: 프로그래밍 언어로 추론 과정 표현',
         ],
       },
     ],
@@ -315,7 +353,7 @@ export const readings: Record<string, ReadingContent> = {
       {
         title: '핵심 인사이트',
         content:
-          '프롬프트 엔지니어링은 과학과 예술의 결합입니다. 체계적인 방법론을 따르면서도, 창의적인 실험을 통해 최적의 결과를 찾아가세요.',
+          '프롬프트 엔지니어링은 과학과 예술의 결합입니다. 상황에 맞는 기법을 선택하고, 체계적인 방법론을 따르면서도 창의적인 실험을 통해 최적의 결과를 찾아가세요.',
       },
     ],
     relatedReadings: [
