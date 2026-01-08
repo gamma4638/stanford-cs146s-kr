@@ -161,6 +161,17 @@ export default function ReadingPage() {
           </a>
         </div>
 
+        {/* Cheatsheet Image */}
+        {reading.cheatsheetImage && (
+          <div className="mb-6">
+            <img
+              src={reading.cheatsheetImage}
+              alt={`${reading.titleKr} 치트시트`}
+              className="w-full rounded-lg border border-border shadow-sm"
+            />
+          </div>
+        )}
+
         {/* Translation Note */}
         <div className="bg-bg-card border border-border rounded-lg p-4 mb-8 text-sm text-text-secondary">
           이 페이지는 원본 자료의 핵심 내용을 한국어로 요약 및 번역한 것입니다.

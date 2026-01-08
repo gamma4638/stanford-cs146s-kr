@@ -30,6 +30,7 @@ export interface ReadingContent {
   sourceUrl: string
   sourceTitle: string
   published?: boolean // 한국어 번역 페이지 공개 여부 (기본값: false)
+  cheatsheetImage?: string // 치트시트 이미지 경로 (예: '/cheatsheets/week1/how-openai-uses-codex.png')
   sections: {
     title: string
     content: string
@@ -417,12 +418,256 @@ export const readings: Record<string, ReadingContent> = {
           { title: '자동화를 통해 품질을 유지하면서 CoT 시연을 확장할 수 있습니다', content: '' },
         ],
       },
-      { slug: 'meta-prompting', title: 'Meta Prompting', titleKr: '메타 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/meta-prompting', published: true },
-      { slug: 'consistency', title: 'Self-Consistency', titleKr: 'Self-Consistency', sourceUrl: 'https://www.promptingguide.ai/techniques/consistency', published: true },
-      { slug: 'knowledge', title: 'Generate Knowledge Prompting', titleKr: '지식 생성 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/knowledge', published: true },
-      { slug: 'prompt_chaining', title: 'Prompt Chaining', titleKr: '프롬프트 체이닝', sourceUrl: 'https://www.promptingguide.ai/techniques/prompt_chaining', published: true },
-      { slug: 'tot', title: 'Tree of Thoughts', titleKr: 'Tree of Thoughts', sourceUrl: 'https://www.promptingguide.ai/techniques/tot', published: true },
-      { slug: 'rag', title: 'Retrieval Augmented Generation', titleKr: 'RAG (검색 증강 생성)', sourceUrl: 'https://www.promptingguide.ai/techniques/rag', published: true },
+      {
+        slug: 'meta-prompting',
+        title: 'Meta Prompting',
+        titleKr: '메타 프롬프팅',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/meta-prompting',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 4분',
+        sections: [
+          {
+            title: '개요',
+            content: '메타 프롬프팅(Meta Prompting)은 특정 내용보다 구조와 문법적 측면을 강조하는 고급 프롬프팅 기법입니다. LLM과 추상화된 패턴 기반의 상호작용을 구성하는 방식입니다.',
+          },
+          {
+            title: '주요 특성',
+            content: 'Zhang et al. (2024) 연구에 따르면, 메타 프롬프팅은 다섯 가지 핵심 속성을 갖습니다:',
+            items: [
+              '구조 중심(Structure-oriented): 특정 내용보다 문제와 솔루션의 형식과 패턴을 우선시',
+              '문법 기반(Syntax-focused): 문법 구조를 예상 응답의 템플릿으로 활용',
+              '추상적 예시(Abstract examples): 구체적인 세부 사항 없이 문제 구조를 보여주는 추상화된 프레임워크 사용',
+              '다재다능함(Versatile): 다양한 도메인에서 구조화된 응답에 적용 가능',
+              '범주적 접근(Categorical approach): 타입 이론(type theory)을 활용해 구성 요소를 분류',
+            ],
+          },
+          {
+            title: 'Few-shot 프롬프팅과의 비교',
+            content: '메타 프롬프팅은 Few-shot 프롬프팅과 근본적으로 다른 접근 방식을 취합니다. Few-shot이 강조하는 "내용 중심 접근"과 달리 "구조 중심 접근"을 채택합니다.',
+            items: [
+              '토큰 효율성: 구조에 집중해 토큰 사용량을 줄임',
+              '공정한 비교: 특정 예시의 영향을 최소화',
+              'Zero-shot 효과: 예시 의존도가 낮아 Zero-shot 프롬프팅처럼 작동',
+            ],
+          },
+          {
+            title: '권장 활용 분야',
+            content: '복잡한 추론 작업, 수학 문제 해결, 코딩 과제, 이론적 질의에 효과적입니다. 단, LLM이 해당 작업에 대한 기본 지식을 갖추고 있어야 효과적으로 작동합니다.',
+          },
+        ],
+        keyTakeaways: [
+          { title: '메타 프롬프팅은 구체적인 내용보다 구조와 패턴에 집중하는 고급 프롬프팅 기법', content: '' },
+          { title: 'Few-shot 프롬프팅과 달리 토큰 효율성이 높고, 특정 예시에 대한 의존도가 낮음', content: '' },
+          { title: '복잡한 추론, 수학 문제, 코딩 과제 등에 효과적', content: '' },
+          { title: 'LLM이 해당 작업에 대한 기본 지식을 갖추고 있어야 효과적으로 작동', content: '' },
+        ],
+      },
+      {
+        slug: 'consistency',
+        title: 'Self-Consistency',
+        titleKr: 'Self-Consistency',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/consistency',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 3분',
+        sections: [
+          {
+            title: '개요',
+            content: 'Self-Consistency는 Wang et al. (2022)이 제안한 고급 프롬프트 엔지니어링 기법입니다. 기존 Chain-of-Thought(CoT) 프롬프팅의 한계를 극복하기 위해 개발되었습니다. 아이디어는 간단합니다. 하나의 추론 경로에만 의존하지 않고, few-shot CoT로 다양한 추론 경로를 여러 개 생성한 뒤 가장 많이 나온 답변을 최종 결과로 선택합니다.',
+          },
+          {
+            title: '단일 경로 추론의 한계',
+            content: 'Self-Consistency 없이 모델에 한 번만 질문하면 어떻게 될까요?\n\n**질문:** 내가 6살일 때 여동생은 내 나이의 절반이었습니다. 지금 나는 70살인데, 여동생은 몇 살일까요?\n\n**모델 출력:** 35 (오답)\n\n모델이 "절반"이라는 단어에 이끌려 단순히 70의 절반을 계산했습니다. 한 번의 시도로는 이런 실수를 잡아내기 어렵습니다.',
+          },
+          {
+            title: '해결책: 여러 경로로 추론하기',
+            content: 'Few-shot 예시와 함께 여러 응답을 생성하면 모델은 다양한 방식으로 문제를 풉니다.\n\n**출력 1:** 화자가 6살일 때 여동생은 3살이었습니다. 지금 화자가 70살이므로, 여동생은 67살입니다.\n\n**출력 2:** 여동생은 3살이었습니다. 화자가 지금 70살이므로, 여동생은 67살입니다.\n\n**출력 3:** 여동생은 3살이었습니다. 화자가 70살이므로, 여동생은 35살입니다.\n\n세 번의 시도 중 두 번이 67이라는 답을 내놓았습니다. 다수결로 67을 최종 답으로 선택하면 정답을 얻습니다.',
+          },
+          {
+            title: '작동 원리',
+            content: 'Self-Consistency는 세 단계로 진행됩니다.',
+            items: [
+              '여러 추론 경로 생성: Few-shot CoT 프롬프팅으로 동일한 질문에 다양한 응답을 샘플링합니다.',
+              '응답 분석: 각 응답에서 최종 답변을 추출합니다.',
+              '합의 도출: 가장 자주 등장하는 답변을 최종 결과로 선택합니다.',
+            ],
+          },
+          {
+            title: '요약',
+            content: '핵심은 단일 시도의 불확실성을 여러 시도의 합의로 보완하는 것입니다. 여러 전문가에게 의견을 구하고 다수 의견을 따르는 것과 비슷합니다.',
+          },
+        ],
+        keyTakeaways: [
+          { title: 'Self-Consistency는 Chain-of-Thought(CoT) 프롬프팅을 개선한 고급 기법', content: '' },
+          { title: '단일 추론 대신 여러 다양한 추론 경로를 생성하고, 가장 일관된 답변을 선택', content: '' },
+          { title: '산술 및 상식 추론 작업에서 정확도 향상에 효과적', content: '' },
+          { title: '다수결 투표 또는 빈도 기반으로 최종 답변 결정', content: '' },
+        ],
+      },
+      {
+        slug: 'knowledge',
+        title: 'Generate Knowledge Prompting',
+        titleKr: '생성적 지식 프롬프팅',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/knowledge',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 2분',
+        sections: [
+          {
+            title: '개요',
+            content: '생성적 지식 프롬프팅은 LLM에게 "예측하기 전에 먼저 지식을 생성하라"고 지시하여 성능을 높이는 기법입니다. 기존에 학습된 파라미터에만 의존하지 않고, 모델이 먼저 관련 정보를 생성한 뒤 더 정확한 출력을 도출합니다.',
+          },
+          {
+            title: '문제 상황',
+            content: '일반적인 LLM 응답은 세계 지식이 필요한 작업에서 자주 실패합니다. 예를 들어, "골프에서는 다른 사람보다 높은 점수를 얻으려고 합니다. 예, 아니오?"라는 질문에 모델은 맥락을 제대로 이해하지 못한 채 "예"라고 잘못 답했습니다.',
+          },
+          {
+            title: '해결책: 다단계 접근',
+            content: '이 기법은 2단계로 구성됩니다. 1단계(지식 생성)에서는 주제와 관련된 사실을 먼저 생성합니다. 골프 예시에서 모델은 "가장 적은 타수로 전체 홀을 완주하는" 게임이며 "총 타수로 승자를 결정한다"는 지식을 생성했습니다. 2단계(통합 및 예측)에서는 생성된 지식을 재구성한 프롬프트에 통합하여 정확한 답변을 도출합니다.',
+          },
+          {
+            title: '주요 결과',
+            content: '지식을 통합하자 모델은 신뢰도에 따라 가중치를 부여한 답변을 제공했습니다. 높은 신뢰도의 답변에서는 골프가 높은 점수가 아닌 낮은 점수를 목표로 한다고 정확히 파악했습니다.',
+          },
+          {
+            title: '연구 배경',
+            content: '이 기법은 Liu et al. (2022)이 제안했으며, 프롬프팅 파이프라인 내에 명시적인 지식 생성 단계를 추가하여 상식 추론 작업의 한계를 극복합니다.',
+          },
+        ],
+        keyTakeaways: [
+          { title: '예측 전에 모델이 먼저 관련 지식을 생성하도록 유도하는 기법', content: '' },
+          { title: '세계 지식이 필요한 작업에서 LLM의 정확도 향상', content: '' },
+          { title: '1단계(지식 생성) → 2단계(통합 및 예측)의 2단계 접근', content: '' },
+          { title: '상식 추론 작업에서 기존 방식보다 더 정확한 응답 도출', content: '' },
+        ],
+      },
+      {
+        slug: 'prompt_chaining',
+        title: 'Prompt Chaining',
+        titleKr: '프롬프트 체이닝',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/prompt_chaining',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 3분',
+        sections: [
+          {
+            title: '프롬프트 체이닝 소개',
+            content: 'LLM의 신뢰성과 성능을 향상시키는 중요한 프롬프트 엔지니어링 기법 중 하나는 작업을 하위 작업으로 분할하는 것입니다. 이 방법론은 LLM에 하위 작업을 프롬프트로 전달하고, 그 응답을 다음 프롬프트의 입력으로 활용하여 연쇄적인 작업 흐름을 만듭니다.\n\n프롬프트 체이닝은 LLM 애플리케이션의 투명성을 높이고, 제어 가능성과 신뢰성을 강화합니다. 각 단계별 디버깅, 성능 분석, 대화형 어시스턴트 구축에 특히 유용합니다.',
+          },
+          {
+            title: '프롬프트 체이닝 활용 사례',
+            content: '실용적인 활용 사례로 두 개의 프롬프트를 사용하는 설계가 있습니다. 첫 번째 프롬프트에서 질문과 관련된 인용문을 문서에서 추출하고, 두 번째 프롬프트에서 추출한 인용문을 활용해 최종 답변을 작성합니다.',
+          },
+          {
+            title: '정리',
+            content: '프롬프트를 단순화하고 체이닝하는 것은 응답에 여러 작업이나 변환이 필요할 때 유용한 프롬프팅 기법입니다.',
+            items: [
+              '단일 프롬프트로 처리하기에 작업이 너무 복잡할 때',
+              '더 나은 투명성과 디버깅 기능이 필요할 때',
+              'LLM 출력에 대한 제어력을 높이고 싶을 때',
+              '다단계 추론이 필요한 대화형 어시스턴트를 구축할 때',
+            ],
+          },
+        ],
+        keyTakeaways: [
+          { title: '프롬프트 체이닝은 복잡한 작업을 여러 하위 작업으로 분할하여 순차적으로 처리하는 기법', content: '' },
+          { title: '한 프롬프트의 출력이 다음 프롬프트의 입력으로 연결되는 연쇄 구조', content: '' },
+          { title: '투명성, 제어 가능성, 신뢰성을 높이고 디버깅도 용이함', content: '' },
+          { title: '문서 기반 질의응답, 대화형 어시스턴트 등에 효과적', content: '' },
+        ],
+      },
+      {
+        slug: 'tot',
+        title: 'Tree of Thoughts',
+        titleKr: 'Tree of Thoughts',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/tot',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 3분',
+        sections: [
+          {
+            title: '개요',
+            content: 'Tree of Thoughts는 탐색과 전략적 계획이 필요한 복잡한 문제 해결 과제를 위한 프롬프팅 프레임워크입니다. 단순한 선형 추론 대신, ToT는 "생각의 트리를 유지하며, 여기서 생각(thought)은 문제 해결을 향한 중간 단계 역할을 하는 일관된 언어 시퀀스"입니다.',
+          },
+          {
+            title: '핵심 개념',
+            content: '이 프레임워크를 통해 언어 모델은 다음 작업을 수행합니다:',
+            items: [
+              '여러 중간 추론 경로 생성',
+              '생각의 진행 상황 자체 평가',
+              '검색 알고리즘(너비 우선, 깊이 우선, Beam Search)으로 체계적 탐색',
+              '예측(lookahead) 및 백트래킹(backtracking) 구현',
+            ],
+          },
+          {
+            title: '주요 특징',
+            content: '**문제 분해**: 과제를 단계별로 나누어 후보 솔루션을 생성합니다. 예를 들어, Game of 24 문제에서는 추론을 3단계로 분리하고 각 단계에서 상위 5개 후보를 유지합니다.\n\n**평가 전략**: 모델이 "확실/가능/불가능" 범주로 생각 후보를 평가하여 솔루션을 필터링하고, 상식적 추론으로 불가능한 경로를 제거합니다.\n\n**검색 방법**: 원본 프레임워크는 과제 특화 적응 없이 일반적인 검색 전략(DFS, BFS, Beam Search)을 사용합니다.',
+          },
+          {
+            title: '관련 접근법',
+            content: '**ToT 프롬프팅 (간소화 버전)**: Hulbert는 모델이 여러 전문가 관점을 상상하며 협력적으로 문제를 해결하는 단일 프롬프트 기법으로 ToT 개념의 적용을 제안했습니다.\n\n**RL 강화 ToT**: Long의 버전은 강화학습으로 훈련한 "ToT 컨트롤러"를 사용하여, 고정 알고리즘 대신 검색 전략을 동적으로 적응시킵니다.',
+          },
+          {
+            title: '성능',
+            content: '연구 결과, ToT는 복잡한 추론 과제에서 기존 프롬프팅 방법을 크게 능가합니다.',
+          },
+        ],
+        keyTakeaways: [
+          { title: 'ToT는 복잡한 문제 해결을 위한 트리 구조 기반 프롬프팅 프레임워크', content: '' },
+          { title: '단순 선형 추론 대신 여러 중간 추론 경로를 탐색하고 자체 평가', content: '' },
+          { title: 'BFS, DFS, Beam Search 등 검색 알고리즘으로 체계적 탐색 수행', content: '' },
+          { title: '예측(lookahead)과 백트래킹(backtracking)으로 최적 경로 탐색', content: '' },
+        ],
+      },
+      {
+        slug: 'rag',
+        title: 'Retrieval Augmented Generation',
+        titleKr: 'RAG (검색 증강 생성)',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/rag',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 3분',
+        sections: [
+          {
+            title: '개요',
+            content: '범용 언어 모델은 감정 분석이나 개체명 인식 같은 일반적인 태스크에 맞춰 파인튜닝할 수 있습니다. 하지만 더 복잡하고 지식 집약적인 태스크라면, 외부 지식 소스에 접근하는 언어 모델 기반 시스템을 구축할 수 있습니다. 이 방식은 사실적 일관성을 높이고, 생성된 응답의 신뢰성을 향상시키며, 환각(hallucination) 문제를 완화합니다.\n\nMeta AI 연구진은 이러한 지식 집약적 태스크를 해결하기 위해 검색 증강 생성(Retrieval Augmented Generation, RAG)을 제안했습니다. RAG는 정보 검색 컴포넌트와 텍스트 생성 모델을 결합합니다.',
+          },
+          {
+            title: 'RAG의 작동 원리',
+            content: 'RAG는 입력을 받아 소스(예: Wikipedia)에서 관련성 있는 문서들을 검색합니다. 검색된 문서는 원래 입력 프롬프트와 함께 컨텍스트로 결합되어 텍스트 생성기에 전달되고, 최종 출력을 생성합니다. 이 방식 덕분에 RAG는 사실이 시간에 따라 변하는 상황에도 유연하게 대응할 수 있습니다. LLM의 파라메트릭 지식은 정적이므로 이 점이 매우 유용합니다. RAG를 사용하면 언어 모델이 재학습 없이 최신 정보에 접근하여 검색 기반 생성을 통해 신뢰할 수 있는 출력을 만들 수 있습니다.',
+          },
+          {
+            title: 'RAG의 성능',
+            content: 'RAG는 Natural Questions, WebQuestions, CuratedTrec 등 여러 벤치마크에서 강력한 성능을 보여줍니다. MS-MARCO와 Jeopardy 질문으로 테스트했을 때, RAG는 더 사실적이고, 구체적이며, 다양한 응답을 생성합니다. RAG는 FEVER 사실 검증에서도 결과를 개선합니다. 이는 지식 집약적 태스크에서 언어 모델의 출력을 향상시키는 유효한 방법으로서 RAG의 잠재력을 보여줍니다.',
+          },
+          {
+            title: 'RAG 활용 사례',
+            content: 'RAG는 다양한 지식 집약적 시나리오에 적용할 수 있습니다:',
+            items: [
+              '질의응답: 관련 문서를 검색하여 정확하고 최신의 답변 제공',
+              '사실 검증: 신뢰할 수 있는 지식 소스와 주장을 대조 검증',
+              '콘텐츠 생성: 권위 있는 출처를 참조하여 사실에 기반한 콘텐츠 작성',
+              '고객 지원: 제품 문서와 FAQ에 접근하여 정확한 응답 제공',
+            ],
+          },
+          {
+            title: '실제 구현',
+            content: 'RAG 시스템을 구현할 때 다음 구성요소를 고려해야 합니다:',
+            items: [
+              '문서 저장소: 검색할 수 있는 문서 컬렉션 (예: 벡터 데이터베이스)',
+              '검색기(Retriever): 쿼리 기반으로 관련 문서를 찾는 모델',
+              '생성기(Generator): 검색된 컨텍스트를 활용하여 최종 응답을 생성하는 언어 모델',
+            ],
+          },
+        ],
+        keyTakeaways: [
+          { title: 'RAG는 정보 검색과 텍스트 생성을 결합하여 LLM의 사실적 정확성을 높이는 기법', content: '' },
+          { title: '외부 지식을 활용해 환각(hallucination) 문제를 완화하고, 최신 정보를 반영 가능', content: '' },
+          { title: '문서 저장소, 검색기(Retriever), 생성기(Generator) 세 구성요소로 구성', content: '' },
+          { title: '질의응답, 사실 검증, 콘텐츠 생성, 고객 지원 등 다양한 분야에 적용', content: '' },
+        ],
+      },
       { slug: 'art', title: 'Automatic Reasoning and Tool-use', titleKr: 'ART (자동 추론 및 도구 사용)', sourceUrl: 'https://www.promptingguide.ai/techniques/art', published: true },
       { slug: 'ape', title: 'Automatic Prompt Engineer', titleKr: 'APE (자동 프롬프트 엔지니어)', sourceUrl: 'https://www.promptingguide.ai/techniques/ape', published: true },
       { slug: 'activeprompt', title: 'Active-Prompt', titleKr: 'Active-Prompt', sourceUrl: 'https://www.promptingguide.ai/techniques/activeprompt', published: true },
@@ -686,6 +931,7 @@ export const readings: Record<string, ReadingContent> = {
     sourceUrl: 'https://cdn.openai.com/pdf/6a2631dc-783e-479b-b1a4-af0cfbd38630/how-openai-uses-codex.pdf',
     sourceTitle: 'OpenAI PDF',
     published: true,
+    cheatsheetImage: '/cheatsheets/week1/how-openai-uses-codex.png',
     sections: [
       {
         title: '소개',
