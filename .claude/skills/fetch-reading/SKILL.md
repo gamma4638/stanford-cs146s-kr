@@ -1,3 +1,18 @@
+---
+name: fetch-reading
+description: |
+  URL에서 reading 콘텐츠를 수집하여 마크다운 파일로 저장합니다.
+  YouTube, PDF, GitHub, 웹 문서 등 다양한 소스 지원.
+  사용: /fetch-reading <url>
+arguments:
+  - name: url
+    description: 수집할 URL 또는 로컬 PDF 파일 경로
+    required: true
+  - name: week
+    description: Week 번호 직접 지정 (미지정 시 syllabus.ts에서 추론)
+    required: false
+---
+
 # fetch-reading Skill
 
 URL에서 reading 콘텐츠를 수집하여 마크다운 파일로 저장합니다.

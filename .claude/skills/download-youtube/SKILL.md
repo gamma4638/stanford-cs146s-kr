@@ -1,3 +1,27 @@
+---
+name: download-youtube
+description: |
+  YouTube 영상에서 오디오(MP3)와 자막(Transcript)을 다운로드합니다.
+  yt-dlp를 사용하여 VTT 자막을 Markdown Transcript로 변환.
+  사용: /download-youtube <youtube-url>
+arguments:
+  - name: url
+    description: YouTube 영상 URL
+    required: true
+  - name: week
+    description: Week 번호 직접 지정 (미지정 시 syllabus.ts에서 추론)
+    required: false
+  - name: audio-only
+    description: 오디오 파일만 다운로드 (자막 스킵)
+    required: false
+  - name: transcript-only
+    description: 자막만 다운로드 (오디오 스킵)
+    required: false
+  - name: lang
+    description: 자막 언어 지정 (기본값: en)
+    required: false
+---
+
 # download-youtube Skill
 
 YouTube 영상에서 오디오(MP3)와 자막(Transcript)을 다운로드합니다.
@@ -40,7 +64,7 @@ which yt-dlp
 - 사용자에게 설치 안내: `pip install yt-dlp`
 - 또는 자동 설치 시도
 
-### 3. 메타데이터 추출
+### 3. 메타데이터 및 챕터 추출
 
 ```bash
 yt-dlp --dump-json <URL>
@@ -51,6 +75,27 @@ yt-dlp --dump-json <URL>
 - uploader: 채널명
 - duration: 영상 길이 (초)
 - description: 영상 설명
+- chapters: 챕터 목록 (있는 경우)
+
+#### 챕터 데이터 구조
+```json
+{
+  "chapters": [
+    {"start_time": 0.0, "title": "introduction", "end_time": 60.0},
+    {"start_time": 60.0, "title": "pretraining data", "end_time": 467.0},
+    ...
+  ]
+}
+```
+
+#### 챕터 없는 영상 처리
+챕터가 없는 경우 사용자에게 확인:
+```
+이 영상에는 챕터가 없습니다. 어떻게 처리할까요?
+1. 수동으로 분할점 입력 (예: "10:00, 25:30, 45:00")
+2. 전체를 하나의 섹션으로 처리
+3. 시간 기준 자동 분할 (예: 10분 단위)
+```
 
 ### 4. 오디오 다운로드 (--transcript-only가 아닌 경우)
 
@@ -79,9 +124,9 @@ yt-dlp --write-subs --write-auto-subs \
 
 저장 경로: `docs/week{N}/media/{slug}.en.vtt`
 
-### 6. VTT → Markdown 변환
+### 6. VTT → Markdown 변환 (챕터 기반 섹션 분할)
 
-VTT 파일을 파싱하여 Markdown 형식의 Transcript로 변환:
+VTT 파일을 파싱하여 챕터 기반으로 섹션을 나누고, 각 섹션에 요약을 추가:
 
 ```markdown
 ---
@@ -93,20 +138,53 @@ duration: "HH:MM:SS"
 fetch_date: "YYYY-MM-DD"
 translation_status: none
 audio_file: "media/{slug}.mp3"
+chapters: 25
 ---
 
 # 영상 제목
 
-[원본 링크](https://youtube.com/...)
+[원본 영상](https://youtube.com/...)
 
-## Transcript
+## Table of Contents
 
-[00:00:00] 첫 번째 문장...
+1. [Introduction](#1-introduction) (0:00)
+2. [Pretraining Data (Internet)](#2-pretraining-data-internet) (1:00)
+3. [Tokenization](#3-tokenization) (7:47)
+...
 
-[00:00:15] 두 번째 문장...
+---
+
+## 1. Introduction
+
+**요약**: Andrej Karpathy가 ChatGPT와 같은 대규모 언어 모델에 대한 포괄적인 소개를 시작하며...
+
+[00:00:00] hi everyone so I've wanted to make this video for a while...
+
+[00:00:30] what should we be putting there and what are these words generated back...
+
+---
+
+## 2. Pretraining Data (Internet)
+
+**요약**: LLM 학습의 첫 단계인 사전학습 데이터에 대해 설명합니다...
+
+[01:00] the tools okay so let's build Chachi PT...
 ```
 
 저장 경로: `docs/week{N}/{slug}.md`
+
+#### 섹션 분할 로직
+
+1. VTT 파일에서 타임스탬프와 텍스트 추출
+2. 각 타임스탬프를 챕터의 start_time/end_time과 비교
+3. 해당 챕터에 transcript 라인 매핑
+4. 챕터별로 그룹화하여 섹션 생성
+
+#### 섹션별 요약 생성
+
+각 섹션의 transcript를 요약하여 **요약** 필드에 추가:
+- 1-2문장으로 핵심 내용 요약
+- 영어로 작성 (번역 시 한국어로 변환)
 
 ### 7. INDEX.md 업데이트
 

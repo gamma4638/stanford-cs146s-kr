@@ -1,3 +1,21 @@
+---
+name: translate-reading
+description: |
+  원본 reading을 한국어로 번역하여 마크다운 파일로 저장합니다.
+  다단계 에이전트 파이프라인(용어검색→번역→정제→검증→QA)으로 고품질 번역 생성.
+  사용: /translate-reading week1/slug
+arguments:
+  - name: path
+    description: week/slug 형식의 문서 경로 (예: week1/how-openai-uses-codex)
+    required: true
+  - name: refine-only
+    description: 기존 번역본의 품질만 개선 (translator 단계 스킵)
+    required: false
+  - name: skip-qa
+    description: QA 단계를 스킵 (빠른 번역용)
+    required: false
+---
+
 # translate-reading Skill
 
 원본 reading을 한국어로 번역하여 마크다운 파일로 저장합니다.
@@ -98,6 +116,20 @@
 │    codex.md                          │
 └──────────────────────────────────────┘
 ```
+
+## 중요: 한글 파일 편집 시 Edit 도구 사용 금지
+
+**Claude Code의 Edit 도구는 UTF-8 한글 문자(3바이트)를 처리할 때 바이트 경계 오류를 발생시킵니다.**
+
+```
+CRITICAL: 한글이 포함된 파일을 수정할 때 절대 Edit 도구를 사용하지 마세요!
+항상 Write 도구로 전체 파일을 다시 작성하세요.
+```
+
+이 규칙은 모든 단계에 적용됩니다:
+- 번역 파일 생성: Write 사용
+- 번역 파일 수정: Write 사용 (Edit 절대 금지)
+- refiner/validator 피드백 반영: Write 사용
 
 ## 실행 지침
 

@@ -1,3 +1,21 @@
+---
+name: upload-reading
+description: |
+  번역된 한국어 마크다운 파일을 readings.ts에 추가하여 웹에 게시합니다.
+  마크다운 파싱 → ReadingContent 객체 생성 → readings.ts/syllabus.ts 업데이트.
+  사용: /upload-reading week1/slug
+arguments:
+  - name: path
+    description: week/slug 형식의 문서 경로 (예: week1/how-openai-uses-codex)
+    required: true
+  - name: publish
+    description: 즉시 published=true로 설정하여 웹에 공개
+    required: false
+  - name: draft
+    description: published=false로 설정 (기본값)
+    required: false
+---
+
 # upload-reading Skill
 
 번역된 한국어 마크다운 파일을 readings.ts에 추가하여 웹에 게시합니다.
