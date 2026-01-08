@@ -1,3 +1,9 @@
+# Role Definition
+
+You are an expert Technical Communicator and Information Architect specialized in creating "Nano Banana" style cheat sheets. Your goal is to restructure the provided text about "How OpenAI Uses Codex" into a highly visual, structured, and actionable guide for software engineers.
+
+# Source Text
+
 ---
 title: "How OpenAI Uses Codex"
 source_url: "https://cdn.openai.com/pdf/6a2631dc-783e-479b-b1a4-af0cfbd38630/how-openai-uses-codex.pdf"
@@ -288,18 +294,165 @@ We're excited by the potential ahead — as our models get better and Codex beco
 
 ---
 
-## Contents
+# Output Style: "Nano Banana" Cheat Sheet
 
-| Page | Summary |
-|------|---------|
-| 2 | Table of Contents |
-| 3 | Introduction - Codex usage across OpenAI teams |
-| 4 | Use case 1: Code understanding |
-| 5 | Use case 2: Refactoring and migrations |
-| 6 | Use case 3: Performance optimization |
-| 7 | Use case 4: Improving test coverage |
-| 8 | Use case 5: Increasing development velocity |
-| 9 | Use case 6: Staying in flow |
-| 10 | Use case 7: Exploration and ideation |
-| 11 | Best practices (part 1) |
-| 12 | Best practices (part 2) + Looking ahead |
+Please adhere to the following formatting rules strictly:
+
+1. **Visual Hierarchy & Structure**:
+   - Use strict Markdown structure.
+   - Use specific emojis for every section header to improve scanning.
+   - Use **Bold** for key concepts and commands.
+   - Group related information logically.
+
+2. **Diagrams & Schematics (CRITICAL)**:
+   - Use `mermaid` code blocks to visualize concepts.
+   - Create a **Mind Map** for the overall structure of Use Cases.
+   - Create a **Flowchart** for the "Best Practices" workflow.
+   - Ensure diagrams are complex enough to be informative but simple enough to be read at a glance.
+
+3. **Tabular Data**:
+   - Convert the "Use Cases" section into a comprehensive Markdown Table.
+   - Columns should be: [Use Case Context] | [Key Benefit] | [Example Scenario] | [Sample Prompt].
+
+4. **Actionable Content**:
+   - Extract "Sample prompts" into separate code blocks for easy copying.
+   - Summarize "Best Practices" into a Checklist format (e.g., `[ ]`).
+
+# Output Structure Plan
+
+## 1. 🧠 Executive Summary (Mind Map)
+
+Create a Mermaid mindmap with the following structure:
+- Root: "Codex"
+- Level 1 branches: 7 Use Cases
+  - Code Understanding
+  - Refactoring & Migrations
+  - Performance Optimization
+  - Test Coverage
+  - Development Velocity
+  - Staying in Flow
+  - Exploration & Ideation
+- Level 2: Each Use Case's key benefits (1-2 per case)
+  - Code Understanding → 빠른 온보딩, 인시던트 대응
+  - Refactoring → 일관된 대규모 변경, 패턴 교체
+  - Performance → 병목 발견, 기술 부채 감소
+  - Test Coverage → 엣지 케이스, 경계 조건
+  - Velocity → 보일러플레이트 자동화, 릴리스 가속
+  - Flow → 컨텍스트 유지, 비동기 작업
+  - Exploration → 대안 탐색, 버그 사냥
+
+## 2. 🛠️ Engineering Use Case Matrix (Table)
+
+Create a detailed table with the following structure:
+- Columns: [Use Case] | [핵심 이점] | [예시 상황] | [샘플 프롬프트]
+- Rows: One for each of the 7 Use Cases
+
+Example rows:
+| Code Understanding | 빠른 온보딩, 인시던트 대응 | 온콜 중 스택트레이스 분석 | Where is the auth logic? |
+| Refactoring | 일관된 대규모 변경 | API 패턴 교체 | Split this file into modules... |
+| Performance | 병목 발견, 기술 부채 감소 | DB 쿼리 최적화 | Find repeated expensive operations... |
+| Test Coverage | 엣지 케이스 커버 | 커버리지 확대 | Write unit tests including edge cases... |
+| Velocity | 보일러플레이트 자동화 | 신규 API 착수 | Scaffold a new API route... |
+| Flow | 컨텍스트 유지 | 회의 중 작업 위임 | Summarize this file... |
+| Exploration | 대안 탐색, 버그 사냥 | 설계 검증 | How would this work if event-driven? |
+
+## 3. 💡 Best Practices Workflow (Flowchart)
+
+Create a Mermaid flowchart showing the recommended workflow:
+
+```
+Start → Ask Mode로 계획 수립 → 환경 설정 반복 개선 → GitHub Issue 스타일 프롬프트
+→ Task Queue를 백로그로 활용 → AGENTS.md로 컨텍스트 제공 → Best of N으로 결과 비교 → Complete
+```
+
+Include brief descriptions for each step:
+- Ask Mode: 대규모 변경 전 구현 계획 먼저 요청
+- 환경 설정: startup script, 환경변수 설정으로 오류율 감소
+- GitHub Issue 스타일: 파일 경로, 컴포넌트명, diff 포함
+- Task Queue: 부분 작업, 아이디어 캡처용
+- AGENTS.md: 네이밍 규칙, 비즈니스 로직 문서화
+- Best of N: 여러 응답 생성 후 최적 선택
+
+## 4. ⚡ Quick Reference: Golden Prompts
+
+Group the 22 sample prompts by category in code blocks:
+
+**Code Understanding (3 prompts)**
+```
+Where is the authentication logic implemented in this repo?
+Summarize how requests flow through this service from entrypoint to response.
+Which modules interact with [module name] and how are failures handled?
+```
+
+**Refactoring & Migrations (2 prompts)**
+```
+Split this file into separate modules by concern and generate tests for each one.
+Convert all callback-based database access to async/await.
+```
+
+**Performance Optimization (3 prompts)**
+```
+Optimize this loop for memory efficiency and explain why your version is faster.
+Find repeated expensive operations in this request handler and suggest caching opportunities.
+Suggest a faster way to batch DB queries in this function.
+```
+
+**Test Coverage (3 prompts)**
+```
+Write unit tests for this function, including edge cases and failure paths.
+Generate a property-based test for this sorting utility.
+Extend this test file to cover missing scenarios around null inputs and invalid states.
+```
+
+**Development Velocity (3 prompts)**
+```
+Scaffold a new API route for POST /events with basic validation and logging.
+Generate a telemetry hook for tracking success/failure of the new onboarding flow.
+Create a stub implementation based on this spec: [spec or product feedback]
+```
+
+**Staying in Flow (3 prompts)**
+```
+Generate a plan to refactor this service and split it into smaller modules.
+Stub out the retry logic and add a TODO — I'll fill in the backoff logic later.
+Summarize this file so I can pick up where I left off tomorrow.
+```
+
+**Exploration & Ideation (3 prompts)**
+```
+How would this work if the system were event-driven instead of request/response?
+Find all modules that manually build SQL strings instead of using our query builder.
+Rewrite this in a more functional style, avoid mutation and side effects.
+```
+
+## 5. 🔮 Key Takeaways (Checklist)
+
+Summarize the critical best practices as a checklist:
+
+**Prompt Engineering**
+- [ ] Ask Mode로 먼저 계획 세우기 (대규모 변경 시)
+- [ ] 1시간 분량, 수백 줄 범위로 태스크 스코핑
+- [ ] GitHub Issue처럼 구체적으로 프롬프트 작성 (파일 경로, diff 포함)
+- [ ] "Implement this the same way as [module X]" 패턴 활용
+
+**Context & Setup**
+- [ ] AGENTS.md로 저장소 컨텍스트 제공 (네이밍, 비즈니스 로직, quirks)
+- [ ] startup script, 환경변수 설정으로 오류율 감소
+- [ ] 환경 설정 반복 개선 (빌드 에러 → config 수정)
+
+**Workflow Optimization**
+- [ ] Task Queue를 가벼운 백로그로 활용
+- [ ] Best of N으로 여러 해법 비교 후 최적 선택
+- [ ] 부분 응답 조합으로 더 강력한 결과 도출
+
+**Future Outlook**
+- Codex는 아직 research preview 단계
+- 모델 발전에 따라 처리 가능한 태스크 규모 증가 예상
+- 워크플로우 통합이 심화될수록 더 강력한 개발 방식 가능
+
+---
+
+Please generate the Cheat Sheet now.
+
+내가 말하는 cheat sheet는 보기 좋게 정리된, 실제 펜 노트필기 같은 이미지를 말하는거야.
+용어 및 고유명사는 영어 원문을 쓰되(Codex, Ask Mode, Code Mode, Best of N, AGENTS.md, PR, API, ChatGPT, Terraform, Python, CI, GitHub Issue 등), 필기 내용은 한국어로 작성해.

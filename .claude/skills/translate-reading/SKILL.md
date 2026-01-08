@@ -3,10 +3,13 @@ name: translate-reading
 description: |
   원본 reading을 한국어로 번역하여 마크다운 파일로 저장합니다.
   다단계 에이전트 파이프라인(용어검색→번역→정제→검증→QA)으로 고품질 번역 생성.
-  사용: /translate-reading week1/slug
+  사용: /translate-reading week1/slug 또는 /translate-reading week1/parent/child
 arguments:
   - name: path
-    description: week/slug 형식의 문서 경로 (예: week1/how-openai-uses-codex)
+    description: |
+      week/slug 또는 week/parent/child 형식의 문서 경로
+      - 단일 페이지: week1/how-openai-uses-codex
+      - 자식 페이지: week1/prompt-engineering-guide/zeroshot
     required: true
   - name: refine-only
     description: 기존 번역본의 품질만 개선 (translator 단계 스킵)
@@ -23,23 +26,54 @@ arguments:
 ## 사용법
 
 ```
+# 단일 페이지
 /translate-reading <week/slug>
 /translate-reading <week/slug> --refine-only
 /translate-reading <week/slug> --skip-qa
+
+# 계층적 구조 (자식 페이지)
+/translate-reading <week/parent/child>
+/translate-reading <week/parent/child> --skip-qa
 ```
 
 ## 예시
 
+### 단일 페이지
 ```
 /translate-reading week1/how-openai-uses-codex
 /translate-reading week2/mcp-introduction
-/translate-reading week1/prompt-engineering-guide --refine-only
+```
+
+### 계층적 구조 (자식 페이지)
+```
+/translate-reading week1/prompt-engineering-guide/zeroshot
+/translate-reading week1/prompt-engineering-guide/fewshot
+/translate-reading week1/prompt-engineering-guide/cot --skip-qa
 ```
 
 ## 입출력
 
+### 단일 페이지
 - **입력**: `docs/week{N}/{slug}.md` (영문 원문)
 - **출력**: `docs/week{N}/kr/{slug}.md` (한국어 번역본)
+
+### 계층적 구조 (자식 페이지)
+- **입력**: `docs/week{N}/{parent-slug}/{child-slug}.md` (영문 원문)
+- **출력**: `docs/week{N}/{parent-slug}/kr/{child-slug}.md` (한국어 번역본)
+
+### 경로 예시
+```
+# 단일 페이지
+week1/how-openai-uses-codex
+→ 입력: docs/week1/how-openai-uses-codex.md
+→ 출력: docs/week1/kr/how-openai-uses-codex.md
+
+# 자식 페이지
+week1/prompt-engineering-guide/zeroshot
+→ 입력: docs/week1/prompt-engineering-guide/zeroshot.md
+→ 출력: docs/week1/prompt-engineering-guide/kr/zeroshot.md
+```
+
 - **참조**: `docs/glossary.md` (용어집)
 
 > **Note**: readings.ts 업데이트는 별도 스킬(`/upload-reading`)이 담당합니다.
@@ -137,9 +171,19 @@ CRITICAL: 한글이 포함된 파일을 수정할 때 절대 Edit 도구를 사�
 
 ### Step 1: 파일 읽기
 ```
+경로 파싱:
+- 2단계 (week1/slug): 단일 페이지
+- 3단계 (week1/parent/child): 자식 페이지
+
+단일 페이지:
 1. docs/week{N}/{slug}.md 읽기 (원문)
 2. docs/glossary.md 읽기 (용어집)
 3. docs/week{N}/kr/ 디렉토리 없으면 생성
+
+자식 페이지:
+1. docs/week{N}/{parent}/{child}.md 읽기 (원문)
+2. docs/glossary.md 읽기 (용어집)
+3. docs/week{N}/{parent}/kr/ 디렉토리 없으면 생성
 ```
 
 ### Step 2: Terminology Lookup 실행
@@ -200,7 +244,13 @@ Task tool 호출:
 
 ### Step 9: 파일 저장
 ```
+단일 페이지:
 Write tool로 docs/week{N}/kr/{slug}.md 저장
+
+자식 페이지:
+Write tool로 docs/week{N}/{parent}/kr/{child}.md 저장
+
+공통:
 - 마크다운 형식
 - 메타데이터 포함 (원문 URL, 번역일 등)
 ```

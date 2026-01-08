@@ -297,9 +297,126 @@ export const readings: Record<string, ReadingContent> = {
     published: false,
     isParent: true,
     children: [
-      { slug: 'zeroshot', title: 'Zero-shot Prompting', titleKr: 'Zero-shot 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/zeroshot', published: true },
-      { slug: 'fewshot', title: 'Few-shot Prompting', titleKr: 'Few-shot 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/fewshot', published: true },
-      { slug: 'cot', title: 'Chain-of-Thought Prompting', titleKr: 'Chain-of-Thought 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/cot', published: true },
+      {
+        slug: 'zeroshot',
+        title: 'Zero-shot Prompting',
+        titleKr: 'Zero-shot 프롬프팅',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/zeroshot',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 2분',
+        sections: [
+          {
+            title: '정의',
+            content: 'Zero-shot 프롬프팅은 프롬프트에 예시나 시연을 포함하지 않는 방식입니다. GPT-3.5 Turbo, GPT-4, Claude 3 같은 최신 LLM은 대규모 학습을 통해 이 방식으로도 작업을 수행할 수 있습니다.',
+          },
+          {
+            title: '작동 원리',
+            content: '모델이 시연 없이 직접 작업 지시를 받습니다. 예를 들어, 감성 분류 프롬프트는 텍스트를 중립적, 부정적, 긍정적으로 분류하라고 요청합니다. 모델은 레이블이 붙은 예시 없이도 개념을 이해합니다.',
+          },
+          {
+            title: '예시',
+            content: '**프롬프트:**\n```\n텍스트를 중립적, 부정적, 긍정적으로 분류하세요.\n텍스트: 이번 휴가는 괜찮은 것 같아.\n감성:\n```\n\n**결과:** 중립적',
+          },
+          {
+            title: '핵심 기술',
+            content: '다음 두 가지 기술이 zero-shot 성능을 크게 향상시켰습니다:',
+            items: [
+              'Instruction Tuning - 지시문 기반 데이터셋으로 파인튜닝하면 zero-shot 성능이 향상됩니다',
+              'RLHF (Reinforcement Learning from Human Feedback) - 인간의 선호도에 맞게 모델을 정렬하는 기법으로, ChatGPT 같은 모델의 핵심 기술입니다',
+            ],
+          },
+          {
+            title: '대안 사용 시점',
+            content: 'Zero-shot으로 원하는 결과를 얻지 못하면 few-shot 프롬프팅으로 전환하는 것을 권장합니다. Few-shot은 모델 응답을 유도하는 예시를 포함합니다.',
+          },
+        ],
+        keyTakeaways: [
+          { title: 'Zero-shot은 예시 없이 직접 지시만으로 작업을 수행하는 프롬프팅 기법', content: '' },
+          { title: '최신 LLM은 광범위한 사전 학습으로 zero-shot 수행이 가능', content: '' },
+          { title: 'Instruction Tuning과 RLHF가 zero-shot 성능 향상의 핵심', content: '' },
+          { title: '성능이 부족하면 few-shot 프롬프팅을 고려', content: '' },
+        ],
+      },
+      {
+        slug: 'fewshot',
+        title: 'Few-shot Prompting',
+        titleKr: 'Few-shot 프롬프팅',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/fewshot',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 3분',
+        sections: [
+          {
+            title: '개요',
+            content: 'Few-shot 프롬프팅은 프롬프트 내에 예시를 제공하여 모델 성능을 향상시키는 인컨텍스트 학습(in-context learning) 기법입니다. 제로샷 능력에만 의존하지 않고, 예시를 통해 모델이 더 나은 응답을 생성하도록 유도합니다.',
+          },
+          {
+            title: '핵심 개념',
+            content: 'Few-shot 프롬프팅은 프롬프트에 시연을 포함하여 모델 성능을 높이는 인컨텍스트 학습 기법입니다. 시연은 패턴을 확립하여 모델이 더 복잡한 작업을 처리하는 데 도움을 줍니다.',
+          },
+          {
+            title: '역사적 맥락',
+            content: '모델이 충분한 규모에 도달하면서 이 능력이 나타났습니다. 연구에 따르면, 특정 임계점에 도달하기 전까지 작은 모델에서는 few-shot 특성이 나타나지 않았습니다.',
+          },
+          {
+            title: '연구 기반 설계 원칙',
+            content: '주요 연구 결과에 따르면:',
+            items: [
+              '레이블 정확도와 무관하게 레이블 공간과 입력 분포가 중요',
+              '무작위 레이블을 사용해도 형식 일관성이 성능을 향상시킴',
+              '균등 분포보다 실제 분포에서 레이블을 선택하는 것이 더 효과적',
+            ],
+          },
+          {
+            title: '주요 한계',
+            content: 'Few-shot 프롬프팅은 복잡한 추론 작업에서 어려움을 겪습니다. 산술 추론 문제 테스트에서 여러 시연을 제공해도 잘못된 답을 생성했습니다. 정교한 인지 작업에는 더 발전된 방법이 필요합니다.',
+          },
+        ],
+        keyTakeaways: [
+          { title: 'Few-shot 프롬프팅은 프롬프트에 예시를 포함하여 모델 성능을 향상시키는 인컨텍스트 학습 기법', content: '' },
+          { title: '모델 규모가 특정 임계점을 넘어야 이 능력이 발현됨', content: '' },
+          { title: '레이블 정확도보다 형식 일관성과 분포가 더 중요한 역할을 함', content: '' },
+          { title: '복잡한 추론 작업에는 한계가 있어 Chain of Thought 등 고급 기법이 필요', content: '' },
+        ],
+      },
+      {
+        slug: 'cot',
+        title: 'Chain-of-Thought Prompting',
+        titleKr: 'Chain-of-Thought 프롬프팅',
+        sourceUrl: 'https://www.promptingguide.ai/techniques/cot',
+        published: true,
+        author: 'DAIR.AI',
+        readTime: '약 5분',
+        sections: [
+          {
+            title: '정의 및 개요',
+            content: 'Chain-of-Thought(CoT) 프롬프팅은 중간 추론 단계를 거쳐 복잡한 추론을 수행하는 기법입니다. Wei et al.(2022)이 제안한 이 기법을 사용하면 LLM이 답에 바로 도달하지 않고, 추론 과정을 단계별로 보여주며 다단계 문제를 차근차근 해결합니다.',
+          },
+          {
+            title: '핵심 개념',
+            content: 'CoT 프롬프팅은 단계별 추론을 보여주어 모델을 유도합니다. 분석적 사고가 필요한 복잡한 작업에서 few-shot 프롬프팅과 결합하면 더욱 효과적입니다.',
+          },
+          {
+            title: 'Zero-Shot CoT 프롬프팅',
+            content: '예시 없이도 작동하는 간단한 방법으로, 단 하나의 문구만 추가하면 됩니다: "Let\'s think step by step."(단계별로 생각해 봅시다.) Zero-shot 방식은 프롬프트에 넣을 예시가 부족할 때 특히 유용합니다.',
+          },
+          {
+            title: 'Automatic Chain-of-Thought (Auto-CoT)',
+            content: 'Zhang et al.(2022)은 수작업으로 예시를 만드는 부담을 줄이기 위해 시연 생성 과정을 자동화하는 방법을 제안했습니다.',
+            items: [
+              '질문 클러스터링: 데이터셋의 질문을 클러스터로 분류하여 다양성 확보',
+              '시연 샘플링: 각 클러스터에서 대표 질문을 선택하고 Zero-Shot-CoT로 추론 체인 생성',
+            ],
+          },
+        ],
+        keyTakeaways: [
+          { title: 'CoT 프롬프팅은 추론 작업의 성능을 크게 향상시킵니다', content: '' },
+          { title: '충분히 큰 언어 모델에서 가장 효과적입니다', content: '' },
+          { title: '"Let\'s think step by step"은 간단하면서도 효과적인 zero-shot 대안입니다', content: '' },
+          { title: '자동화를 통해 품질을 유지하면서 CoT 시연을 확장할 수 있습니다', content: '' },
+        ],
+      },
       { slug: 'meta-prompting', title: 'Meta Prompting', titleKr: '메타 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/meta-prompting', published: true },
       { slug: 'consistency', title: 'Self-Consistency', titleKr: 'Self-Consistency', sourceUrl: 'https://www.promptingguide.ai/techniques/consistency', published: true },
       { slug: 'knowledge', title: 'Generate Knowledge Prompting', titleKr: '지식 생성 프롬프팅', sourceUrl: 'https://www.promptingguide.ai/techniques/knowledge', published: true },

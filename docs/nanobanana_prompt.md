@@ -1,12 +1,14 @@
+# Role Definition
+You are an expert Technical Communicator and Information Architect specialized in creating "Nano Banana" style cheat sheets. Your goal is to restructure the provided text about "How OpenAI Uses Codex" into a highly visual, structured, and actionable guide for software engineers.
+
+# Source Text
 ---
 title: "How OpenAI Uses Codex"
 source_url: "https://cdn.openai.com/pdf/6a2631dc-783e-479b-b1a4-af0cfbd38630/how-openai-uses-codex.pdf"
 source_type: pdf
 author: "OpenAI"
-fetch_date: "2026-01-08"
+fetch_date: "2025-01-07"
 translation_status: none
-total_pages: 13
-meaningful_pages: 11
 ---
 
 # How OpenAI Uses Codex
@@ -15,29 +17,23 @@ meaningful_pages: 11
 
 ---
 
-## Page 2
+## Contents
 
-### Contents
-
-| Section | Page |
-|---------|------|
-| Introduction | 3 |
-| **Use Cases** | |
-| Code understanding | 4 |
-| Refactoring and migrations | 5 |
-| Performance optimization | 6 |
-| Improving test coverage | 7 |
-| Increasing development velocity | 8 |
-| Staying in flow | 9 |
-| Exploration and ideation | 10 |
-| Best Practices | 11 |
-| Looking Ahead | 12 |
+- Introduction
+- Use Cases
+  - Code understanding
+  - Refactoring and migrations
+  - Performance optimization
+  - Improving test coverage
+  - Increasing development velocity
+  - Staying in flow
+  - Exploration and ideation
+- Best Practices
+- Looking Ahead
 
 ---
 
-## Page 3
-
-### Introduction
+## Introduction
 
 Codex is used daily across numerous technical teams at OpenAI like Security, Product Engineering, Frontend, API, Infrastructure, and Performance Engineering. Teams are using it to accelerate a range of engineering tasks, from understanding complex systems and refactoring large codebases to shipping new features and resolving incidents under tight deadlines.
 
@@ -45,9 +41,7 @@ Drawing from interviews with OpenAI engineers and internal usage data, we've com
 
 ---
 
-## Page 4
-
-### Use case 1: Code understanding
+## Use Case 1: Code Understanding
 
 Codex helps our teams get up to speed quickly in unfamiliar parts of the codebase when onboarding, debugging, or investigating an incident.
 
@@ -55,7 +49,7 @@ They often use Codex to locate the core logic of a feature, map out relationship
 
 During incident response, Codex helps engineers ramp into new areas quickly by surfacing interactions between components or tracing how failure states propagate across systems.
 
-#### Anecdotes from our teams
+### Anecdotes from our teams
 
 > *"When I fix a bug, I use Ask mode to see where else in the codebase the same issue might appear."*
 >
@@ -69,7 +63,7 @@ During incident response, Codex helps engineers ramp into new areas quickly by s
 >
 > — DevOps Engineer, Infrastructure Services
 
-#### Sample prompts for code understanding:
+### Sample prompts for code understanding:
 
 - Where is the authentication logic implemented in this repo?
 - Summarize how requests flow through this service from entrypoint to response.
@@ -77,9 +71,7 @@ During incident response, Codex helps engineers ramp into new areas quickly by s
 
 ---
 
-## Page 5
-
-### Use case 2: Refactoring and migrations
+## Use Case 2: Refactoring and Migrations
 
 Codex is commonly used to make changes that span multiple files or packages. For example, when engineers are updating an API, changing how a pattern is implemented, or migrating to a new dependency, Codex makes it easy to apply changes consistently.
 
@@ -87,7 +79,7 @@ It's especially useful when the same update needs to be made across dozens of fi
 
 They're also using it for code cleanup by breaking up oversized modules, replacing old patterns with modern ones, or preparing code for better testability.
 
-#### Anecdotes from our teams
+### Anecdotes from our teams
 
 > *"Codex swapped every legacy `getUserById()` for our new service pattern and opened the PR. It did in minutes what would've taken hours."*
 >
@@ -97,16 +89,14 @@ They're also using it for code cleanup by breaking up oversized modules, replaci
 >
 > — Product Engineer, ChatGPT Enterprise
 
-#### Sample prompts for refactoring and migrations:
+### Sample prompts for refactoring and migrations:
 
 - Split this file into separate modules by concern and generate tests for each one.
 - Convert all callback-based database access to async/await.
 
 ---
 
-## Page 6
-
-### Use case 3: Performance optimization
+## Use Case 3: Performance Optimization
 
 Codex is used to identify and address performance bottlenecks.
 
@@ -114,17 +104,17 @@ During tuning or reliability efforts, engineers prompt Codex to analyze slow or 
 
 Codex is also used to support code health by identifying risky or deprecated patterns that are still in active use. Our teams lean on it to help reduce long-term tech debt and proactively prevent regressions.
 
-#### Anecdotes from our teams
+### Anecdotes from our teams
 
 > *"I use Codex to scan for repeated expensive DB calls. It's great at flagging hot paths and drafting batched queries I can later tune."*
 >
 > — Infrastructure Engineer, API Reliability
 
-> *"Codex is great for spotting performance issues quickly—I save 30 minutes of work by spending 5 minutes on a prompt."*
+> *"Codex is great for spotting performance issues quickly— I save 30 minutes of work by spending 5 minutes on a prompt."*
 >
 > — Platform Engineer, Model Serving
 
-#### Sample prompts for performance optimization:
+### Sample prompts for performance optimization:
 
 - Optimize this loop for memory efficiency and explain why your version is faster.
 - Find repeated expensive operations in this request handler and suggest caching opportunities.
@@ -132,9 +122,7 @@ Codex is also used to support code health by identifying risky or deprecated pat
 
 ---
 
-## Page 7
-
-### Use case 4: Improving test coverage
+## Use Case 4: Improving Test Coverage
 
 Codex helps engineers write tests faster — especially in places where coverage is thin or completely missing.
 
@@ -142,7 +130,7 @@ When working on a bug fix or refactor, engineers often ask Codex to suggest test
 
 Codex is particularly helpful for identifying boundary conditions like empty inputs, max length, or unusual but valid states that are often missed in initial tests.
 
-#### Anecdotes from our teams
+### Anecdotes from our teams
 
 > *"I point Codex at low-coverage modules overnight and wake up to runnable unit-test PRs."*
 >
@@ -152,7 +140,7 @@ Codex is particularly helpful for identifying boundary conditions like empty inp
 >
 > — Backend Engineer, Payments & Billing
 
-#### Sample prompts for improving test coverage:
+### Sample prompts for improving test coverage:
 
 - Write unit tests for this function, including edge cases and failure paths.
 - Generate a property-based test for this sorting utility.
@@ -160,9 +148,7 @@ Codex is particularly helpful for identifying boundary conditions like empty inp
 
 ---
 
-## Page 8
-
-### Use case 5: Increasing development velocity
+## Use Case 5: Increasing Development Velocity
 
 Codex helps teams move faster by accelerating both the start and end of the development cycle.
 
@@ -172,7 +158,7 @@ As projects approach release, Codex helps meet tight deadlines by handling small
 
 It's also used to turn product feedback into starter code. Engineers often paste in a user request or spec and have Codex generate a rough draft they can return to and refine later.
 
-#### Anecdotes from our teams
+### Anecdotes from our teams
 
 > *"I was in meetings all day and still merged 4 PRs because Codex was working in the background."*
 >
@@ -182,7 +168,7 @@ It's also used to turn product feedback into starter code. Engineers often paste
 >
 > — Full-Stack Engineer, Internal Tools
 
-#### Sample prompts for increasing development velocity:
+### Sample prompts for increasing development velocity:
 
 - Scaffold a new API route for POST /events with basic validation and logging.
 - Generate a telemetry hook for tracking success/failure of the new onboarding flow, using this template [insert example of your telemetry code].
@@ -190,15 +176,13 @@ It's also used to turn product feedback into starter code. Engineers often paste
 
 ---
 
-## Page 9
-
-### Use case 6: Staying in flow
+## Use Case 6: Staying in Flow
 
 Codex helps our engineers stay productive when their schedules are fragmented and filled with interruptions.
 
 It's used to capture unfinished work, turn notes into working prototypes, or spin off exploratory tasks that can be revisited later. This makes it easier to pause and resume work without losing context, especially when they're on call or have a lot of meetings.
 
-#### Anecdotes from our teams
+### Anecdotes from our teams
 
 > *"If I spot a drive-by fix, I fire a Codex task instead of swapping branches and review its PR when I'm free."*
 >
@@ -208,7 +192,7 @@ It's used to capture unfinished work, turn notes into working prototypes, or spi
 >
 > — API Engineer, Infrastructure Observability
 
-#### Sample prompts for staying in flow:
+### Sample prompts for staying in flow:
 
 - Generate a plan to refactor this service and split it into smaller modules.
 - Stub out the retry logic and add a TODO — I'll fill in the backoff logic later.
@@ -216,15 +200,13 @@ It's used to capture unfinished work, turn notes into working prototypes, or spi
 
 ---
 
-## Page 10
-
-### Use case 7: Exploration and ideation
+## Use Case 7: Exploration and Ideation
 
 Codex is also useful for open-ended work like finding alternative solutions or validating design decisions. You can prompt for different ways of solving a problem, explore unfamiliar patterns, or pressure-test assumptions. This helps surface tradeoffs, expand design options, and sharpen implementation choices.
 
 It's also used to identify related bugs. Given a known issue or deprecated method, Codex can identify similar patterns elsewhere in the code, making it easier to catch regressions or finish cleanup work.
 
-#### Anecdotes from our teams
+### Anecdotes from our teams
 
 > *"Codex helps me solve the cold-start problem — I paste a spec and docs and it scaffolds code or shows me what I forgot."*
 >
@@ -234,7 +216,7 @@ It's also used to identify related bugs. Given a known issue or deprecated metho
 >
 > — Performance Engineer, Retrieval Systems
 
-#### Sample prompts for exploration and ideation:
+### Sample prompts for exploration and ideation:
 
 - How would this work if the system were event-driven instead of request/response?
 - Find all modules that manually build SQL strings instead of using our query builder.
@@ -242,64 +224,89 @@ It's also used to identify related bugs. Given a known issue or deprecated metho
 
 ---
 
-## Page 11
-
-### Best practices
+## Best Practices
 
 Codex works best when it's given structure, context, and room to iterate. Here are some of the habits OpenAI teams are cultivating to get consistent value out of it in day-to-day work.
 
-#### Start with Ask Mode
+### Start with Ask Mode
 
 For large changes, start by prompting Codex for an implementation plan using Ask mode, which then becomes the input for follow-up prompts when you switch to Code Mode. This two-step flow keeps Codex grounded and helps avoid errors in its output. Codex works best with well-scoped tasks that would take you or a teammate about an hour to complete or a few hundred lines of code to implement. As models improve, expect the size of the tasks it can take on to increase.
 
-#### Iteratively improve Codex's development environment
+### Iteratively improve Codex's development environment
 
 Setting a startup script, environment variables, and internet access significantly reduces Codex's error rate. As you run tasks, look for build errors that can be corrected in Codex's environment configuration. This may take a few iterations, but gives significant efficiency gains in the long run.
 
-#### Structure your prompt as if you are writing a Github Issue
+### Structure your prompt as if you are writing a Github Issue
 
 Codex responds better when prompts mirror how you'd describe a change in a PR or issue. That means including file paths, component names, diffs, and doc snippets when relevant. Prompting with patterns like "Implement this the same way it's done in [module X]" improves results.
 
-#### Use the Codex task queue as a lightweight backlog
+### Use the Codex task queue as a lightweight backlog
 
 Fire off tasks to capture tangential ideas, partial work, or incidental fixes. There's no pressure to generate a full PR in one go. Codex works well as a staging area you can return to when you're back in focus.
 
----
+### Use AGENTS.md to supply persistent context
 
-## Page 12
+Maintain an AGENTS.md file to help Codex operate more effectively in your repo across prompts. These files typically include naming conventions, business logic, known quirks, or dependencies Codex can't infer from the code alone.
 
-### Best practices (continued)
-
-#### Use AGENTS.md to supply persistent context
-
-Maintain an AGENTS.md file to help Codex operate more effectively in your repo across prompts. These files typically include naming conventions, business logic, known quirks, or dependencies Codex can't infer from the code alone. Learn more on structuring your AGENTS.md file in the docs.
-
-#### Leverage "Best of N" to improve output
+### Leverage "Best of N" to improve output
 
 The Best-of-N feature lets you simultaneously generate multiple responses for a single task to quickly explore multiple solutions and pick the best one. For more complicated tasks, you can review several iterations and combine parts of different responses to get a stronger result.
 
 ---
 
-### Looking ahead
+## Looking Ahead
 
 Codex is still in research preview, but it's already making a real impact in how we build, helping us move faster, write better code, and take on work that would've otherwise never been prioritized.
 
 We're excited by the potential ahead — as our models get better and Codex becomes more deeply integrated into our workflows, we're looking forward to unlocking even more powerful ways to develop software with it. We'll continue to share what we learn along the way.
 
+
+칼럼 내용을 정리해서, gemini 에게 Cheet sheet 으로 만들게 하고 싶어. 
+nano banana 가 구조가 잘 잡히고, 그래프 도형 등 도식이 잘 작성되어 사람이 파악하기 좋게 그리도록 위 내용을 바탕으로 만들어줘
+
+# Output Style: "Nano Banana" Cheat Sheet
+Please adhere to the following formatting rules strictly:
+
+1. **Visual Hierarchy & Structure**:
+   - Use strict Markdown structure.
+   - Use specific emojis for every section header to improve scanning.
+   - Use **Bold** for key concepts and commands.
+   - Group related information logically.
+
+2. **Diagrams & Schematics (CRITICAL)**:
+   - Use `mermaid` code blocks to visualize concepts.
+   - Create a **Mind Map** for the overall structure of Use Cases.
+   - Create a **Flowchart** for the "Best Practices" workflow.
+   - Ensure diagrams are complex enough to be informative but simple enough to be read at a glance.
+
+3. **Tabular Data**:
+   - Convert the "Use Cases" section into a comprehensive Markdown Table.
+   - Columns should be: [Use Case Context] | [Key Benefit] | [Example Scenario] | [Sample Prompt].
+
+4. **Actionable Content**:
+   - Extract "Sample prompts" into separate code blocks for easy copying.
+   - Summarize "Best Practices" into a Checklist format (e.g., `[ ]`).
+
+# Output Structure Plan
+
+## 1. 🧠 Executive Summary (Mind Map)
+- Create a Mermaid mindmap showing the 7 core Use Cases and their primary value props.
+
+## 2. 🛠️ Engineering Use Case Matrix (The Core)
+- A detailed table summarizing Use Cases 1 through 7.
+- Focus on the "Problem -> Solution" dynamic.
+
+## 3. 💡 Best Practices Workflow (Flowchart)
+- A Mermaid flowchart connecting: Ask Mode -> Context Setup -> Github Issue Style Prompting -> Task Queue -> Review (Best of N).
+
+## 4. ⚡ Quick Reference: Golden Prompts
+- List the most high-impact sample prompts from the text, categorized by function, inside code blocks.
+
+## 5. 🔮 Future Outlook
+- A 1-sentence punchline about the future of Codex based on the text.
+
 ---
+Please generate the Cheat Sheet now.
 
-## Contents
 
-| Page | Summary |
-|------|---------|
-| 2 | Table of Contents |
-| 3 | Introduction - Codex usage across OpenAI teams |
-| 4 | Use case 1: Code understanding |
-| 5 | Use case 2: Refactoring and migrations |
-| 6 | Use case 3: Performance optimization |
-| 7 | Use case 4: Improving test coverage |
-| 8 | Use case 5: Increasing development velocity |
-| 9 | Use case 6: Staying in flow |
-| 10 | Use case 7: Exploration and ideation |
-| 11 | Best practices (part 1) |
-| 12 | Best practices (part 2) + Looking ahead |
+내가 말하는 cheet sheet 는 보기 좋게 정리된, 실제 펜 노트필기 같은 이미지를 말하는거야. 용어 및 고유명사는 영어 원문을 쓰되, 필기 내용은 한국어로 작성해.

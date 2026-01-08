@@ -94,6 +94,21 @@ Conventional Commits 형식을 따릅니다:
 
 ---
 
+## 작업 완료 후 검증 및 커밋 워크플로우
+
+코드나 문서 수정 작업을 완료한 후 다음 순서를 따릅니다:
+
+1. **수정사항 재검증**
+   - 수정한 파일의 내용이 올바른지 확인
+   - 번역 파일의 경우 포맷과 마크다운 구문 검증
+   - 코드 파일의 경우 `pnpm build` 및 `pnpm lint` 실행
+
+2. **검증 완료 후 커밋 스킬 실행**
+   - 검증이 완료되면 `/commit` 스킬을 실행하여 변경사항 커밋
+   - 커밋 메시지는 conventional commit 형식 준수
+
+---
+
 ## 번역 워크플로우
 
 Reading 콘텐츠의 수집 → 번역 → 웹 게시를 3단계 스킬로 자동화합니다.
@@ -110,9 +125,9 @@ Reading 콘텐츠의 수집 → 번역 → 웹 게시를 3단계 스킬로 자�
 
 | 스킬 | 상태 | 설명 |
 |------|------|------|
-| `/fetch-reading` | 🟢 완료 | URL에서 원본 수집 → `docs/week{N}/{slug}.md` |
-| `/translate-reading` | 🟢 완료 | 한국어 번역 → `docs/week{N}/kr/{slug}.md` |
-| `/upload-reading` | 🟢 완료 | 웹 게시 → `readings.ts` + `syllabus.ts` 업데이트 |
+| `/fetch-reading` | 완료 | URL에서 원본 수집 → `docs/week{N}/{slug}.md` |
+| `/translate-reading` | 완료 | 한국어 번역 → `docs/week{N}/kr/{slug}.md` |
+| `/upload-reading` | 완료 | 웹 게시 → `readings.ts` + `syllabus.ts` 업데이트 |
 
 ---
 
@@ -185,3 +200,33 @@ terminology-lookup → translator → refiner(1차) → validator → refiner(2�
 **옵션**:
 - `--publish`: `published: true`로 즉시 공개
 - `--draft` (기본): `published: false`로 저장
+
+---
+
+### `/nanobanana` - 치트시트 프롬프트 생성
+
+**위치**: `.claude/skills/nanobanana/`
+
+Reading 원문에서 나노바나나 프로용 치트시트 프롬프트를 생성합니다.
+
+```bash
+/nanobanana week1/how-openai-uses-codex
+```
+
+**워크플로우**:
+```
+content-analyzer → structure-planner → prompt-generator
+```
+
+**에이전트 파일** (`.claude/agents/nanobanana/`):
+- `content-analyzer.md`: 콘텐츠 유형 판별, 핵심 요소 추출
+- `structure-planner.md`: 치트시트 구조 설계
+- `prompt-generator.md`: 최종 프롬프트 생성
+
+**템플릿 파일** (`.claude/templates/nanobanana/`):
+- `use-case-style.md`: 사례 중심 콘텐츠용
+- `tutorial-style.md`: 튜토리얼/가이드용
+- `lecture-style.md`: 강의 콘텐츠용
+
+**입력**: `docs/week{N}/{slug}.md`
+**출력**: `docs/week{N}/{slug}-cheatsheet-prompt.md`

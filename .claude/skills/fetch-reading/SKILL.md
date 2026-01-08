@@ -11,6 +11,12 @@ arguments:
   - name: week
     description: Week 번호 직접 지정 (미지정 시 syllabus.ts에서 추론)
     required: false
+  - name: parent
+    description: 부모 Reading slug (계층적 구조용, 예: prompt-engineering-guide)
+    required: false
+  - name: child
+    description: 자식 페이지 slug (--parent와 함께 사용, 예: zeroshot)
+    required: false
 ---
 
 # fetch-reading Skill
@@ -20,9 +26,14 @@ URL에서 reading 콘텐츠를 수집하여 마크다운 파일로 저장합니�
 ## 사용법
 
 ```
+# 단일 페이지 (기존)
 /fetch-reading <url>
 /fetch-reading <url> --week <N>
 /fetch-reading <local-file.pdf>
+
+# 계층적 구조 (부모-자식)
+/fetch-reading <url> --parent <parent-slug> --child <child-slug>
+/fetch-reading <url> --week 1 --parent prompt-engineering-guide --child zeroshot
 ```
 
 ## 동작 흐름
@@ -188,7 +199,28 @@ meaningful_pages: 4
 
 ### 4. 파일 저장
 
+**단일 페이지 (기존)**:
 - 경로: `docs/week{N}/{slug}.md`
+
+**계층적 구조 (--parent, --child 사용 시)**:
+- 경로: `docs/week{N}/{parent-slug}/{child-slug}.md`
+- 부모 디렉토리가 없으면 자동 생성
+
+**예시**:
+```
+# 단일 페이지
+docs/week1/deep-dive-llms.md
+
+# 계층적 구조
+docs/week1/prompt-engineering-guide/
+├── zeroshot.md
+├── fewshot.md
+├── cot.md
+└── kr/
+    ├── zeroshot.md
+    └── fewshot.md
+```
+
 - 기존 파일이 있으면 덮어쓰기 전 확인
 
 ### 5. INDEX.md 업데이트
@@ -198,23 +230,39 @@ meaningful_pages: 4
 
 ## 예시
 
-### 웹 문서 수집
+### 단일 페이지 수집
+
+**웹 문서**:
 ```
 /fetch-reading https://stytch.com/blog/model-context-protocol-introduction/
 ```
 결과: `docs/week2/mcp-introduction.md` 생성
 
-### PDF 수집 (로컬)
+**PDF (로컬)**:
 ```
 /fetch-reading how-openai-uses-codex.pdf
 ```
 결과: `docs/week1/how-openai-uses-codex.md` 생성
 
-### Week 지정
+**Week 지정**:
 ```
 /fetch-reading https://some-url.com/article --week 3
 ```
 결과: `docs/week3/` 디렉토리에 저장
+
+### 계층적 구조 수집 (부모-자식)
+
+**자식 페이지 수집**:
+```
+/fetch-reading https://www.promptingguide.ai/techniques/zeroshot --week 1 --parent prompt-engineering-guide --child zeroshot
+```
+결과: `docs/week1/prompt-engineering-guide/zeroshot.md` 생성
+
+**여러 자식 순차 수집**:
+```
+/fetch-reading https://www.promptingguide.ai/techniques/fewshot --week 1 --parent prompt-engineering-guide --child fewshot
+/fetch-reading https://www.promptingguide.ai/techniques/cot --week 1 --parent prompt-engineering-guide --child cot
+```
 
 ## 참고 파일
 
@@ -227,4 +275,6 @@ meaningful_pages: 4
 수집 완료 후 표시:
 - 생성된 파일 경로
 - 콘텐츠 길이 (글자 수)
-- 다음 단계 안내 (`/translate-reading` 명령어)
+- 다음 단계 안내:
+  - 단일 페이지: `/translate-reading week{N}/{slug}`
+  - 자식 페이지: `/translate-reading week{N}/{parent-slug}/{child-slug}`
