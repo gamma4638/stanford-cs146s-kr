@@ -120,9 +120,10 @@ function SidebarItem({
         onClick={onClick}
         className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
           isActive
-            ? 'bg-stanford-red text-white'
+            ? 'bg-stanford-red'
             : 'text-text-primary hover:bg-bg-light'
         }`}
+        style={isActive ? { color: 'white' } : undefined}
       >
         <span
           className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
