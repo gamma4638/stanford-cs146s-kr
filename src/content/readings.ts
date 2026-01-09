@@ -68,121 +68,124 @@ export const readings: Record<string, ReadingContent> = {
     published: true,
     sections: [
       {
-        title: '개요',
+        title: '1. Introduction (0:00)',
         content:
-          'OpenAI 공동창업자이자 전 Tesla AI Director인 Andrej Karpathy가 LLM의 전체 훈련 파이프라인을 일반 청중도 이해할 수 있도록 설명하는 종합 강의입니다. Pre-training부터 RLHF까지, 그리고 모델의 "심리학"적 특성까지 다룹니다.',
+          'ChatGPT와 같은 대규모 언어 모델(LLM)에 대한 포괄적인 소개로, 이 도구가 무엇이고 어떻게 작동하는지에 대한 mental model을 제공합니다. LLM이 잘하는 것과 못하는 것, 그리고 주의해야 할 함정들에 대해 다룹니다.',
       },
       {
-        title: '1. Pre-training: 인터넷을 다운로드하다',
+        title: '2. Pretraining Data (1:00)',
         content:
-          'LLM 훈련의 첫 단계는 인터넷 데이터를 수집하고 처리하는 것입니다. HuggingFace의 FineWeb 데이터셋은 약 44TB, 15조 토큰으로 구성됩니다.',
-        items: [
-          'Common Crawl: 2007년부터 27억 웹페이지 인덱싱',
-          'URL 필터링: 악성/스팸/성인 사이트 제거',
-          '텍스트 추출: HTML에서 본문만 추출',
-          '언어 필터링: 영어 65% 이상 등 조건 적용',
-          'PII 제거: 개인정보 필터링',
-        ],
+          'LLM 사전학습의 첫 단계인 인터넷 데이터 수집을 설명합니다. Common Crawl에서 시작해 URL 필터링, 텍스트 추출, 언어 필터링, 중복 제거, PII 제거 등 여러 단계를 거쳐 약 44TB의 고품질 텍스트 데이터셋(예: FineWeb)을 구축합니다.',
       },
       {
-        title: '2. Tokenization: 텍스트를 숫자로',
+        title: '3. Tokenization (7:47)',
         content:
-          '신경망은 유한한 심볼 집합의 1차원 시퀀스를 입력으로 받습니다. Byte Pair Encoding(BPE) 알고리즘으로 텍스트를 토큰으로 변환합니다.',
-        items: [
-          'GPT-4 어휘 크기: 100,277개 토큰',
-          '"hello world" → 2개 토큰: [15339, 1917]',
-          '대소문자 구분: "Hello world" → 3개 토큰',
-          'Tiktokenizer (tiktokenizer.vercel.app): GPT-4 토큰화 시각화',
-        ],
+          '텍스트를 신경망에 입력하기 위해 토큰으로 변환하는 과정을 설명합니다. UTF-8 바이트에서 시작해 Byte Pair Encoding(BPE) 알고리즘을 사용하여 약 100,000개의 토큰 어휘를 생성하며, GPT-4는 100,277개의 토큰을 사용합니다.',
       },
       {
-        title: '3. Transformer 신경망',
+        title: '4. Neural Network I/O (14:27)',
         content:
-          'Transformer는 입력 토큰 시퀀스를 받아 다음 토큰의 확률 분포를 출력합니다. 파라미터는 DJ 믹서의 노브와 같습니다.',
-        items: [
-          '입력: 0 ~ 최대 컨텍스트 길이 (예: 8,000) 토큰',
-          '출력: 100,277개 토큰에 대한 확률값',
-          '파라미터: GPT-2는 16억, 최신 모델은 수천억 개',
-          '훈련: 예측 확률이 실제 다음 토큰과 일치하도록 조정',
-          '3D 시각화: bbycroft.net/llm',
-        ],
+          '신경망의 입출력 구조를 설명합니다. 토큰 시퀀스가 입력으로 들어가면, 신경망은 다음 토큰에 대한 확률 분포(약 100,000개 토큰 각각의 확률)를 출력합니다. 학습 과정에서 정답 토큰의 확률을 높이도록 신경망을 조정합니다.',
       },
       {
-        title: '4. GPT-2 재현: $672로 가능',
+        title: '5. Neural Network Internals (20:11)',
         content:
-          'Karpathy는 llm.c 프로젝트로 GPT-2를 단 $672에 재현했습니다. 2019년 원본 훈련 비용은 약 $40,000였습니다.',
-        items: [
-          'GPT-2 스펙: 16억 파라미터, 1,000억 토큰, 컨텍스트 1,024',
-          '2019년 훈련 비용: ~$40,000',
-          'llm.c 재현 비용: $672',
-          '최적화 시: ~$100까지 가능',
-        ],
+          '신경망 내부 구조를 설명합니다. Transformer 아키텍처의 파라미터(가중치)는 수십억 개에 달하며, 이 파라미터들이 입력 토큰과 수학적으로 결합되어 다음 토큰을 예측합니다. 학습은 GPU 클러스터에서 수개월간 진행됩니다.',
       },
       {
-        title: '5. Base Model vs Chat Model',
+        title: '6. Inference (26:01)',
         content:
-          'Base Model은 "문서 자동완성기"이고, Chat Model은 대화 데이터로 추가 훈련된 "AI 어시스턴트"입니다.',
-        items: [
-          'Base Model: 다음 토큰 예측만 학습, 프롬프트 = 문서 시작',
-          'Chat Model: 대화 형식으로 추가 훈련, 일관된 도움 응답',
-          'SFT (Supervised Fine-tuning): 고품질 대화 데이터로 응답 형식 학습',
-          'RLHF: 인간 피드백으로 응답 품질 개선',
-        ],
+          '학습된 모델로 텍스트를 생성하는 추론(inference) 과정을 설명합니다. 모델은 확률 분포에서 다음 토큰을 샘플링하고, 이를 반복하여 텍스트를 생성합니다. 추론은 학습보다 훨씬 빠르며, 단일 GPU로도 가능합니다.',
       },
       {
-        title: '6. Hallucination (환각)',
+        title: '7. GPT-2: Training and Inference (31:09)',
         content:
-          'LLM은 "꿈꾸는 기계"입니다. 그럴듯하게 들리지만 사실이 아닌 내용을 생성할 수 있습니다.',
-        items: [
-          '원인: 훈련 데이터의 패턴을 재조합하여 생성',
-          '해결책 1: 웹 검색 도구 연결 (RAG)',
-          '해결책 2: "확실하지 않음" 명시적 표시',
-          '해결책 3: 인용 및 출처 제공 요청',
-        ],
+          'OpenAI의 GPT-2 모델을 예시로 학습과 추론을 시연합니다. 2019년에 공개된 GPT-2는 15억 개의 파라미터를 가지며, GitHub의 llm.c 프로젝트로 직접 학습해볼 수 있습니다. 인터넷 데이터의 통계적 패턴을 학습한 모델의 특성을 보여줍니다.',
       },
       {
-        title: '7. Models Need Tokens to Think',
+        title: '8. Llama 3.1 Base Model Inference (42:52)',
         content:
-          'LLM은 "생각할 토큰"이 필요합니다. 중간 토큰들이 "작업 메모리" 역할을 합니다.',
-        items: [
-          '나쁜 프롬프트: "13 * 17 = ?" → 한 토큰으로 답해야 함',
-          '좋은 프롬프트: "단계별로 계산해줘" → 중간 과정 토큰 생성',
-          'Chain-of-Thought: 추론 과정을 명시적으로 요청',
-          '더 많은 토큰 = 더 많은 "생각 시간"',
-        ],
+          'Meta의 Llama 3.1 베이스 모델을 사용한 추론을 시연합니다. 베이스 모델은 아직 대화형으로 학습되지 않아 질문에 직접 답하지 않고, 인터넷 텍스트 패턴을 따라 문서를 완성하려 합니다. 이를 "token simulator" 또는 "document completer"라고 부릅니다.',
       },
       {
-        title: '8. Jagged Intelligence (들쭉날쭉한 지능)',
+        title: '9. Pretraining to Post-Training (59:23)',
         content:
-          'LLM은 어떤 영역에서는 인간을 압도하고, 다른 영역에서는 유아 수준입니다.',
-        items: [
-          '강점: 암기, 패턴 매칭, 넓은 지식',
-          '약점: 철자 세기, 공간 추론, 새로운 논리',
-          '"strawberry에 r이 몇 개?" → 자주 틀림',
-          '원인: 토큰화로 인해 철자를 직접 "보지" 못함',
-        ],
+          '사전학습(pretraining)에서 후속학습(post-training)으로 전환하는 과정을 설명합니다. 베이스 모델은 인터넷 텍스트를 모방할 뿐이지만, 후속학습을 통해 유용한 어시스턴트로 변환됩니다. 이 단계가 ChatGPT와 같은 대화형 AI를 만드는 핵심입니다.',
       },
       {
-        title: '9. Reinforcement Learning & DeepSeek-R1',
+        title: '10. Post-Training Data (1:01:06)',
         content:
-          'SFT의 한계를 넘어서 RL로 자기 개선이 가능합니다. DeepSeek-R1은 RL로 추론 능력을 획득했습니다.',
-        items: [
-          'SFT 한계: 전문가 시연만 학습 (탐색 없음)',
-          'RL 장점: 시행착오를 통한 자기 개선',
-          'DeepSeek-R1: "aha moment" 발견, Chain-of-Thought 자발적 생성',
-          'AlphaGo Move 37: RL의 힘을 보여준 역사적 사례',
-        ],
+          '후속학습 데이터인 대화 데이터셋에 대해 설명합니다. 인간 라벨러들이 수만 개의 고품질 대화 예시를 작성하고, 이를 모델에 학습시킵니다. 이 과정을 Supervised Fine-Tuning(SFT)이라 하며, 모델이 어시스턴트처럼 행동하도록 만듭니다.',
       },
       {
-        title: '10. 미래 전망',
+        title: '11. Hallucinations, Tool Use, Knowledge/Working Memory (1:20:32)',
         content:
-          'LLM은 멀티모달, 에이전트, System 1 & 2 통합으로 발전할 것입니다.',
-        items: [
-          '멀티모달: 텍스트, 이미지, 오디오 네이티브 처리',
-          '에이전트: 장시간 작업 수행, 컴퓨터 사용',
-          'System 1 & 2 통합: 직관적 응답 + 심층 추론',
-          'LM Arena (lmarena.ai): 모델 랭킹 확인',
-        ],
+          'LLM의 환각(hallucination) 문제와 도구 사용(tool use)을 설명합니다. 모델은 지식이 파라미터에 저장되어 있어 정확하지 않을 수 있으며, 검색이나 코드 실행 같은 외부 도구를 사용하여 이를 보완합니다. 지식 메모리(파라미터)와 작업 메모리(컨텍스트)의 차이도 다룹니다.',
+      },
+      {
+        title: '12. Knowledge of Self (1:41:46)',
+        content:
+          'LLM의 자기 인식에 대해 설명합니다. 모델은 자신이 무엇인지, 누가 만들었는지 등에 대한 지식이 학습 데이터에서 왔기 때문에 불완전할 수 있습니다. "당신은 Claude입니다"와 같은 시스템 프롬프트로 정체성을 부여합니다.',
+      },
+      {
+        title: '13. Models Need Tokens to Think (1:46:56)',
+        content:
+          '모델이 "생각"하기 위해 토큰이 필요하다는 개념을 설명합니다. 복잡한 문제는 중간 단계(chain of thought)를 거쳐야 풀 수 있으며, 바로 답을 요구하면 실패합니다. 이것이 o1 같은 추론 모델의 기반이 됩니다.',
+      },
+      {
+        title: '14. Tokenization Revisited: Models Struggle with Spelling (2:01:11)',
+        content:
+          "토큰화가 모델의 철자 처리 능력에 미치는 영향을 설명합니다. 모델은 글자 수준이 아닌 토큰 수준에서 작동하므로, \"strawberry\"에서 'r'이 몇 개인지 묻는 질문에 어려움을 겪습니다. 이는 토큰화의 구조적 한계입니다.",
+      },
+      {
+        title: '15. Jagged Intelligence (2:04:53)',
+        content:
+          'LLM의 "들쭉날쭉한 지능(jagged intelligence)"을 설명합니다. 모델은 어떤 영역에서는 매우 뛰어나지만 다른 영역에서는 기본적인 실수를 합니다. 이는 인간의 지능과 다른 형태이며, 모델을 사용할 때 이러한 특성을 이해해야 합니다.',
+      },
+      {
+        title: '16. Supervised Finetuning to Reinforcement Learning (2:07:28)',
+        content:
+          '지도학습 미세조정(SFT)에서 강화학습(RL)으로의 전환을 설명합니다. SFT는 모델에게 "어떻게 답해야 하는지" 가르치지만, RL은 모델이 스스로 더 나은 답을 찾도록 합니다. 이 단계에서 모델 성능이 크게 향상됩니다.',
+      },
+      {
+        title: '17. Reinforcement Learning (2:14:42)',
+        content:
+          '강화학습(RL)의 핵심 개념을 설명합니다. 보상 함수(reward function)를 정의하고, 모델이 높은 보상을 받는 출력을 생성하도록 학습시킵니다. 수학 문제처럼 정답을 자동으로 검증할 수 있는 영역에서 특히 효과적입니다.',
+      },
+      {
+        title: '18. DeepSeek-R1 (2:37:47)',
+        content:
+          'DeepSeek-R1 모델과 그 특징을 설명합니다. 중국 스타트업 DeepSeek이 개발한 이 모델은 순수 RL만으로 학습되어 자체적인 사고 과정(thinking)을 발전시켰습니다. 때로는 영어에서 중국어로 전환하며 생각하는 등 흥미로운 행동을 보입니다.',
+      },
+      {
+        title: '19. AlphaGo (2:48:47)',
+        content:
+          'DeepMind의 AlphaGo와 AlphaZero를 통해 강화학습의 역사를 설명합니다. AlphaGo는 바둑에서 인간을 이기기 위해 RL을 사용했으며, AlphaZero는 인간 데이터 없이 자기 대국만으로 학습했습니다. 이 접근법이 현재 LLM 학습에도 적용되고 있습니다.',
+      },
+      {
+        title: '20. Reinforcement Learning from Human Feedback (3:01:46)',
+        content:
+          '인간 피드백 기반 강화학습(RLHF)을 설명합니다. 창작 글쓰기처럼 자동 검증이 어려운 영역에서는 인간이 여러 응답 중 더 좋은 것을 선택하고, 이를 학습시킨 보상 모델을 사용합니다. RLHF는 ChatGPT 등 현대 LLM의 핵심 기술입니다.',
+      },
+      {
+        title: '21. Preview of Things to Come (3:09:39)',
+        content:
+          'LLM의 미래 발전 방향을 전망합니다. 멀티모달(이미지, 오디오, 비디오), 에이전트 시스템, 더 긴 컨텍스트 윈도우, 로봇공학 통합 등이 활발히 연구되고 있습니다. AI 시스템이 점점 더 자율적으로 작동하는 방향으로 발전하고 있습니다.',
+      },
+      {
+        title: '22. Keeping Track of LLMs (3:15:15)',
+        content:
+          '최신 LLM 동향을 추적하는 방법을 안내합니다. LMSys Chatbot Arena의 ELO 랭킹을 통해 다양한 모델의 성능을 비교할 수 있으며, 현재 최고 성능 모델들(GPT-4o, Claude, Gemini 등)의 순위를 확인할 수 있습니다.',
+      },
+      {
+        title: '23. Where to Find LLMs (3:18:34)',
+        content:
+          'LLM을 사용할 수 있는 주요 플랫폼들을 소개합니다. ChatGPT(OpenAI), Claude(Anthropic), Gemini(Google) 등 상용 서비스와 OpenRouter 같은 통합 API 서비스, 그리고 로컬에서 실행할 수 있는 Ollama 등을 소개합니다.',
+      },
+      {
+        title: '24. Grand Summary (3:21:46)',
+        content:
+          '전체 강의 내용을 요약합니다. LLM은 인터넷 데이터로 사전학습된 후, 대화 데이터로 미세조정되고, 강화학습으로 개선됩니다. 이들은 강력하지만 완벽하지 않은 도구이며, 신뢰하되 검증하는 자세로 활용해야 합니다.',
       },
     ],
     keyTakeaways: [
