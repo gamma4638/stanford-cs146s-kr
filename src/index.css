@@ -50,3 +50,12 @@ a:hover {
 .header-gradient a:hover {
   text-decoration: none;
 }
+
+/* Sidebar active item - white text on red background */
+.sidebar-active {
+  color: white !important;
+}
+
+.sidebar-active:hover {
+  text-decoration: none;
+}
