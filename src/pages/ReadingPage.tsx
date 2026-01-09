@@ -538,7 +538,7 @@ function ChildReadingPage({
                               href={href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-stanford-red text-white rounded-full text-sm font-medium hover:bg-stanford-red-dark transition-colors no-underline"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-stanford-red !text-white rounded-full text-sm font-medium hover:bg-stanford-red-dark transition-colors no-underline"
                             >
                               <span>🎬</span>
                               <span>{timestamp}</span>
@@ -550,6 +550,25 @@ function ChildReadingPage({
                             {children}
                           </a>
                         )
+                      },
+                      p: ({ children }) => {
+                        const text = extractText(children)
+                        // [8:00] 또는 [1:23:45] 형태의 타임스탬프로 시작하는 단락 감지
+                        const timestampMatch = text.match(/^\[(\d{1,2}:\d{2}(?::\d{2})?)\]/)
+
+                        if (timestampMatch) {
+                          const timestamp = timestampMatch[1]
+                          const content = text.substring(timestampMatch[0].length).trim()
+
+                          return (
+                            <div className="transcript-block">
+                              <span className="transcript-timestamp">{timestamp}</span>
+                              <p className="transcript-text">{content}</p>
+                            </div>
+                          )
+                        }
+
+                        return <p className="mb-4 leading-relaxed text-text-primary">{children}</p>
                       },
                       strong: ({ children }) => (
                         <strong className="font-semibold text-stanford-red">{children}</strong>

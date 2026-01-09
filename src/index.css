@@ -80,3 +80,32 @@ a:hover {
   font-size: 1.05rem;
   line-height: 1.75;
 }
+
+/* 전체 번역 자막 블록 스타일 */
+.transcript-block {
+  border-left: 3px solid var(--color-stanford-red);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, rgba(139, 0, 0, 0.03), transparent);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-right: 1rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.transcript-timestamp {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-stanford-red);
+  background: rgba(139, 0, 0, 0.1);
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.transcript-text {
+  color: var(--color-text-primary);
+  line-height: 1.75;
+  margin: 0;
+}
