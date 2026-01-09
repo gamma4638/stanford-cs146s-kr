@@ -1,8 +1,26 @@
 import { useParams, Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Children, isValidElement, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { readings, ChildReading } from '@/content/readings'
 import ReadingSidebar from '@/components/reading/ReadingSidebar'
+
+// ReactMarkdown children에서 텍스트 추출
+function extractText(children: ReactNode): string {
+  let text = ''
+  Children.forEach(children, (child) => {
+    if (typeof child === 'string') {
+      text += child
+    } else if (typeof child === 'number') {
+      text += String(child)
+    } else if (isValidElement(child)) {
+      const props = child.props as { children?: ReactNode }
+      if (props.children) {
+        text += extractText(props.children)
+      }
+    }
+  })
+  return text
+}
 
 export default function ReadingPage() {
   const { week, slug, childSlug } = useParams<{ week: string; slug: string; childSlug?: string }>()
@@ -509,7 +527,7 @@ function ChildReadingPage({
                         <hr className="my-6 border-t-2 border-stanford-red/10" />
                       ),
                       a: ({ href, children }) => {
-                        const text = String(children)
+                        const text = extractText(children)
                         // 영상 바로가기 링크를 배지 형태로 변환
                         if (text.includes('영상 바로가기') && href?.includes('youtube.com')) {
                           // 타임스탬프 추출 (예: "영상 바로가기 (7:47)" -> "7:47")
