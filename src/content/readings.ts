@@ -878,7 +878,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
-        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/activeprompt.png',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/activeprompt.jpg',
         sections: [
           {
             title: '개요',
@@ -914,7 +914,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
-        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/dsp.png',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/dsp.jpg',
         sections: [
           {
             title: '개요',
@@ -952,7 +952,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 5분',
-        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/pal.png',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/pal.jpg',
         sections: [
           {
             title: 'PAL 작동 방식',
