@@ -493,7 +493,62 @@ function ChildReadingPage({
                 </div>
               ) : markdown ? (
                 <article className="prose prose-lg max-w-none prose-headings:text-stanford-red prose-a:text-stanford-red prose-strong:text-text-primary">
-                  <ReactMarkdown>{markdown}</ReactMarkdown>
+                  <ReactMarkdown
+                    components={{
+                      h1: ({ children }) => (
+                        <h1 className="text-2xl font-bold text-stanford-red mt-6 mb-4">
+                          {children}
+                        </h1>
+                      ),
+                      h2: ({ children }) => (
+                        <h2 className="text-xl font-bold text-stanford-red mt-8 mb-4 pb-2 border-b-2 border-stanford-red/20">
+                          {children}
+                        </h2>
+                      ),
+                      hr: () => (
+                        <hr className="my-6 border-t-2 border-stanford-red/10" />
+                      ),
+                      a: ({ href, children }) => {
+                        const text = String(children)
+                        // 영상 바로가기 링크를 배지 형태로 변환
+                        if (text.includes('영상 바로가기') && href?.includes('youtube.com')) {
+                          // 타임스탬프 추출 (예: "영상 바로가기 (7:47)" -> "7:47")
+                          const match = text.match(/\(([0-9:]+)\)/)
+                          const timestamp = match ? match[1] : ''
+                          return (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-stanford-red text-white rounded-full text-sm font-medium hover:bg-stanford-red-dark transition-colors no-underline"
+                            >
+                              <span>🎬</span>
+                              <span>{timestamp}</span>
+                            </a>
+                          )
+                        }
+                        return (
+                          <a href={href} target="_blank" rel="noopener noreferrer" className="text-stanford-red hover:underline">
+                            {children}
+                          </a>
+                        )
+                      },
+                      strong: ({ children }) => (
+                        <strong className="font-semibold text-stanford-red">{children}</strong>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="space-y-2 my-4 list-none pl-0">{children}</ul>
+                      ),
+                      li: ({ children }) => (
+                        <li className="flex gap-2 text-text-primary pl-0">
+                          <span className="text-stanford-red flex-shrink-0">•</span>
+                          <span>{children}</span>
+                        </li>
+                      ),
+                    }}
+                  >
+                    {markdown}
+                  </ReactMarkdown>
                 </article>
               ) : (
                 <div className="bg-bg-card border border-border rounded-lg p-8 mb-8 text-center">

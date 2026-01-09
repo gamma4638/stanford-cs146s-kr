@@ -410,6 +410,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/zeroshot.png',
         sections: [
           {
             title: '정의',
@@ -451,6 +452,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 3분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/fewshot.png',
         sections: [
           {
             title: '개요',
@@ -493,6 +495,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 5분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/cot.png',
         sections: [
           {
             title: '정의 및 개요',
@@ -530,6 +533,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 4분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/meta-prompting.png',
         sections: [
           {
             title: '개요',
@@ -575,6 +579,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 3분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/consistency.png',
         sections: [
           {
             title: '개요',
@@ -617,6 +622,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/knowledge.png',
         sections: [
           {
             title: '개요',
@@ -654,6 +660,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 3분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/prompt_chaining.png',
         sections: [
           {
             title: '프롬프트 체이닝 소개',
@@ -689,6 +696,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 3분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/tot.png',
         sections: [
           {
             title: '개요',
@@ -732,6 +740,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 3분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/rag.png',
         sections: [
           {
             title: '개요',
@@ -780,6 +789,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/art.png',
         sections: [
           {
             title: '개요',
@@ -824,6 +834,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/ape.png',
         sections: [
           {
             title: 'APE 작동 방식',
@@ -867,6 +878,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/activeprompt.png',
         sections: [
           {
             title: '개요',
@@ -902,6 +914,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/dsp.png',
         sections: [
           {
             title: '개요',
@@ -939,6 +952,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 5분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/pal.png',
         sections: [
           {
             title: 'PAL 작동 방식',
@@ -984,6 +998,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 5분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/react.png',
         sections: [
           {
             title: '개요',
@@ -1043,6 +1058,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 3분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/reflexion.png',
         sections: [
           {
             title: '개요',
@@ -1105,6 +1121,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/multimodalcot.png',
         sections: [
           {
             title: '개요',
@@ -1146,6 +1163,7 @@ export const readings: Record<string, ReadingContent> = {
         published: true,
         author: 'DAIR.AI',
         readTime: '약 2분',
+        cheatsheetImage: '/cheatsheets/prompt-engineering-guide/graph.png',
         sections: [
           {
             title: '개요',

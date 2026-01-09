@@ -13,13 +13,14 @@ translatedAt: "2026-01-10"
 
 ## 요약
 
-LLM 사용 플랫폼 안내입니다.
+LLM을 실제로 사용할 수 있는 다양한 플랫폼을 소개합니다. OpenAI(ChatGPT), Google(Gemini), Anthropic(Claude)은 각자의 웹사이트에서 독점 모델을 제공합니다. 오픈 웨이트 모델의 경우 together.ai 같은 추론 제공자를 통해 접근하거나, LM Studio를 사용해 로컬에서 실행할 수 있습니다. 기본 모델(Base Model)을 사용하고 싶다면 hyperbolic이 좋은 선택입니다.
 
-## 핵심 포인트
-
-- ChatGPT, Claude, Gemini
-- together.ai, hyperbolic
-- LM Studio로 로컬 실행
+**핵심 개념:**
+- **독점 모델 플랫폼**: chat.openai.com(ChatGPT), gemini.google.com(Gemini), claude.ai(Claude)
+- **추론 제공자**: together.ai 등 오픈 웨이트 모델을 호스팅하는 서비스
+- **기본 모델 호스팅**: hyperbolic이 llama 3.1 base 등 SFT 이전의 기본 모델 제공
+- **로컬 실행**: LM Studio를 사용해 맥북 등에서 소형 모델을 직접 실행 가능
+- **증류 모델(Distilled)**: 대형 모델을 압축한 소형 버전으로, 낮은 정밀도로 로컬 실행 가능
 
 ---
 
