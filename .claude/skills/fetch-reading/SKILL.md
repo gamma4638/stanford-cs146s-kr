@@ -159,10 +159,30 @@ YouTube URL 입력
    - description: "YouTube 챕터 N 검증"
    ```
 
-6. **결과 병합**:
-   - `has_meaningful_content: true`인 챕터만 `## N. 챕터명` 형태로 병합
-   - `has_meaningful_content: false`인 챕터는 제외
-   - 목차(Table of Contents) 생성
+6. **챕터별 파일 저장** (챕터가 있는 경우 자동 분리):
+
+   챕터가 있으면 자동으로 디렉토리 구조를 생성합니다:
+
+   ```
+   docs/week{N}/{slug}/
+   ├── _index.md           # 인덱스 파일 (전체 개요 + ToC)
+   ├── introduction.md     # 챕터 1
+   ├── pretraining-data.md # 챕터 2
+   ├── tokenization.md     # 챕터 3
+   └── ...                 # 나머지 챕터들
+   ```
+
+   **인덱스 파일 (`_index.md`)** 생성:
+   - 영상 메타데이터 (제목, 저자, 길이)
+   - Table of Contents (챕터 목록 + 링크)
+   - 전체 요약
+
+   **챕터별 파일** 생성:
+   - `has_meaningful_content: true`인 챕터만 개별 파일로 저장
+   - 파일명: 챕터 제목에서 slug 생성 (예: "Tokenization" → `tokenization.md`)
+
+   **챕터가 없는 경우**:
+   - 기존처럼 단일 파일로 저장: `docs/week{N}/{slug}.md`
 
 ##### 챕터 데이터 구조
 
@@ -275,7 +295,11 @@ translation_status: none
 (수집된 콘텐츠)
 ```
 
-#### YouTube 영상 (챕터별 구조)
+#### YouTube 영상 (챕터가 있는 경우 - 디렉토리 구조)
+
+챕터가 있는 YouTube 영상은 자동으로 디렉토리 구조로 분리됩니다.
+
+**인덱스 파일 (`docs/week{N}/{slug}/_index.md`)**:
 
 ```markdown
 ---
@@ -286,37 +310,79 @@ author: "채널명"
 duration: "3:31:05"
 fetch_date: "YYYY-MM-DD"
 translation_status: none
-audio_file: "media/{slug}.mp3"
 chapters: 24
+is_parent: true
 ---
 
 # 영상 제목
 
 [원본 영상](https://youtube.com/...)
 
-## Table of Contents
+## 개요
 
-1. [Introduction](#1-introduction) (0:00)
-2. [Pretraining Data (Internet)](#2-pretraining-data-internet) (1:00)
-3. [Tokenization](#3-tokenization) (7:47)
+이 영상은 LLM의 핵심 개념을 다루는 3시간 31분 분량의 강의입니다.
+
+## 챕터 목록
+
+| # | 챕터 | 길이 | 파일 |
+|---|------|------|------|
+| 1 | [Introduction](./introduction.md) | 0:00 - 1:00 | introduction.md |
+| 2 | [Pretraining Data](./pretraining-data.md) | 1:00 - 7:47 | pretraining-data.md |
+| 3 | [Tokenization](./tokenization.md) | 7:47 - 15:23 | tokenization.md |
 ...
+```
 
+**챕터별 파일 (`docs/week{N}/{slug}/{childSlug}.md`)**:
+
+```markdown
+---
+title: "1. Introduction"
+parent_title: "영상 제목"
+parent_slug: "{slug}"
+chapter: 1
+timestamp: "0:00"
+end_timestamp: "1:00"
+source_url: "https://youtube.com/...&t=0s"
+source_type: youtube_chapter
+author: "채널명"
+fetch_date: "YYYY-MM-DD"
+translation_status: none
 ---
 
-## 1. Introduction
+# 1. Introduction
+
+[영상 바로가기 (0:00)](https://youtube.com/...&t=0s) | [← 목록으로](./_index.md)
 
 **요약**: ChatGPT와 같은 대규모 언어 모델에 대한 포괄적인 소개...
 
-[0:00] hi everyone so I've wanted to make this video for a while...
-[0:30] what should we be putting there and what are these words...
-
 ---
 
-## 2. Pretraining Data (Internet)
+[0:00] hi everyone so I've wanted to make this video for a while...
+[0:30] what should we be putting there and what are these words...
+[0:55] let's dive in...
+```
 
-**요약**: LLM 사전학습의 첫 단계인 인터넷 데이터 수집 설명...
+#### YouTube 영상 (챕터가 없는 경우 - 단일 파일)
 
-[1:00] the tools okay so let's build Chachi PT...
+```markdown
+---
+title: "영상 제목"
+source_url: "https://youtube.com/..."
+source_type: youtube_transcript
+author: "채널명"
+duration: "15:30"
+fetch_date: "YYYY-MM-DD"
+translation_status: none
+---
+
+# 영상 제목
+
+[원본 영상](https://youtube.com/...)
+
+## 본문
+
+[0:00] hi everyone...
+[0:30] in this video...
 ```
 
 #### PDF 문서 (페이지별 구조)
@@ -368,8 +434,13 @@ meaningful_pages: 4
 
 ### 4. 파일 저장
 
-**단일 페이지 (기존)**:
+**단일 페이지 (일반 문서, 챕터 없는 YouTube)**:
 - 경로: `docs/week{N}/{slug}.md`
+
+**YouTube 자동 분리 (챕터가 있는 경우)**:
+- 디렉토리: `docs/week{N}/{slug}/`
+- 인덱스: `docs/week{N}/{slug}/_index.md`
+- 챕터: `docs/week{N}/{slug}/{childSlug}.md`
 
 **계층적 구조 (--parent, --child 사용 시)**:
 - 경로: `docs/week{N}/{parent-slug}/{child-slug}.md`
@@ -377,10 +448,19 @@ meaningful_pages: 4
 
 **예시**:
 ```
-# 단일 페이지
-docs/week1/deep-dive-llms.md
+# 단일 페이지 (일반 문서)
+docs/week1/how-openai-uses-codex.md
 
-# 계층적 구조
+# YouTube 자동 분리 (챕터 있음)
+docs/week1/deep-dive-llms/
+├── _index.md                 # 인덱스 (개요 + 목차)
+├── introduction.md           # 챕터 1
+├── pretraining-data.md       # 챕터 2
+├── tokenization.md           # 챕터 3
+├── neural-network-io.md      # 챕터 4
+└── ... (24개 챕터)
+
+# 수동 계층적 구조 (--parent, --child)
 docs/week1/prompt-engineering-guide/
 ├── zeroshot.md
 ├── fewshot.md
@@ -444,6 +524,43 @@ docs/week1/prompt-engineering-guide/
 수집 완료 후 표시:
 - 생성된 파일 경로
 - 콘텐츠 길이 (글자 수)
-- 다음 단계 안내:
-  - 단일 페이지: `/translate-reading week{N}/{slug}`
-  - 자식 페이지: `/translate-reading week{N}/{parent-slug}/{child-slug}`
+- 다음 단계 안내
+
+### 단일 페이지 완료 메시지
+
+```
+✅ Reading 수집 완료!
+
+📄 파일: docs/week1/how-openai-uses-codex.md
+📊 콘텐츠: 5,432자
+🔗 원본: https://...
+
+다음 단계:
+  /translate-reading week1/how-openai-uses-codex
+```
+
+### YouTube 챕터별 완료 메시지
+
+```
+✅ YouTube 영상 수집 완료! (챕터별 분리)
+
+📁 디렉토리: docs/week1/deep-dive-llms/
+📊 챕터 수: 24개
+⏱️ 영상 길이: 3:31:05
+
+생성된 파일:
+  - _index.md (인덱스)
+  - introduction.md (0:00)
+  - pretraining-data.md (1:00)
+  - tokenization.md (7:47)
+  ... (21개 더)
+
+다음 단계:
+  # 전체 챕터 번역 (순차 실행)
+  /translate-reading week1/deep-dive-llms/introduction
+  /translate-reading week1/deep-dive-llms/pretraining-data
+  ...
+
+  # 또는 특정 챕터만 번역
+  /translate-reading week1/deep-dive-llms/tokenization
+```

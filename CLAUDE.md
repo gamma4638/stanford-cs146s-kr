@@ -125,10 +125,64 @@ Reading 콘텐츠의 수집 → 번역 → 웹 게시를 3단계 스킬로 자�
 
 | 스킬 | 상태 | 설명 |
 |------|------|------|
-| `/fetch-reading` | 완료 | URL에서 원본 수집 → `docs/week{N}/{slug}.md` |
-| `/translate-reading` | 완료 | 한국어 번역 → `docs/week{N}/kr/{slug}.md` |
+| `/fetch-reading` | 완료 | URL에서 원본 수집 (YouTube 챕터 자동 분리) |
+| `/translate-reading` | 완료 | 한국어 번역 (`--all-chapters` 지원) |
 | `/upload-reading` | 완료 | 웹 게시 → `readings.ts` + `syllabus.ts` 업데이트 |
-| `/split-youtube-chapters` | 완료 | YouTube 챕터 → 하위페이지 구조 생성 |
+| `/nanobanana` | 완료 | 치트시트 프롬프트 생성 (`--per-chapter` 지원) |
+| `/publish-cheatsheet` | 완료 | 치트시트 이미지 게시 |
+| `/split-youtube-chapters` | 레거시 | 기존 단일 파일 마이그레이션용 |
+
+---
+
+### YouTube 콘텐츠 전체 파이프라인
+
+YouTube 영상은 다음 순서로 처리합니다. 챕터가 있는 경우 **자동으로 분리**됩니다.
+
+```
+1. /fetch-reading <youtube-url>
+   → 챕터 있음: docs/week{N}/{slug}/ 디렉토리 생성
+       ├── _index.md (인덱스)
+       ├── introduction.md (챕터 1)
+       ├── tokenization.md (챕터 2)
+       └── ... (N개 챕터)
+   → 챕터 없음: docs/week{N}/{slug}.md (단일 파일)
+
+2. /translate-reading week{N}/{slug} --all-chapters
+   → docs/week{N}/{slug}/kr/*.md (챕터별 번역)
+   또는 개별 챕터만:
+   /translate-reading week{N}/{slug}/tokenization
+
+3. /upload-reading week{N}/{slug} --all-chapters
+   → readings.ts (isParent + children 자동 생성)
+   → syllabus.ts 업데이트
+   → public/readings/... 동기화
+
+4. /nanobanana week{N}/{slug} --per-chapter
+   → .claude/outputs/nanobanana/week{N}/{slug}/*.md (챕터별 프롬프트)
+
+5. (수동) 나노바나나에서 치트시트 생성 후 이미지 저장
+   → public/cheatsheets/week{N}/{slug}/*.png
+
+6. /publish-cheatsheet week{N}/{slug}/{childSlug}
+   → readings.ts에 cheatsheetImage 필드 추가
+```
+
+**새로운 방식의 장점**:
+- fetch 단계에서 자동 분리 → 챕터별 번역 품질 향상
+- 각 챕터가 독립 파일 → 병렬 번역 가능
+- `/split-youtube-chapters` 스킬 불필요 (자동화됨)
+
+**개별 챕터 작업 예시**:
+```bash
+# 특정 챕터만 번역
+/translate-reading week1/deep-dive-llms/tokenization
+
+# 특정 챕터만 게시
+/upload-reading week1/deep-dive-llms/tokenization
+
+# 특정 챕터 치트시트
+/nanobanana week1/deep-dive-llms/tokenization
+```
 
 ---
 
@@ -211,7 +265,8 @@ terminology-lookup → translator → refiner(1차) → validator → refiner(2�
 Reading 원문에서 나노바나나 프로용 치트시트 프롬프트를 생성합니다.
 
 ```bash
-/nanobanana week1/how-openai-uses-codex
+/nanobanana week1/how-openai-uses-codex           # 전체 콘텐츠
+/nanobanana week1/deep-dive-llms --per-chapter    # 챕터별 프롬프트
 ```
 
 **워크플로우**:
@@ -230,38 +285,37 @@ content-analyzer → structure-planner → prompt-generator
 - `lecture-style.md`: 강의 콘텐츠용
 
 **입력**: `docs/week{N}/{slug}.md`
-**출력**: `.claude/outputs/nanobanana/week{N}/{slug}-cheatsheet-prompt.md`
+**출력**:
+- 기본: `.claude/outputs/nanobanana/week{N}/{slug}-cheatsheet-prompt.md`
+- `--per-chapter`: `.claude/outputs/nanobanana/week{N}/{slug}/{childSlug}-cheatsheet-prompt.md`
+
+**옵션**:
+- `--per-chapter`: YouTube 챕터별로 개별 프롬프트 생성 (긴 영상 권장)
 
 ---
 
-### `/split-youtube-chapters` - YouTube 챕터 분리
+### `/split-youtube-chapters` - YouTube 챕터 분리 (레거시)
+
+> **Note**: 새로운 `/fetch-reading`은 챕터를 **자동 분리**합니다.
+> 이 스킬은 기존 단일 파일 → 챕터별 파일 **마이그레이션** 용도로만 사용하세요.
 
 **위치**: `.claude/skills/split-youtube-chapters/`
 
-YouTube 콘텐츠의 챕터별 하위페이지 구조를 readings.ts에 생성하고,
-전체 번역 파일에서 챕터별 번역 파일을 자동 생성합니다.
+기존 단일 파일 형태의 YouTube 콘텐츠를 챕터별 하위페이지로 분리합니다.
 
 ```bash
+# 기존 파일을 챕터별로 분리 (마이그레이션)
 /split-youtube-chapters week1/deep-dive-llms
 /split-youtube-chapters week1/deep-dive-llms --overwrite  # 기존 파일 덮어쓰기
-/split-youtube-chapters week1/deep-dive-llms --skip-files # readings.ts만 업데이트
 ```
 
-**동작**:
-1. `docs/week{N}/{slug}.md`에서 챕터 구조 파싱
-2. 챕터 제목 → slug 변환 (예: "Tokenization" → "tokenization")
-3. `readings.ts`에서 해당 Reading을 `isParent: true` + `children` 배열로 변환
-4. 각 챕터를 ChildReading으로 생성 (slug, title, titleKr, sourceUrl)
-5. `docs/week{N}/kr/{slug}.md`에서 챕터별 번역 추출
-6. 각 챕터별 번역 파일 생성: `docs/week{N}/{slug}/kr/{childSlug}.md`
+**사용 시점**:
+- 기존 `docs/week{N}/{slug}.md` (단일 파일)이 있는 경우
+- 새로 fetch하지 않고 기존 데이터를 분리하고 싶을 때
 
-**입력**:
-- `docs/week{N}/{slug}.md` - 원본 (챕터 구조)
-- `docs/week{N}/kr/{slug}.md` - 전체 번역 파일 (선택)
-
-**출력**:
-- `readings.ts` 자동 수정 (isParent: true + children 배열)
-- `docs/week{N}/{slug}/kr/*.md` - 챕터별 번역 파일
-
-**URL 구조**: `/readings/week{N}/{parentSlug}/{childSlug}`
-예: `/readings/week1/deep-dive-llms/tokenization`
+**권장 방식** (새 콘텐츠):
+```bash
+# fetch 단계에서 자동 분리 (권장)
+/fetch-reading <youtube-url>
+# → docs/week{N}/{slug}/ 디렉토리로 자동 생성
+```

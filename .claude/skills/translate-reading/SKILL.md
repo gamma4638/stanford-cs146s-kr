@@ -21,6 +21,12 @@ arguments:
   - name: skip-summary
     description: 요약 단계를 스킵 (YouTube 콘텐츠에서도 요약 생략)
     required: false
+  - name: all-chapters
+    description: |
+      YouTube 디렉토리의 모든 챕터를 순차적으로 번역
+      --all-chapters 옵션으로 사용
+      디렉토리 내 모든 .md 파일(인덱스 제외)을 번역
+    required: false
 ---
 
 # translate-reading Skill
@@ -36,9 +42,12 @@ arguments:
 /translate-reading <week/slug> --skip-qa
 /translate-reading <week/slug> --skip-summary
 
-# 계층적 구조 (자식 페이지)
+# 계층적 구조 (자식 페이지 / YouTube 챕터)
 /translate-reading <week/parent/child>
 /translate-reading <week/parent/child> --skip-qa
+
+# YouTube 전체 챕터 일괄 번역
+/translate-reading <week/slug> --all-chapters
 ```
 
 ## 예시
@@ -49,7 +58,19 @@ arguments:
 /translate-reading week2/mcp-introduction
 ```
 
-### 계층적 구조 (자식 페이지)
+### YouTube 챕터별 번역
+```
+# 개별 챕터 번역
+/translate-reading week1/deep-dive-llms/introduction
+/translate-reading week1/deep-dive-llms/tokenization
+/translate-reading week1/deep-dive-llms/neural-network-io --skip-qa
+
+# 전체 챕터 일괄 번역 (순차 실행)
+/translate-reading week1/deep-dive-llms --all-chapters
+/translate-reading week1/deep-dive-llms --all-chapters --skip-qa
+```
+
+### 계층적 구조 (수동 설정된 자식 페이지)
 ```
 /translate-reading week1/prompt-engineering-guide/zeroshot
 /translate-reading week1/prompt-engineering-guide/fewshot
@@ -62,7 +83,16 @@ arguments:
 - **입력**: `docs/week{N}/{slug}.md` (영문 원문)
 - **출력**: `docs/week{N}/kr/{slug}.md` (한국어 번역본)
 
-### 계층적 구조 (자식 페이지)
+### YouTube 챕터 (자동 분리된 경우)
+- **입력**: `docs/week{N}/{slug}/{childSlug}.md` (영문 원문)
+- **출력**: `docs/week{N}/{slug}/kr/{childSlug}.md` (한국어 번역본)
+
+### --all-chapters 모드
+- **입력**: `docs/week{N}/{slug}/` 디렉토리의 모든 .md 파일
+- **출력**: `docs/week{N}/{slug}/kr/` 디렉토리에 번역본 생성
+- **제외**: `_index.md` (별도 처리 필요)
+
+### 계층적 구조 (수동 설정)
 - **입력**: `docs/week{N}/{parent-slug}/{child-slug}.md` (영문 원문)
 - **출력**: `docs/week{N}/{parent-slug}/kr/{child-slug}.md` (한국어 번역본)
 
@@ -73,7 +103,17 @@ week1/how-openai-uses-codex
 → 입력: docs/week1/how-openai-uses-codex.md
 → 출력: docs/week1/kr/how-openai-uses-codex.md
 
-# 자식 페이지
+# YouTube 챕터 (개별)
+week1/deep-dive-llms/tokenization
+→ 입력: docs/week1/deep-dive-llms/tokenization.md
+→ 출력: docs/week1/deep-dive-llms/kr/tokenization.md
+
+# YouTube 챕터 (전체)
+week1/deep-dive-llms --all-chapters
+→ 입력: docs/week1/deep-dive-llms/*.md
+→ 출력: docs/week1/deep-dive-llms/kr/*.md (24개 파일)
+
+# 수동 계층 구조
 week1/prompt-engineering-guide/zeroshot
 → 입력: docs/week1/prompt-engineering-guide/zeroshot.md
 → 출력: docs/week1/prompt-engineering-guide/kr/zeroshot.md
@@ -383,6 +423,69 @@ QA 단계를 스킵합니다 (빠른 번역용).
 요약 단계를 스킵합니다.
 - YouTube 콘텐츠에서도 요약 생성을 건너뜀
 - 전체 번역만 포함된 기존 형식으로 저장
+
+### --all-chapters
+YouTube 디렉토리의 모든 챕터를 순차적으로 번역합니다.
+
+**사용 조건**:
+- `docs/week{N}/{slug}/` 디렉토리가 존재해야 함
+- 디렉토리 내에 챕터별 .md 파일이 있어야 함
+
+**동작**:
+1. 디렉토리 내 모든 .md 파일 목록 조회
+2. `_index.md` 제외
+3. 각 챕터 파일에 대해 순차적으로 번역 파이프라인 실행
+4. 결과를 `docs/week{N}/{slug}/kr/` 에 저장
+
+**워크플로우**:
+```
+/translate-reading week1/deep-dive-llms --all-chapters
+           │
+           ▼
+┌──────────────────────────────────────┐
+│ 1. 디렉토리 검색                      │
+│    docs/week1/deep-dive-llms/*.md    │
+│    → 24개 파일 발견 (_index.md 제외)  │
+└──────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────┐
+│ 2. 출력 디렉토리 생성                 │
+│    mkdir -p docs/week1/deep-dive-llms/kr/│
+└──────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────┐
+│ 3. 각 챕터 순차 번역                  │
+│    for each chapter in chapters:     │
+│      translate(chapter) → kr/chapter │
+│    (기존 번역 파이프라인 재사용)       │
+└──────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────┐
+│ 4. 완료 보고                          │
+│    ✓ 24개 챕터 번역 완료              │
+│    → docs/week1/deep-dive-llms/kr/   │
+└──────────────────────────────────────┘
+```
+
+**완료 메시지**:
+```
+✅ 전체 챕터 번역 완료!
+
+📁 출력 디렉토리: docs/week1/deep-dive-llms/kr/
+📊 번역된 챕터: 24개
+
+생성된 파일:
+  - kr/introduction.md
+  - kr/pretraining-data.md
+  - kr/tokenization.md
+  ... (21개 더)
+
+다음 단계:
+  /upload-reading week1/deep-dive-llms --all-chapters
+```
 
 ## Agent 파일
 
