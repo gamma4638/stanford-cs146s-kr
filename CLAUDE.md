@@ -238,10 +238,13 @@ content-analyzer → structure-planner → prompt-generator
 
 **위치**: `.claude/skills/split-youtube-chapters/`
 
-YouTube 콘텐츠의 챕터별 하위페이지 구조를 readings.ts에 생성합니다.
+YouTube 콘텐츠의 챕터별 하위페이지 구조를 readings.ts에 생성하고,
+전체 번역 파일에서 챕터별 번역 파일을 자동 생성합니다.
 
 ```bash
 /split-youtube-chapters week1/deep-dive-llms
+/split-youtube-chapters week1/deep-dive-llms --overwrite  # 기존 파일 덮어쓰기
+/split-youtube-chapters week1/deep-dive-llms --skip-files # readings.ts만 업데이트
 ```
 
 **동작**:
@@ -249,9 +252,16 @@ YouTube 콘텐츠의 챕터별 하위페이지 구조를 readings.ts에 생성�
 2. 챕터 제목 → slug 변환 (예: "Tokenization" → "tokenization")
 3. `readings.ts`에서 해당 Reading을 `isParent: true` + `children` 배열로 변환
 4. 각 챕터를 ChildReading으로 생성 (slug, title, titleKr, sourceUrl)
+5. `docs/week{N}/kr/{slug}.md`에서 챕터별 번역 추출
+6. 각 챕터별 번역 파일 생성: `docs/week{N}/{slug}/kr/{childSlug}.md`
 
-**입력**: `docs/week{N}/{slug}.md`
-**출력**: `readings.ts` 자동 수정 (isParent: true + children 배열)
+**입력**:
+- `docs/week{N}/{slug}.md` - 원본 (챕터 구조)
+- `docs/week{N}/kr/{slug}.md` - 전체 번역 파일 (선택)
+
+**출력**:
+- `readings.ts` 자동 수정 (isParent: true + children 배열)
+- `docs/week{N}/{slug}/kr/*.md` - 챕터별 번역 파일
 
 **URL 구조**: `/readings/week{N}/{parentSlug}/{childSlug}`
 예: `/readings/week1/deep-dive-llms/tokenization`
