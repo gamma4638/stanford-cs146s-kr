@@ -61,6 +61,48 @@ LLM의 불균일한 능력을 설명합니다.
 
 [2:07:00] greater um even though here it's actually trying to justify it and come up to the answer with a math it still ends up with the wrong answer here so it basically just doesn't fully make sense and it's not fully understood and um there's a few Jagged issues like that so that's why treat this as a as what it is which is a St stochastic system that is really magical but that you can't also fully trust and you want to use it as a tool not as something that you kind of like letter rip on a problem and copypaste the results okay so we have
 
+# Layout Structure (이 구조대로 배치해주세요)
+
+**IMPORTANT**: 첨부된 이미지는 스타일(손필기 느낌, 모눈종이 배경, 아이콘)만 참조하세요. 레이아웃은 아래 지정된 구조를 따라 새로 만들어주세요.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  🍌 NANO BANANA CHEAT SHEET: JAGGED INTELLIGENCE 🍌                  │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────┐    ┌─────────────────────────────────┐│
+│  │ 🧀 SWISS CHEESE MODEL   │    │ 🤯 PARADOX CASES                ││
+│  │                         │    │                                 ││
+│  │  LLM 능력의 구멍 모델     │    │  9.11 vs 9.9 실패               ││
+│  │  예상치 못한 한계 존재    │    │  Olympiad 문제는 성공!           ││
+│  │                         │    │                                 ││
+│  └─────────────────────────┘    └─────────────────────────────────┘│
+├─────────────────────────────────────────────────────────────────────┤
+│  ⚡ JAGGED vs UNIFORM INTELLIGENCE (이 섹션이 가장 넓어야 함!)       │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │                                                               │ │
+│  │  Diagram: 인간 = 점진적 능력곡선 vs LLM = 들쭉날쭉 능력곡선      │ │
+│  │  Bible verse 패턴 혼동 → 9.11 > 9.9 오류                       │ │
+│  │                                                               │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌──────────────────────────────┐ ┌────────────────────────────────┐│
+│  │ 🛠️ HOW TO HANDLE             │ │ 📌 KEY TAKEAWAYS               ││
+│  │                              │ │                                ││
+│  │  - 도구로 사용하기            │ │  Stochastic 시스템              ││
+│  │  - 결과 검증 필수             │ │  100% 신뢰 금지                 ││
+│  └──────────────────────────────┘ └────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## 배치 비율
+
+| 영역 | 비율 | 내용 | 배치 |
+|------|------|------|------|
+| 상단 | 10% | 타이틀 | 전체 너비 |
+| 중상단 | 25% | Swiss Cheese Model + Paradox Cases | **좌우 2등분** |
+| 중앙 | 40% | Jagged vs Uniform Intelligence 비교도 | **가장 넓게!** |
+| 하단 | 25% | How to Handle + Key Takeaways | **좌우 2등분** |
+
 # Output Style: "Nano Banana" Cheat Sheet
 Please adhere to the following formatting rules strictly:
 
