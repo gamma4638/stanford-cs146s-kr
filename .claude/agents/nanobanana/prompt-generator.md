@@ -73,7 +73,21 @@ translation_status: none
 - Tabular Data
 - Actionable Content
 
-### 4. Output Structure Plan
+**반드시 추가**:
+```markdown
+**IMPORTANT**: 첨부된 이미지는 스타일(손필기 느낌, 모눈종이 배경, 아이콘)만 참조하세요. 레이아웃은 아래 지정된 구조를 따라 새로 만들어주세요.
+```
+
+### 4. Layout Structure (필수!)
+반드시 ASCII 레이아웃 다이어그램 + 배치 비율 포함.
+템플릿의 "Layout Structure" 섹션 참조.
+
+핵심 요소:
+- ASCII 박스 다이어그램 (좌우 분할 명시)
+- 배치 비율 (상단 15%, 중앙 40%, 하단 20% 등)
+- "좌우 분할", "3등분", "가장 넓게" 등 가로 배치 지시
+
+### 5. Output Structure Plan
 structure-planner 결과를 기반으로 섹션별 계획 작성:
 ```markdown
 ## 1. [emoji] [섹션명]
@@ -130,6 +144,16 @@ Please generate the Cheat Sheet now.
 8. **언어 지침 추가**
    - 영어 유지 용어 목록 (emphasis.keyTermsEnglish)
    - 한국어 필기 지침
+
+9. **Layout Structure 작성 (필수!)**
+   - ASCII 박스 다이어그램으로 레이아웃 표현
+   - 배치 비율 명시 (%, 좌우 분할, 등분)
+   - 핵심 섹션을 "가장 넓게" 지정
+
+10. **이미지 생성 요청 추가 (필수!)**
+    - 프롬프트 끝에 "## 이미지 생성 요청" 섹션 추가
+    - **A4 가로 방향(Landscape)** 또는 **16:9 비율** 명시 (중요!)
+    - 세로(Portrait) 방향 사용 금지 명시
 
 ## 출력 예시
 
@@ -218,10 +242,34 @@ Please adhere to the following formatting rules strictly:
   - 미래 전망
 
 ---
+
+# Instructions
+
+1. **스타일**: 손필기 느낌, 모눈종이 배경, 아이콘 스타일을 따르세요.
+2. **레이아웃**: 위 ASCII 다이어그램 구조를 따라 배치하세요.
+3. **언어**: 용어는 영어(Codex, Ask Mode 등), 설명은 한국어.
+4. **핵심**: Engineering Use Case Matrix를 가장 넓고 눈에 띄게 배치하세요.
+
 Please generate the Cheat Sheet now.
 
-내가 말하는 cheat sheet는 보기 좋게 정리된, 실제 펜 노트필기 같은 이미지를 말하는거야.
-용어 및 고유명사는 영어 원문을 쓰되(Codex, Ask Mode, Code Mode, Best of N, AGENTS.md 등), 필기 내용은 한국어로 작성해.
+---
+
+## 이미지 생성 요청
+
+위의 구조와 내용을 바탕으로 **A4 가로 방향(Landscape) 치트시트 이미지**를 생성해주세요.
+
+**이미지 비율 및 방향 (중요!):**
+- **가로로 넓은 이미지**: A4 가로 방향(Landscape) 또는 16:9 비율
+- 모니터 화면에 꽉 차는 가로형 레이아웃
+- 세로(Portrait) 방향은 사용하지 마세요
+
+**이미지 스타일 요구사항:**
+- 보기 좋게 정리된 **실제 펜 노트필기** 같은 느낌
+- 용어 및 고유명사는 **영어 원문** 유지
+- 설명 및 필기 내용은 **한국어**로 작성
+- Mermaid 다이어그램은 **시각적 도식**으로 변환
+- 표는 깔끔한 **테이블 형식**으로 렌더링
+- **색상 강조**로 핵심 개념 구분
 ```
 
 ## 주의사항
@@ -230,3 +278,6 @@ Please generate the Cheat Sheet now.
 - Mermaid 다이어그램 노드는 구체적으로 명시
 - 표 컬럼과 예시 행을 명확히 제공
 - 언어 지침에서 영어 유지 용어를 명시적으로 나열
+- **Layout Structure 필수**: ASCII 레이아웃 다이어그램 + 배치 비율 반드시 포함
+- **가로 배치 필수**: "좌우 분할", "2등분", "3등분" 등 가로 배치 지시 포함
+- **이미지 생성 요청 필수**: 프롬프트 끝에 이미지 생성 요청 섹션 포함

@@ -84,3 +84,9 @@ flowchart LR
 - 용어 및 고유명사: 영어 원문 유지
 - 설명 및 필기 내용: 한국어로 작성
 - 예: "Codex를 사용한 Code Understanding", "Performance Optimization 기법"
+
+## 이미지 비율 지침 (중요!)
+
+- **A4 가로 방향(Landscape)** 또는 **16:9 비율**로 생성
+- 모니터 화면에 꽉 차는 가로형 레이아웃
+- 세로(Portrait) 방향 사용 금지
