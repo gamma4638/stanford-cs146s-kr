@@ -1919,4 +1919,196 @@ export const readings: Record<string, ReadingContent> = {
       },
     ],
   },
+  'week5/warp-vs-claude-code': {
+    slug: 'warp-vs-claude-code',
+    week: 5,
+    title: 'Warp vs Claude Code',
+    titleKr: 'Warp vs Claude Code',
+    author: 'Warp',
+    readTime: '약 2분',
+    sourceUrl: 'https://www.warp.dev/university/getting-started/warp-vs-claude-code',
+    sourceTitle: 'Warp University',
+    published: true,
+    sections: [
+      {
+        title: '개요',
+        content:
+          '이 페이지에서는 Claude Code CLI와 Warp의 내장 코딩 에이전트를 비교하는 영상을 제공합니다.',
+      },
+      {
+        title: '비교 항목',
+        content: '영상에서 다루는 비교 항목들입니다.',
+        items: [
+          '파일 작업 및 코드 관리',
+          '코드 diff 및 변경 사항 시각화',
+          '컨텍스트 수집 기능',
+          '모델 선택 옵션',
+          '설정 구성',
+        ],
+      },
+      {
+        title: '성능 비교',
+        content:
+          'Sentry 이슈 테스트에서 두 도구 모두 비슷한 완료 시간(2~4분)을 보였으며, 각각 근본적인 문제를 성공적으로 파악하고 해결했습니다.',
+      },
+      {
+        title: '주요 차이점',
+        content: '두 도구의 핵심적인 차별점입니다.',
+        items: [
+          'Claude Code 강점: 터미널 중심 워크플로우, 서브 에이전트 기능',
+          'Warp 장점: 내장 파일 트리, diff 편집 기능, GPT-5를 포함한 다중 모델 지원',
+        ],
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '두 도구 모두 실용적',
+        content: 'Sentry 이슈 테스트에서 2~4분 내 문제 해결 가능',
+      },
+      {
+        title: 'Claude Code',
+        content: '터미널 중심 워크플로우와 서브 에이전트에 강점',
+      },
+      {
+        title: 'Warp',
+        content: '시각적 UI와 다중 모델 지원에 강점',
+      },
+    ],
+  },
+  'week4/how-anthropic-uses-claude-code': {
+    slug: 'how-anthropic-uses-claude-code',
+    week: 4,
+    title: 'How Anthropic Teams Use Claude Code',
+    titleKr: 'Anthropic 팀이 Claude Code를 사용하는 방법',
+    author: 'Anthropic',
+    readTime: '약 20분',
+    sourceUrl: 'https://www-cdn.anthropic.com/58284b19e702b49db9302d5b6f135ad8871e7658.pdf',
+    sourceTitle: 'Anthropic PDF',
+    published: true,
+    contentType: 'pdf',
+    sections: [
+      {
+        title: '개요',
+        content:
+          'Anthropic 내부 팀들이 Claude Code로 업무 방식을 혁신하는 방법을 소개합니다. 개발자와 비기술 직원 모두 복잡한 프로젝트를 수행하고, 작업을 자동화하며, 기술 격차를 해소할 수 있게 되었습니다.',
+      },
+      {
+        title: '다루는 팀',
+        content: '10개 팀의 Claude Code 활용 사례를 다룹니다.',
+        items: [
+          '데이터 인프라 팀',
+          '제품 개발 팀',
+          '보안 엔지니어링 팀',
+          '추론(Inference) 팀',
+          '데이터 사이언스 및 시각화 팀',
+          'API 팀',
+          '그로스 마케팅 팀',
+          '제품 디자인 팀',
+          'RL 엔지니어링 팀',
+          '법무 팀',
+        ],
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '상세한 Claude.md 작성',
+        content: '워크플로우, 도구, 기대사항을 잘 문서화할수록 Claude Code의 성능이 향상됩니다.',
+      },
+      {
+        title: '자동 수락 모드 활용',
+        content: '빠른 프로토타이핑에는 자동 수락 모드를 사용하고, 핵심 기능에는 동기식 코딩을 권장합니다.',
+      },
+      {
+        title: '비기술 직원도 활용 가능',
+        content: '코딩 경험이 없는 재무, 법무팀도 Claude Code를 활용하여 업무 효율을 높이고 있습니다.',
+      },
+    ],
+  },
+  'week4/claude-code-best-practices': {
+    slug: 'claude-code-best-practices',
+    week: 4,
+    title: 'Claude Code: Best Practices for Agentic Coding',
+    titleKr: 'Claude Code: 에이전틱 코딩 모범 사례',
+    author: 'Anthropic',
+    readTime: '약 10분',
+    sourceUrl: 'https://www.anthropic.com/engineering/claude-code-best-practices',
+    sourceTitle: 'Anthropic Engineering Blog',
+    published: true,
+    sections: [
+      {
+        title: '개요',
+        content:
+          'Claude Code를 다양한 프로젝트와 환경에서 활용하는 검증된 기법을 다루는 종합 가이드입니다.',
+      },
+      {
+        title: '주요 내용',
+        content: '6가지 핵심 주제를 다룹니다.',
+        items: [
+          '설정 커스터마이징 (CLAUDE.md, 도구 권한)',
+          '도구 접근 확장 (Bash, MCP 서버, 슬래시 명령어)',
+          '일반적인 워크플로우 (탐색-계획-코딩-커밋, TDD, 시각적 반복)',
+          '최적화 기법 (구체성, 시각적 커뮤니케이션, 체크리스트)',
+          '헤드리스 모드 자동화 (CI/CD, 팬아웃, 파이프라이닝)',
+          '멀티 Claude 워크플로우 (관심사 분리, Git 워크트리)',
+        ],
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: 'CLAUDE.md 파일 활용',
+        content: 'Claude가 자동으로 컨텍스트에 포함하는 설정 파일을 작성하세요.',
+      },
+      {
+        title: '구체적인 지침이 핵심',
+        content: '상세한 지침은 첫 시도 성공률을 크게 향상시킵니다.',
+      },
+      {
+        title: '커뮤니티 검증 패턴',
+        content: '이 패턴들은 엄격한 요구사항이 아닌 커뮤니티에서 검증된 접근 방식입니다.',
+      },
+    ],
+  },
+  'week4/good-context-good-code': {
+    slug: 'good-context-good-code',
+    week: 4,
+    title: 'Good Context Leads to Good Code',
+    titleKr: '좋은 컨텍스트가 좋은 코드를 만든다',
+    author: 'Justin M Berman',
+    readTime: '약 9분',
+    sourceUrl: 'https://blog.stockapp.com/good-context-good-code/',
+    sourceTitle: 'StockApp Engineering Blog',
+    published: true,
+    sections: [
+      {
+        title: '개요',
+        content:
+          'StockApp이 AI 협업을 중심으로 개발 프로세스를 설계하여 수동 개발 대비 약 2.5배의 생산성 향상을 달성한 방법을 소개합니다.',
+      },
+      {
+        title: '다섯 가지 핵심 원칙',
+        content: 'AI 네이티브 엔지니어링 문화의 핵심 원칙입니다.',
+        items: [
+          '공유 작업 공간으로서의 모노레포',
+          '점진적 컨텍스트를 활용한 계층적 개발',
+          '에이전트의 전면적 활용',
+          'MCP 서버와 커맨드라인 통합',
+          '앙상블 접근법이 개별 에이전트를 능가',
+        ],
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '컨텍스트가 핵심',
+        content: '인간과 AI 에이전트가 체계적으로 컨텍스트를 구축하고 공유할 때 우수한 소프트웨어가 탄생합니다.',
+      },
+      {
+        title: '생산성 지표',
+        content: '개발자당 주간 10.6개 PR 달성 (업계 표준 약 1개 대비).',
+      },
+      {
+        title: '더 많은 전문성 필요',
+        content: 'AI 네이티브 개발은 더 적은 것이 아니라 더 많은 엔지니어링 전문성을 요구합니다.',
+      },
+    ],
+  },
 }

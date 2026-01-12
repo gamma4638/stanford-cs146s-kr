@@ -205,10 +205,14 @@ export const syllabus: Week[] = [
       {
         title: 'How Anthropic Uses Claude Code',
         url: 'https://www-cdn.anthropic.com/58284b19e702b49db9302d5b6f135ad8871e7658.pdf',
+        krSlug: 'how-anthropic-uses-claude-code',
+        translationStatus: 'complete',
       },
       {
         title: 'Claude Best Practices',
         url: 'https://www.anthropic.com/engineering/claude-code-best-practices',
+        krSlug: 'claude-code-best-practices',
+        translationStatus: 'complete',
       },
       {
         title: 'Awesome Claude Agents',
@@ -221,6 +225,8 @@ export const syllabus: Week[] = [
       {
         title: 'Good Context Good Code',
         url: 'https://blog.stockapp.com/good-context-good-code/',
+        krSlug: 'good-context-good-code',
+        translationStatus: 'complete',
       },
       {
         title: 'Peeking Under the Hood of Claude Code',
@@ -269,6 +275,8 @@ export const syllabus: Week[] = [
       {
         title: 'Warp vs Claude Code',
         url: 'https://www.warp.dev/university/getting-started/warp-vs-claude-code',
+        krSlug: 'warp-vs-claude-code',
+        translationStatus: 'complete',
       },
       {
         title: 'How Warp Uses Warp to Build Warp',
