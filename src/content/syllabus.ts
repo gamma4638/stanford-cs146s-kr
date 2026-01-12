@@ -336,10 +336,14 @@ export const syllabus: Week[] = [
       {
         title: 'SAST vs DAST',
         url: 'https://www.splunk.com/en_us/blog/learn/sast-vs-dast.html',
+        krSlug: 'sast-vs-dast',
+        translationStatus: 'complete',
       },
       {
         title: 'Copilot Remote Code Execution via Prompt Injection',
         url: 'https://embracethered.com/blog/posts/2025/github-copilot-remote-code-execution-via-prompt-injection/',
+        krSlug: 'copilot-rce-prompt-injection',
+        translationStatus: 'complete',
       },
       {
         title: 'Finding Vulnerabilities in Modern Web Apps Using Claude Code and OpenAI Codex',
@@ -350,6 +354,8 @@ export const syllabus: Week[] = [
       {
         title: 'Agentic AI Threats: Identity Spoofing and Impersonation Risks',
         url: 'https://unit42.paloaltonetworks.com/agentic-ai-threats/#:~:text=Identity%20spoofing%20and%20impersonation:%20Attackers,accurate%20information%20exchange%20are%20critical.',
+        krSlug: 'agentic-ai-threats',
+        translationStatus: 'complete',
       },
       {
         title: 'OWASP Top Ten: The Leading Web Application Security Risks',
@@ -402,14 +408,20 @@ export const syllabus: Week[] = [
       {
         title: 'Code Reviews: Just Do It',
         url: 'https://blog.codinghorror.com/code-reviews-just-do-it/',
+        krSlug: 'code-reviews-just-do-it',
+        translationStatus: 'complete',
       },
       {
         title: 'How to Review Code Effectively',
         url: 'https://github.blog/developer-skills/github/how-to-review-code-effectively-a-github-staff-engineers-philosophy/',
+        krSlug: 'how-to-review-code-effectively',
+        translationStatus: 'complete',
       },
       {
         title: 'AI-Assisted Assessment of Coding Practices in Modern Code Review',
         url: 'https://arxiv.org/pdf/2405.13565',
+        krSlug: 'ai-assisted-assessment-coding-practices',
+        translationStatus: 'complete',
       },
       {
         title: 'AI Code Review Implementation Best Practices',
@@ -418,6 +430,8 @@ export const syllabus: Week[] = [
       {
         title: 'Code Review Essentials for Software Teams',
         url: 'https://blakesmith.me/2015/02/09/code-review-essentials-for-software-teams.html',
+        krSlug: 'code-review-essentials',
+        translationStatus: 'complete',
       },
       {
         title: 'Lessons from millions of AI code reviews',
