@@ -2677,7 +2677,7 @@ export const readings: Record<string, ReadingContent> = {
     readTime: '약 9분',
     sourceUrl: 'https://blog.ravi-mehta.com/p/specs-are-the-new-source-code',
     sourceTitle: 'Ravi Mehta Blog',
-    published: false,
+    published: true,
     sections: [
       {
         title: '서론',
@@ -2750,6 +2750,183 @@ export const readings: Record<string, ReadingContent> = {
         title: '미래의 프로그래머',
         content:
           '미래의 가장 가치 있는 프로그래머는 가장 효과적으로 소통하는 사람',
+      },
+    ],
+  },
+  'week6/finding-vulnerabilities-claude-code-codex': {
+    slug: 'finding-vulnerabilities-claude-code-codex',
+    week: 6,
+    title: 'Finding Vulnerabilities in Modern Web Apps Using Claude Code and OpenAI Codex',
+    titleKr: 'Claude Code와 OpenAI Codex를 활용한 최신 웹 앱 취약점 탐지',
+    author: 'Semgrep',
+    readTime: '약 11분',
+    sourceUrl: 'https://semgrep.dev/blog/2025/finding-vulnerabilities-in-modern-web-apps-using-claude-code-and-openai-codex/',
+    sourceTitle: 'Semgrep Blog',
+    published: false,
+    sections: [
+      {
+        title: 'TL;DR',
+        content:
+          'Semgrep 보안 연구팀이 AI 코딩 에이전트의 실제 코드 취약점 발견 효과를 평가했습니다.',
+        items: [
+          'Claude Code: 46개 취약점 식별 (참양성률 14%, 거짓양성률 86%)',
+          'OpenAI Codex: 21개 취약점 보고 (TPR 18%, FPR 82%)',
+          '약 20개가 고심각도 이슈',
+          '취약점 유형에 따라 결과 차이가 큼',
+          '비결정성이 여전히 핵심 문제',
+        ],
+      },
+      {
+        title: '서론',
+        content:
+          'Semgrep 연구원들이 "LLM이 소스 코드에서 취약점을 찾는 데 실제로 얼마나 효과적인가?"라는 질문에 답하기 위해 체계적인 평가를 수행했습니다. 구체적이고 측정 가능한 질문들을 중심으로 조사를 진행했습니다: 취약점 유형별 거짓양성률과 거짓음성률은? 프로그래밍 언어, 프레임워크, 코드베이스 크기에 따른 결과 차이는? 거짓양성과 거짓음성의 원인은? 반복 실행 시 분석 결과의 결정성은? 인젝션 취약점에 대해서는 LLM이 소스부터 싱크까지 사용자 입력을 추적할 수 있는가, 함수와 파일 간 데이터를 추적할 수 있는가, 새니타이제이션 함수와 보안 제어를 이해하는가, 서드파티 의존성을 추론할 수 있는가를 평가했습니다.',
+      },
+      {
+        title: '기존 SAST 벤치마크의 문제점: 현실성 부족',
+        content:
+          '현재 연구는 실제 복잡성을 포착하지 못하는 벤치마크에 크게 의존합니다. 알려진 취약점이 있는 앱은 "현재 LLM들이 이러한 저장소의 코드와 인터넷의 많은 공개 문서를 학습 데이터로 이미 흡수했을 가능성이 높아" 오염 편향이 발생합니다. XBOW는 "코드가 너무 인위적이고 단순해서 실제 애플리케이션을 대표하지 못합니다." Semgrep의 방법론은 11개의 대규모, 활발히 유지되는 Python 기반 오픈소스 프로젝트를 테스트하며, Django, Flask, FastAPI 같은 일반적인 웹 프레임워크를 사용합니다.',
+      },
+      {
+        title: '실험: AI vs. 실제 앱 코드',
+        content:
+          '연구원들이 11개 애플리케이션을 분석하고 445개 이상의 발견 사항을 수동 분류했으며, 가능한 경우 동적으로 검증했습니다. Claude Code(v1.0.32, Sonnet 4)는 인증 우회 10%, IDOR 22%, 경로 탐색 13%, SQL 인젝션 5%, SSRF 12%, XSS 16%의 참양성률을 보였습니다. OpenAI Codex(v0.2.0, o4-mini)는 인증 우회 13%, IDOR 0%, 경로 탐색 47%, SQL 인젝션 0%, SSRF 34%, XSS 0%의 참양성률을 보였습니다.',
+      },
+      {
+        title: '주요 발견 사항',
+        content:
+          '두 AI 도구 모두 실제 취약점을 찾지만 노이즈가 높습니다. IDOR 탐지에서 Claude Code가 13개의 유효한 IDOR 버그를 찾고 신뢰할 수 있는 수정안을 제시했습니다. Claude Code는 잠재적 가드레일 도구로 활용할 수 있으며, 많은 거짓양성이 여전히 유효한 코드 강화 제안이었습니다. XSS와 SQL 인젝션이 의미적 한계를 드러내며, 모델이 "서버 측 프레임워크에서 클라이언트 측 컴포넌트로의 데이터 추적에 어려움을 겪습니다." 동일한 프롬프트 반복으로 다른 결과가 나왔으며, OpenAI Codex가 유효하지 않은 SARIF를 생성했습니다.',
+      },
+      {
+        title: '비결정성 문제',
+        content:
+          '3개 애플리케이션에서 동일한 코드에 동일한 프롬프트로 3회 테스트한 결과 상당한 변동성이 나타났습니다. PY-APP-007에서는 실행마다 완전히 다른 발견 사항이 나왔고, PY-APP-002에서는 발견 사항이 1회차 3개에서 2회차 6개, 3회차 11개로 증가했습니다. 근본 원인은 컨텍스트 부패(자체 컨텍스트에서 정확하게 검색하기 어려움)와 손실 압축(요약 과정에서 함수명, 경로, 추론 세부 사항 손실)입니다.',
+      },
+      {
+        title: 'Claude Code의 /security-review 명령어',
+        content:
+          'PR 보안 검토용 Anthropic의 새 /security-review 명령어는 테스트에서 기대에 미치지 못했습니다. "전체 코드베이스에 이 명령어를 실행했을 때 식별된 보안 이슈가 상당히 제한적이었습니다." 3개 앱 테스트 결과 "모든 앱 통틀어 XSS 하나만" 발견되었으며, 특정 취약점 유형별로 개별 프롬프트했을 때보다 훨씬 적었습니다.',
+      },
+      {
+        title: '스캐폴딩과 에이전틱 워크플로우',
+        content:
+          '"AI 보안 검토의 미래는 단일 모놀리식 모델이 아니라 도구를 사용하고, 증거에 대해 추론하며, 협력하는 AI 에이전트 시스템입니다." 연구원들이 "복잡한 프로세스를 진행하고 보안 이슈를 보고하는 과정에서 교육적 결정을 내리는 시스템 능력에서 큰 차이"를 관찰했습니다.',
+      },
+      {
+        title: '결론',
+        content:
+          '"LLM은 내일 당장 인간 보안 엔지니어를 대체할 만병통치약이 아닙니다. 실제로 종단 간 고심각도 인젝션 스타일 취약점을 찾는 데는 상당히 약합니다." 그러나 LLM의 강점(문맥적 추론)과 약점(깊은 코드 의미론 이해 부족)을 이해하면 "고급 정적 분석 엔진으로 정교한 에이전틱 시스템을 구축"하여 "이전 어떤 것보다 훨씬 강력한 차세대 보안 도구"를 만들 수 있습니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '체계적 평가',
+        content:
+          'Semgrep이 Claude Code와 OpenAI Codex의 실제 취약점 탐지 능력을 11개 대규모 Python 프로젝트에서 체계적으로 평가',
+      },
+      {
+        title: '탐지 결과',
+        content:
+          'Claude Code는 46개(TPR 14%), Codex는 21개(TPR 18%) 취약점 발견',
+      },
+      {
+        title: '취약점별 성능 차이',
+        content:
+          'IDOR, SSRF, 경로 탐색에서 상대적으로 양호한 성능, SQL 인젝션과 XSS에서 저조',
+      },
+      {
+        title: '비결정성 문제',
+        content:
+          '같은 코드, 같은 프롬프트로도 실행마다 다른 결과가 나타남',
+      },
+      {
+        title: 'AI의 역할',
+        content:
+          'LLM은 보안 도구를 대체하기보다 보완하는 역할로, 에이전틱 시스템과 결합 시 강력',
+      },
+    ],
+  },
+  'week6/copilot-rce-prompt-injection': {
+    slug: 'copilot-rce-prompt-injection',
+    week: 6,
+    title: 'GitHub Copilot: Remote Code Execution via Prompt Injection (CVE-2025-53773)',
+    titleKr: 'GitHub Copilot: 프롬프트 인젝션을 통한 원격 코드 실행 (CVE-2025-53773)',
+    author: 'Embrace The Red',
+    readTime: '약 8분',
+    sourceUrl: 'https://embracethered.com/blog/posts/2025/github-copilot-remote-code-execution-via-prompt-injection/',
+    sourceTitle: 'Embrace The Red Blog',
+    published: false,
+    sections: [
+      {
+        title: '개요',
+        content:
+          '이 글은 GitHub Copilot과 VS Code의 치명적인 프롬프트 인젝션 취약점을 다룹니다. 공격자는 이 취약점으로 시스템 전체를 장악할 수 있습니다. 공격 방식은 프로젝트 설정 파일을 수정해 "YOLO 모드"라는 실험적 기능을 활성화하는 것입니다.',
+      },
+      {
+        title: '배경 연구',
+        content:
+          'VS Code와 GitHub Copilot 에이전트 모드를 조사하는 과정에서 우려되는 동작이 드러났습니다. 에이전트가 사용자의 명시적 승인 없이도 워크스페이스 파일을 생성하고 수정할 수 있습니다. "편집 내용은 즉시 영구 적용됩니다. 검토용 diff로 메모리에 남는 게 아니라 수정 사항이 곧바로 디스크에 기록됩니다." VS Code의 워크스페이스 의존적 설정을 연구하던 중 실험적 기능을 발견했습니다. `.vscode/settings.json`에 `"chat.tools.autoApprove": true`를 추가하면 셸 명령, 웹 브라우징 등 모든 작업에서 사용자 확인을 건너뜁니다. 특히 이 실험적 기능은 Windows, macOS, Linux 모두에 기본으로 존재합니다.',
+      },
+      {
+        title: '익스플로잇 체인 설명',
+        content:
+          'PoC(개념 증명) 공격 순서는 다음과 같습니다: 1) 소스 코드, 웹 페이지, GitHub 이슈 또는 도구 응답에 프롬프트 인젝션 삽입, 2) 인젝션이 `~/.vscode/settings.json`을 수정해 `"chat.tools.autoApprove": true` 추가, 3) GitHub Copilot이 즉시 YOLO 모드 진입, 4) 터미널 명령 실행, 특정 운영체제를 노리는 조건부 인젝션 수행, 5) 원격 코드 실행(RCE) 달성. 데모에서는 프롬프트 인젝션이 이 메커니즘으로 Windows와 macOS에서 계산기를 실행하는 모습을 보여줍니다.',
+      },
+      {
+        title: '확장 공격 벡터',
+        content:
+          '개발자 머신을 완전히 장악하면 다음이 가능합니다: 머신을 "ZombAI" 인스턴스로 봇넷에 참여시키기, UI 수정 (색 구성표 변경 등), 감염된 파일로 전파되는 AI 바이러스 생성, 악성코드 다운로드 및 C&C 서버 연결. 이 취약점으로 자기 전파형 악성코드를 만들 수 있습니다: 파일에 악성 명령어 삽입, 코드 실행으로 다른 Git 프로젝트 침해, RAG 소스 수정 및 업스트림에 변경 사항 커밋, 개발자가 모르는 사이에 감염된 코드 전파. 보이지 않는 유니코드 문자로 공격자는 탐지 불가능한 페이로드를 삽입할 수 있습니다. "이 방법의 신뢰성은 높지 않았지만" 데모에서 여러 번 성공적으로 실행됐습니다.',
+      },
+      {
+        title: '추가 공격 경로',
+        content:
+          'YOLO 모드 외에도 문제가 될 수 있는 설정 파일들이 있습니다: `.vscode/tasks.json`, 가짜 MCP 서버 구성, 사용자 인터페이스 및 프로젝트 설정 재구성. 저자는 특히 다음을 우려합니다: "최근에 개발자들이 여러 에이전트를 사용하는 경우가 많다는 것을 알게 됐는데, 다른 에이전트 설정 파일을 덮어쓰는 위협도 존재합니다."',
+      },
+      {
+        title: '권장 사항',
+        content:
+          'AI 에이전트는 파일 수정 전 반드시 사람의 승인을 받아야 합니다. 많은 편집기는 적용 전 개발자가 diff를 검토할 수 있게 하는데, 이 시나리오에는 그런 보호 장치가 없습니다.',
+      },
+      {
+        title: '책임 있는 공개 일정',
+        content:
+          '2025년 6월 29일 Microsoft에 취약점 보고 후, Microsoft가 재현 가능성 확인하고 세부 사항을 요청했습니다. 몇 주 후 MSRC가 추적 중인 이슈로 식별하고 8월 패치 계획을 알렸으며, 8월 패치 화요일에 수정 패치가 릴리스되었습니다.',
+      },
+      {
+        title: '결론',
+        content:
+          '이 사례는 에이전틱 AI 시스템이 자체 구성 수정으로 의도된 제약을 벗어날 수 있음을 보여줍니다. "GitHub Copilot은 자신의 환경을 수정해 권한을 상승시키고 코드를 실행하여 개발자의 머신을 침해할 수 있습니다." 이 취약점은 위협 모델링 단계에서 식별했어야 할 일반적인 설계 결함을 나타냅니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: 'RCE 취약점 발견',
+        content:
+          'GitHub Copilot과 VS Code에서 프롬프트 인젝션을 통한 원격 코드 실행(RCE) 취약점 발견',
+      },
+      {
+        title: 'YOLO 모드 악용',
+        content:
+          'YOLO 모드(`chat.tools.autoApprove: true`) 악용으로 모든 사용자 확인 우회',
+      },
+      {
+        title: '다양한 공격 벡터',
+        content:
+          '공격자는 소스 코드, 웹 페이지, GitHub 이슈 등에 악성 프롬프트를 삽입해 시스템 장악 가능',
+      },
+      {
+        title: '확장 공격 가능',
+        content:
+          'ZombAI 봇넷 참여, AI 바이러스 전파, 보이지 않는 유니코드 공격 등 확장 공격 가능',
+      },
+      {
+        title: '패치 릴리스',
+        content:
+          '2025년 8월 패치 화요일에 Microsoft가 수정 패치 릴리스',
+      },
+      {
+        title: '사용자 승인 필수',
+        content:
+          'AI 에이전트는 파일 수정 전 반드시 사용자 승인을 받아야 함',
       },
     ],
   },

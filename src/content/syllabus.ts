@@ -344,6 +344,8 @@ export const syllabus: Week[] = [
       {
         title: 'Finding Vulnerabilities in Modern Web Apps Using Claude Code and OpenAI Codex',
         url: 'https://semgrep.dev/blog/2025/finding-vulnerabilities-in-modern-web-apps-using-claude-code-and-openai-codex/',
+        krSlug: 'finding-vulnerabilities-claude-code-codex',
+        translationStatus: 'complete',
       },
       {
         title: 'Agentic AI Threats: Identity Spoofing and Impersonation Risks',
