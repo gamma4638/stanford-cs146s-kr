@@ -3,7 +3,7 @@ title: "Devin: Coding Agents 101"
 source_url: "https://devin.ai/agents101"
 source_type: web
 author: "Cognition (Devin)"
-fetch_date: "2026-01-12"
+fetch_date: "2026-01-13"
 translation_status: none
 ---
 
@@ -11,137 +11,181 @@ translation_status: none
 
 [원본 링크](https://devin.ai/agents101)
 
-## Introduction
+The guide opens by noting that "Coding agents aren't magic, but they're about the closest thing we have." Written by the Cognition Team in June 2025, it's a 15-minute read offering product-agnostic, tactical, and technical advice for engineers adopting autonomous agents.
 
-The guide presents itself as "product-agnostic," "tactical," and "technical" in nature, aimed at engineers seeking to work effectively with coding agents in 2025. It draws lessons from customer experiences and the Cognition team's own work developing Devin.
+The document explains that developer tooling has evolved from autocomplete (10 years ago) through copilots (4 years ago) and generative chatbots (2 years ago) to today's autonomous agents capable of handling tasks "from initial descriptions to final pull requests with little human intervention."
 
-## Getting Started: Prompting Basics
+## Prompting Basics
 
-### Say _how_ you want things done, not just what
+### Say *How* You Want Things Done, Not Just What
 
-Rather than generic requests, provide detailed methodology. As the guide explains, treat the agent "as a junior coding partner whose decision-making can be unreliable."
+The guidance recommends treating agents like junior coding partners with unreliable decision-making. For complex tasks, outline your preferred approach upfront. This improves success rates and reduces review time since you'll already understand the intended method.
 
-**Example:** Instead of requesting unit tests generally, specify functionality to test, identify edge cases, and clarify mocking requirements.
+**Example provided:** Rather than requesting "add unit tests," specify which functionality needs testing, identify important edge cases, and clarify mocking requirements.
 
-### Tell the agent where to start
+### Tell the Agent Where to Start
 
-Indicate the repository, relevant documentation, and key components involved. This minimizes wasted effort.
+Consider where you'd personally begin. Even without specific file names, mention the repository, relevant documentation, and key components involved to minimize wasted effort.
 
-**Example:** "Look at the latest docs [here] and create a new implementation file in the model groups directory."
+**Example:** "Please add support for Google models to our code. You should look at the latest docs [here] and create a new implementation file in the model groups directory."
 
-### Practice defensive prompting
+### Practice Defensive Prompting
 
-Anticipate confusion points as you would with a new intern and proactively clarify instructions.
+Anticipate confusion points as though explaining to a new intern, then clarify proactively to avoid ambiguity.
 
-**Example:** "Be careful, you will probably need to recompile the bindings each time you change the code before you test."
+**Example:** "Please fix the C++ bindings for our search module to pass the new unit tests. Be careful, you will probably need to recompile the bindings each time you change the code before you test."
 
-### Give access to CI, tests, types, and linters
+### Give Access to CI, Tests, Types, and Linters
 
-Strong feedback loops through testing tools and type checkers enhance agent performance. The guide notes the team transitioned "from mostly untyped Python SDKs to exclusively typed SDKs."
+Agents improve dramatically with strong feedback loops. Use type checkers, linters, and unit tests. Prefer typed Python over untyped Python, TypeScript over JavaScript. Teach agents how to run common checks and provide necessary access.
 
-### Leverage your expertise
+### Leverage Your Expertise
 
-Human oversight remains essential—"ultimately, you hold responsibility for the final correctness of the code."
+Human oversight remains essential—you hold responsibility for code correctness. "Ownership and verification will continue to be critical responsibilities for human engineers, even as these tools become increasingly sophisticated."
 
 ## Using Agents in Your Workflow
 
-### Take on new tasks immediately
+### Take On New Tasks Immediately
 
-Delegate quick investigations or changes to keep focused on primary work. Many teams "simply tag @Devin on Slack when discussing bug fixes or minor feature updates."
+Instead of letting requests interrupt your focus, delegate to an autonomous agent to investigate or implement changes, freeing you to concentrate on primary work.
 
-### Code on the go
+**Example:** Teams tag @Devin on Slack when discussing bug fixes or minor updates.
 
-Mobile access enables addressing urgent issues during travel or commutes.
+### Code On the Go
 
-### Hand off your chores
+Mobile access through Slack apps or dedicated applications allows addressing urgent issues while commuting or traveling.
 
-Delegate repetitive tasks like bisecting commits or updating documentation.
+### Hand Off Your Chores
 
-### Skip the analysis paralysis
+Delegate repetitive tasks like bisecting commits or updating documentation, preserving time for creative work.
 
-Have agents implement multiple architectural approaches to enable concrete comparison.
+**Example:** Engineers ship changes, then have agents update relevant documentation and user-facing copy.
 
-### Set up preview deployments
+### Skip the Analysis Paralysis
 
-Configure CI/CD pipelines to automatically create preview deployments with each PR.
+When deciding between architectural approaches, have the agent implement multiple options. Concrete examples enable straightforward decision-making without hurt feelings over rejected solutions.
 
-## Intermediate: Delegating Larger Tickets
+**Example:** When choosing between text editor libraries, agents implemented both options to compare outcomes.
 
-### Automate your first drafts
+### Set Up Preview Deployments
 
-For substantial tasks, agents can create initial PR drafts. The guide provides an analogy: "Autonomous agents get started on tasks based on initial plans and creating first draft solutions."
+Configure CI/CD pipelines to automatically create preview deployments with each PR, providing instant live URLs particularly useful for frontend tasks.
 
-A realistic expectation is "around 80% time savings, not complete automation."
+## Delegating Larger Tickets
+
+This section addresses medium-to-large tasks (typically 1-6 hours of work) where autonomous agents provide highest ROI by reclaiming hours rather than minutes.
+
+### Automate Your First Drafts
+
+For substantial tasks, use agents to create initial PR drafts. Success depends on clearly communicating your desired approach upfront, functioning as an architect guiding junior developers.
+
+The guide presents an analogy across domains:
+- **Journalism:** Journalist collects information and writes first draft; editor reviews, fact-checks, and finalizes
+- **Restaurant:** Line cooks prep ingredients and make preliminary dishes; sous chef seasons and adjusts
+- **Coding:** Autonomous agents start tasks based on initial plans and create draft solutions; human developers review, provide feedback, and add refinements
+
+The realistic expectation is approximately 80% time savings, not complete automation, with human expertise remaining vital for verification and final quality assurance.
 
 ### Co-develop a PRD
 
-For complex or vaguely defined tasks, collaborate with agents on detailed planning. Agents can explore discovery questions like "How does our authentication system function?"
+For complex or vaguely defined tasks, collaborate with agents to create detailed plans. Start by prompting agents to explore discovery questions like "How does our authentication system function?" or "Which services might be impacted?"
 
-### Set checkpoints
+Certain agents offer dedicated planning modes focusing on reading and exploring existing code. Specialized codebase search tools can quickly provide insights.
 
-For multi-part tasks, establish clear pauses: "Plan → Implement chunk → Test → Fix → Checkpoint review → Next chunk."
+### Set Checkpoints
 
-### Teach it to verify its own work
+For multi-part tasks across multiple codebases, establish clear checkpoints:
+Plan → Implement chunk → Test → Fix → Checkpoint review → Next chunk
 
-Articulate testing processes so agents can independently verify future tasks.
+Request explicit pauses after significant phases, particularly for complex features spanning multiple layers (database, backend, frontend).
 
-### Increase test coverage in AI hot spots
+**Example:** "I want you to implement this feature spanning our database, backend, and multiple frontend interfaces. Please first plan out the database schema changes needed, and let me know when that is done so I can apply the migration..." followed by sequential requests for backend changes and frontend implementation.
 
-Strengthen tests in heavily modified areas before delegating critical translations or refactors.
+### Teach It to Verify Its Own Work
 
-## Advanced: Automating Workflows
+When providing feedback, articulate your testing process to enable the agent to independently verify future tasks. Integrate frequently-repeated testing patterns into the agent's permanent knowledge base.
 
-### Create Shortcuts for Repetitive Work
+### Increase Test Coverage in AI Hot Spots
 
-Common automation candidates include feature flag removal, dependency upgrades, and test creation on feature PRs.
+Since agents aren't fully capable of interactively testing all scenarios thoroughly, enhance test coverage in heavily modified areas to ensure greater confidence.
+
+**Example:** A team strengthened unit tests in critical sections before having AI translate implementation from Python to C.
+
+## Automating Workflows
+
+### Create Shortcuts for Most Repetitive Work
+
+Engineering teams encounter routine tasks perfect for automation:
+- Feature flag removal
+- Dependency upgrades
+- Fixing and adding tests on new feature PRs
+
+An experienced engineer creates robust, reusable prompt templates that run repeatedly for these scenarios.
+
+**Example:** One customer automatically triggers three agents dedicated to writing unit tests whenever new features are developed.
 
 ### Intelligent Code Review & Enforcement
 
-Agents can check for common mistakes more accurately than classical lint rules in some cases.
+Autonomous agents can deliver more accurate insights than specialized tools, particularly when they've indexed repository functionality.
 
-### Hook into incidents and alerts
+**Example:** The Cognition team maintains a list of common engineer mistakes committed to the codebase, then runs agents on every PR to check for these issues.
 
-Agents can trigger automatically via API or CLI integration. However, the guide cautions that "AI's debugging skills are not that great" for production issues—flag suspicious errors rather than attempting end-to-end fixes.
+### Hook Into Incidents and Alerts
+
+Set up agents to trigger automatically in response to specific events through accessible APIs or CLI commands, especially alongside MCPs for ingesting third-party error logs.
+
+**Important note:** AI debugging skills for production services remain limited. Rather than asking AI to fix bugs end-to-end, ask it to flag the most suspicious errors and changes.
 
 ## Customization & Improving Performance
 
 ### Environment Setup
 
-Align agent environments exactly with team configurations, including language versions, dependencies, and pre-configured authentications.
+Align the agent's setup exactly with your team's, including language versions, package dependencies, and automated checks. Pre-commit should be installed, and environment configurations (secrets, language versions, virtual environments, browser logins) should be sourced automatically.
+
+**Example:** Pre-authenticate browser logins to remove manual authentication hassle during testing.
 
 ### Build Custom CLI Tools and MCPs
 
-Create scripts for recurring workflows like pulling Linear ticket information or restarting development environments.
+MCPs are quick to set up and experiment with for connecting agents to external tools. However, simple CLI scripts are often overlooked. Consider scripts that pull Linear ticket information or perform reliable workflow parts like restarting development environments.
 
-### Add to your agent's knowledge base
+**Example:** A customer created a CLI tool surfacing only the first failing test, prompting the agent to focus with detailed error information, resulting in higher success and faster completion rates.
 
-Codify feedback about framework-specific patterns, project architecture, testing conventions, and recommended tools.
+### Add to Your Agent's Knowledge Base
+
+When agents make common mistakes, codify feedback in their knowledge base. Don't just provide framework guidelines—include overall project architecture, testing approaches for different task types, important commands, and tool recommendations.
+
+**Example:** Providing detailed procedures for adding new service routes, including every boilerplate location in frontend and backend, enables easy delegation.
 
 ## Practical Considerations
 
 ### Limitations of Autonomous Agents
 
-**Limited debugging skills:** Request probable root causes rather than expecting complete fixes.
+**Limited Debugging Skills:** Many bugs require database and log access plus debugging expertise beyond current AI agents. Request probable root causes lists rather than complete debugging. Once the cause is known, agents effectively implement fixes.
 
-**Poor fine-grained visual reasoning:** Use design systems with reusable components rather than expecting pixel-perfect Figma mockup matching.
+**Poor Fine-Grained Visual Reasoning:** Current models lack visual reasoning precision for matching design screenshots or Figma mockups. They work most reliably with code-level visuals. Use good design systems with reusable components for visual consistency.
 
-**Knowledge Cutoffs:** "Explicitly point it to the latest docs" for new libraries, as agents rely on pretrained knowledge.
+**Knowledge Cutoffs:** When working with new libraries, explicitly point agents to latest documentation. Most agents assume old patterns due to knowledge cutoffs in pretrained models.
 
 ### Managing Time and Minimizing Losses
 
-**Cut losses earlier:** Discontinue interactions showing signs of fundamental misunderstanding.
+With variance in agent outcomes in 2025, maximizing successful outcomes while minimizing wasted time and tokens matters.
 
-**Diversify experiments:** Try different prompts and double down on successful task categories.
+**Be Willing to Cut Losses Earlier:** New users often commit to making interactions successful even when agents veer off track. If an agent ignores instructions or goes in circles, discontinue or manually take over. Additional messages typically indicate task complexity exceeding agent capabilities rather than simple correctable mistakes.
 
-**Start fresh:** "Starting over is the right answer a lot more often with agents than with humans" when stuck.
+**Diversify Your Experiments:** Try various prompts and approaches. Double down on tasks agents naturally perform well on; cut losses on unsuccessful types.
+
+**Start Fresh When Not Making Progress:** Starting over with a new agent and all instructions upfront often succeeds faster than correcting a messed-up environment. Agents' ability to correct problems is worse than their ability to produce fresh code from scratch.
 
 ### Security and Permissioning
 
-- Create dedicated agent accounts with throwaway emails
-- Provide development/staging environments only
-- Grant readonly API access where possible
-- Have humans manually run scripts interacting with external services
+**Create Accounts for Your Agent:** Use throwaway emails for safe site testing. Create custom IAM roles if accessing cloud resources.
 
-## Conclusion
+**Give It a Development/Staging Environment:** Agents should use the same testing setup as team engineers, with production access avoided entirely. Remote agents can run fully isolated test environments.
 
-The guide emphasizes that "software engineers aren't going anywhere," despite advancing capabilities. "True ownership of your projects, your systems, and your code is more critical now than ever," even as automation amplifies individual impact and enables parallel task management.
+**Readonly API Keys:** Where possible, provide readonly access. Recommend humans manually run scripts interacting with outside services.
+
+## Conclusion: Big Changes Ahead
+
+The guide concludes that software engineers remain essential. "Even as coding agents become smarter and more capable, deep technical expertise and intimate knowledge of your codebase remain invaluable." True ownership of projects and systems becomes more critical as automation amplifies impact.
+
+Engineers are increasingly expected to oversee multiple systems while maintaining deep understanding and thoughtful judgment. As automation enables parallel task juggling, this capability becomes essential rather than optional. The Cognition Team shares these insights to help teams thrive in evolving software development.
