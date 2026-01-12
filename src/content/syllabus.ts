@@ -81,6 +81,8 @@ export const syllabus: Week[] = [
       {
         title: 'MCP Server Authentication',
         url: 'https://developers.cloudflare.com/agents/guides/remote-mcp-server/#add-authentication',
+        krSlug: 'mcp-server-authentication',
+        translationStatus: 'complete',
       },
       {
         title: 'MCP Server SDK',
@@ -89,10 +91,14 @@ export const syllabus: Week[] = [
       {
         title: 'MCP Registry',
         url: 'https://blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/',
+        krSlug: 'mcp-registry',
+        translationStatus: 'complete',
       },
       {
         title: 'MCP Food-for-Thought',
         url: 'https://www.reillywood.com/blog/apis-dont-make-good-mcp-tools/',
+        krSlug: 'mcp-food-for-thought',
+        translationStatus: 'complete',
       },
     ],
     assignments: [
@@ -139,14 +145,20 @@ export const syllabus: Week[] = [
       {
         title: 'Specs Are the New Source Code',
         url: 'https://blog.ravi-mehta.com/p/specs-are-the-new-source-code',
+        krSlug: 'specs-are-the-new-source-code',
+        translationStatus: 'complete',
       },
       {
         title: 'How Long Contexts Fail',
         url: 'https://www.dbreunig.com/2025/06/22/how-contexts-fail-and-how-to-fix-them.html',
+        krSlug: 'how-contexts-fail',
+        translationStatus: 'complete',
       },
       {
         title: 'Devin: Coding Agents 101',
         url: 'https://devin.ai/agents101#introduction',
+        krSlug: 'coding-agents-101',
+        translationStatus: 'complete',
       },
       {
         title: 'Getting AI to Work In Complex Codebases',
@@ -159,6 +171,8 @@ export const syllabus: Week[] = [
       {
         title: 'Writing Effective Tools for Agents',
         url: 'https://www.anthropic.com/engineering/writing-tools-for-agents',
+        krSlug: 'writing-effective-tools-for-agents',
+        translationStatus: 'complete',
       },
     ],
     assignments: [

@@ -2111,4 +2111,646 @@ export const readings: Record<string, ReadingContent> = {
       },
     ],
   },
+  'week3/writing-effective-tools-for-agents': {
+    slug: 'writing-effective-tools-for-agents',
+    week: 3,
+    title: 'Writing Effective Tools for Agents',
+    titleKr: '에이전트를 위한 효과적인 도구 작성법',
+    author: 'Ken Aizawa',
+    readTime: '약 5분',
+    sourceUrl: 'https://www.anthropic.com/engineering/writing-tools-for-agents',
+    sourceTitle: 'Anthropic Engineering Blog',
+    published: false,
+    sections: [
+      {
+        title: '요약',
+        content:
+          '이 엔지니어링 문서는 AI 에이전트를 위한 고품질 도구 구축의 모범 사례를 탐구합니다. Claude가 반복적인 평가와 개선을 통해 도구를 어떻게 최적화하는지 보여줍니다.',
+      },
+      {
+        title: '도구란 무엇인가?',
+        content:
+          '도구는 새로운 소프트웨어 패러다임입니다—결정론적 시스템과 비결정론적 에이전트 사이의 계약입니다. `getWeather("NYC")`가 항상 동일하게 동작하는 기존 API와 달리, 에이전트는 날씨 도구를 호출할 수도, 일반 지식을 활용할 수도, 명확화 질문을 던질 수도 있습니다. 이런 예측 불가능성 때문에 기존 소프트웨어 패턴이 아닌 에이전트 어포던스에 맞춘 도구 설계가 필요합니다.',
+      },
+      {
+        title: '도구 작성 방법',
+        content:
+          'Claude Code로 빠른 프로토타입부터 시작하세요. 도구가 의존하는 라이브러리와 API 문서를 제공하세요. 도구를 로컬 MCP 서버나 데스크톱 확장으로 감싸면 Claude Code나 Claude Desktop 앱에서 대화형으로 테스트할 수 있습니다. 여러 번의 도구 호출이 필요한 현실적인 평가 작업을 만들고, 정확도, 실행 시간, 토큰 소비량, 도구 오류 등 지표를 수집하세요. 평가 기록을 검토하여 에이전트가 어려움을 겪는 부분을 파악하세요.',
+      },
+      {
+        title: '적절한 도구 선택',
+        content:
+          '도구가 많다고 결과가 좋아지지는 않습니다. 에이전트는 기존 소프트웨어와 다른 어포던스를 가집니다—컴퓨터 메모리는 풍부하지만 에이전트 컨텍스트는 제한적입니다. `list_contacts`를 구현하는 대신 사람이 검색하는 방식에 맞는 `search_contacts` 도구를 만드세요.',
+        items: [
+          '`list_users`, `list_events`, `create_event` 대신 가용성을 확인하는 `schedule_event` 구현',
+          '`read_logs` 대신 컨텍스트와 함께 관련 라인을 반환하는 `search_logs` 구현',
+          '별도의 고객 도구들 대신 모든 관련 정보를 모아주는 `get_customer_context` 구현',
+        ],
+      },
+      {
+        title: '도구 네임스페이싱',
+        content:
+          '`asana_projects_search`와 `asana_users_search`처럼 공통 접두사로 관련 도구를 그룹화하면 에이전트가 적절한 도구를 선택하기 쉽습니다. 접두사 기반과 접미사 기반 네이밍은 평가에서 측정 가능한 차이를 만들어냅니다.',
+      },
+      {
+        title: '의미 있는 컨텍스트 반환',
+        content:
+          '유연성보다 관련성을 우선시하여 신호가 높은 정보만 반환하세요. `uuid`나 `mime_type` 같은 저수준 식별자 대신 `name`, `image_url`, `file_type`을 사용하세요. 시맨틱 식별자가 환각을 크게 줄입니다. 에이전트가 상세도를 조절할 수 있도록 `response_format` enum 파라미터를 노출하세요.',
+      },
+      {
+        title: '토큰 효율성을 위한 도구 응답 최적화',
+        content:
+          '합리적인 기본값과 함께 페이지네이션, 범위 선택, 필터링, 잘라내기를 구현하세요. Claude Code는 기본적으로 도구 응답을 25,000 토큰으로 제한합니다. 잘라낼 때는 에이전트를 효율적인 전략으로 안내하세요. 도움이 되지 않는 오류 메시지를 올바른 입력 형식을 보여주는 실행 가능한 안내로 바꾸세요.',
+      },
+      {
+        title: '도구 설명에 프롬프트 엔지니어링 적용',
+        content:
+          '새 팀원에게 설명하듯 도구를 설명하고, 암묵적 컨텍스트를 명시적으로 만드세요. 모호하지 않은 파라미터 이름을 사용하세요: `user` 대신 `user_id`. 작은 개선이 극적인 향상을 가져옵니다—Claude Sonnet은 정밀한 도구 설명 개선 후 SWE-bench Verified에서 최고 성능을 달성했습니다.',
+      },
+      {
+        title: '앞으로의 전망',
+        content:
+          '효과적인 도구는 의도적으로 정의되고, 에이전트 컨텍스트를 현명하게 사용하며, 다양한 워크플로우에서 잘 결합되고, 직관적인 실제 문제 해결을 가능하게 합니다. 에이전트가 더 유능해질수록, 체계적인 평가 기반 접근 방식이 도구가 에이전트와 함께 진화하도록 보장합니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '도구의 새로운 정의',
+        content:
+          '도구는 결정론적 시스템과 비결정론적 에이전트 사이의 계약이다. 기존 API와 달리 에이전트의 예측 불가능한 동작을 고려한 설계가 필요하다.',
+      },
+      {
+        title: '프로토타입과 평가',
+        content:
+          'Claude Code로 빠른 프로토타입을 만들고, MCP 서버로 대화형 테스트를 수행한다. 여러 도구 호출이 필요한 현실적인 평가 작업을 설계하여 정확도, 토큰 소비량, 오류 등을 측정한다.',
+      },
+      {
+        title: '적절한 도구 선택',
+        content:
+          '도구가 많다고 좋은 것이 아니다. `list_contacts` 대신 `search_contacts`처럼 사람의 검색 방식에 맞게 설계하고, 여러 작업을 하나의 도구로 통합하여 효율성을 높인다.',
+      },
+      {
+        title: '네임스페이싱',
+        content:
+          '`asana_projects_search`처럼 공통 접두사로 도구를 그룹화하면 에이전트가 적절한 도구를 선택하기 쉬워진다.',
+      },
+      {
+        title: '의미 있는 컨텍스트',
+        content:
+          '`uuid` 같은 저수준 식별자 대신 `name`, `image_url` 같은 시맨틱 식별자를 반환하여 환각을 줄인다. `response_format` 파라미터로 상세도를 조절할 수 있게 한다.',
+      },
+      {
+        title: '토큰 효율성',
+        content:
+          '페이지네이션, 필터링, 잘라내기를 구현하고, 오류 메시지를 실행 가능한 안내로 바꾼다.',
+      },
+      {
+        title: '도구 설명의 중요성',
+        content:
+          '새 팀원에게 설명하듯 명확하게 작성하고, `user` 대신 `user_id`처럼 모호하지 않은 파라미터 이름을 사용한다. 작은 개선이 큰 성능 향상을 가져온다.',
+      },
+    ],
+  },
+  'week2/mcp-server-authentication': {
+    slug: 'mcp-server-authentication',
+    week: 2,
+    title: 'Build a Remote MCP Server',
+    titleKr: '원격 MCP 서버 구축하기',
+    author: 'Cloudflare',
+    readTime: '약 25분',
+    sourceUrl: 'https://developers.cloudflare.com/agents/guides/remote-mcp-server/',
+    sourceTitle: 'Cloudflare Docs',
+    published: true,
+    sections: [
+      {
+        title: '개요',
+        content:
+          'MCP 서버를 구축할 때는 사용자 로그인(인증)과 MCP 클라이언트가 사용자 계정의 리소스에 접근하도록 허용하는 방법(인가) 모두 필요합니다. Model Context Protocol은 인가를 위해 OAuth 2.1의 일부를 사용합니다.',
+      },
+      {
+        title: '시작하기',
+        content: '인증 없이 공개 MCP 서버를 먼저 배포한 다음, 나중에 사용자 인증과 범위 지정 인가를 추가할 수 있습니다.',
+        items: [
+          'npm/yarn/pnpm으로 새 MCP 서버 프로젝트 생성',
+          '로컬 개발 서버 실행 (localhost:8788/sse)',
+          'MCP Inspector로 연결 테스트',
+          'Wrangler로 Cloudflare에 배포',
+        ],
+      },
+      {
+        title: '도구 정의하기',
+        content:
+          'MCP 서버에 도구를 추가하려면 src/index.ts의 init() 메서드 내에서 this.server.tool(...)로 각 도구를 정의합니다. McpAgent 클래스를 사용하면 Durable Objects를 활용해 각 클라이언트 세션의 상태를 유지하는 원격 MCP 서버를 구축할 수 있습니다.',
+      },
+      {
+        title: 'OAuth Provider 라이브러리',
+        content: 'Cloudflare는 OAuth 2.1 프로토콜의 프로바이더 측을 구현하는 OAuth Provider 라이브러리를 제공합니다.',
+        items: [
+          'Worker가 직접 인가 처리',
+          'GitHub이나 Google 같은 서드파티 OAuth 프로바이더와 직접 통합',
+          'Stytch, Auth0, WorkOS 같은 자체 OAuth 프로바이더와 통합',
+        ],
+      },
+      {
+        title: 'GitHub OAuth 인증 추가하기',
+        content: 'GitHub을 OAuth 프로바이더로 사용하여 MCP 서버에 인증을 추가하는 단계별 가이드입니다.',
+        items: [
+          '1단계: 인증 서버 생성 (remote-mcp-github-oauth 템플릿)',
+          '2단계: GitHub OAuth 앱 생성 (로컬/프로덕션)',
+          '3단계: wrangler.toml 설정',
+          '4단계: Wrangler CLI로 시크릿 설정',
+        ],
+      },
+      {
+        title: '지원되는 ID 프로바이더',
+        content: '이메일, 소셜 로그인, SSO, MFA로 사용자가 MCP 서버에 인증할 수 있습니다.',
+        items: [
+          'Auth0: 이메일, 소셜 로그인, 엔터프라이즈 SSO',
+          'WorkOS의 AuthKit: 역할 기반 동적 도구 노출',
+          'Descope Inbound Apps: 커스텀 스코프로 세분화된 권한 제어',
+        ],
+      },
+      {
+        title: 'McpAgent 클래스와 Durable Objects',
+        content:
+          'McpAgent 클래스를 사용하면 Durable Objects를 활용해 상태 유지 연결을 제공합니다. 휴면 지원으로 비활성 시 자동 절전, 필요 시 즉시 깨어납니다.',
+        items: [
+          '상태 유지 설계: 컨텍스트, 사용자 선호도, 대화 기록 기억',
+          '휴면 지원: WebSockets Hibernation API로 비용 절감',
+          'Durable Objects 무료 티어 포함',
+        ],
+      },
+      {
+        title: 'MCP 서버 테스트하기',
+        content: 'MCP Inspector로 웹 브라우저에서 MCP 서버에 연결하고 도구를 테스트할 수 있습니다.',
+        items: [
+          'npx @modelcontextprotocol/inspector@latest 실행',
+          'localhost:5173에서 서버 URL 입력',
+          'OAuth Settings에서 Quick OAuth Flow 클릭',
+        ],
+      },
+      {
+        title: 'Claude Desktop 연결',
+        content:
+          'Claude Desktop은 아직 원격 MCP 클라이언트를 지원하지 않지만, mcp-remote 로컬 프록시로 원격 MCP 서버에 연결할 수 있습니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: 'OAuth 2.1 기반 인증',
+        content: 'Cloudflare의 MCP 서버는 안전한 인증 및 인가를 위해 OAuth 2.1을 사용합니다.',
+      },
+      {
+        title: 'ID 프로바이더 통합',
+        content: 'OAuth Provider 라이브러리는 GitHub, Google, Auth0, WorkOS 같은 ID 프로바이더와의 통합을 단순화합니다.',
+      },
+      {
+        title: '상태 유지 연결',
+        content: 'McpAgent 클래스는 Durable Objects를 사용해 상태 유지 연결을 제공하며, 휴면 지원으로 비용을 절감합니다.',
+      },
+      {
+        title: '다중 전송 옵션',
+        content: 'streamable-http(/mcp)와 SSE(/sse) 전송 옵션을 지원합니다.',
+      },
+    ],
+    relatedReadings: [
+      { title: 'MCP Documentation', slug: 'mcp-documentation' },
+      { title: 'Building MCP Servers', slug: 'building-mcp-servers' },
+    ],
+  },
+  'week2/mcp-registry': {
+    slug: 'mcp-registry',
+    week: 2,
+    title: 'Introducing the MCP Registry',
+    titleKr: 'MCP 레지스트리 소개',
+    author: 'David Soria Parra, Adam Jones, Tadas Antanavicius, Toby Padilla, Theodora Chu',
+    readTime: '약 12분',
+    sourceUrl: 'https://blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/',
+    sourceTitle: 'MCP Blog',
+    published: true,
+    sections: [
+      {
+        title: '배경',
+        content:
+          '2025년 2월, MCP 창시자인 David Soria Parra와 Justin Spahr-Summers가 PulseMCP와 Goose 팀에게 중앙화된 커뮤니티 레지스트리 구축을 요청하면서 이 프로젝트는 커뮤니티 주도의 협업으로 시작됐습니다.',
+      },
+      {
+        title: '아키텍처',
+        content:
+          '레지스트리의 핵심 아키텍처 결정 중 하나는 연합(federation)을 채택한 것입니다. 업스트림 MCP 레지스트리가 유일한 레지스트리는 아니며, 서브레지스트리가 수집, 보강, 미러링할 수 있는 공개 MCP 서버 메타데이터의 공식 소스 역할을 합니다.',
+        items: [
+          '단일 진실 공급원(Single Source of Truth): 공개 MCP 서버의 권위 있는 메타데이터 저장소',
+          '벤더 중립성: 특정 서버나 조직을 우대하지 않음',
+          '업계 보안 표준: 기존 패키지 레지스트리의 보안 방식 활용',
+          '재사용성: 비공개/내부 레지스트리를 지원하는 재사용 가능한 API 설계',
+        ],
+      },
+      {
+        title: '작동 방식',
+        content:
+          'MCP 레지스트리는 메타레지스트리입니다. 패키지에 대한 메타데이터를 호스팅하지만, 패키지 코드나 바이너리는 호스팅하지 않습니다. MCP 서버에 대한 메타데이터와 해당 서버가 호스팅되는 위치(npm, PyPI, NuGet, Docker Hub 등)에 대한 참조를 저장합니다.',
+      },
+      {
+        title: '서브레지스트리',
+        content:
+          '각 MCP 클라이언트와 연결된 "MCP 마켓플레이스"와 같은 공개 서브레지스트리는 업스트림 MCP 레지스트리에서 수집한 데이터를 자유롭게 보강하고 확장할 수 있습니다.',
+        items: [
+          '큐레이션: 특정 커뮤니티나 사용 사례에 맞는 서버 필터링',
+          '평점: 사용자 평점 및 다운로드 통계 추가',
+          '보안: 보안 스캐닝 및 취약점 검사 구현',
+          '엔터프라이즈: 기업 사용자를 위한 내부 서버 레지스트리 제공',
+        ],
+      },
+      {
+        title: 'API 접근',
+        content:
+          'MCP 레지스트리 API는 서버 메타데이터에 프로그래밍 방식으로 접근할 수 있게 합니다. 프로덕션 URL은 https://registry.modelcontextprotocol.io입니다.',
+        items: [
+          'GET /v0/servers: 서버 목록 조회 (페이지네이션 지원)',
+          '검색 파라미터로 특정 서버 필터링',
+          '개별 서버 상세 정보 조회',
+        ],
+      },
+      {
+        title: '시작하기',
+        content:
+          '서버 관리자는 MCP 레지스트리에 서버를 추가할 수 있으며, 네임스페이스 게시를 위해서는 소유권을 증명해야 합니다.',
+        items: [
+          'GitHub 기반 네임스페이스: 해당 사용자로 GitHub 로그인 또는 GitHub Action 실행',
+          '도메인 기반 네임스페이스: DNS 또는 HTTP 챌린지로 소유권 증명',
+          'init, login, logout, publish 명령어 제공',
+        ],
+      },
+      {
+        title: '프리뷰 상태',
+        content:
+          '이 프리뷰를 통해 정식 출시 전에 사용자 경험을 개선하려 합니다. 2025년 10월 기준으로, 레지스트리 API는 API 프리즈(v0.1)에 들어갔습니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '오픈 카탈로그 및 API',
+        content: 'MCP 레지스트리는 공개 MCP 서버를 쉽게 찾고 구현할 수 있도록 돕는 오픈 카탈로그입니다.',
+      },
+      {
+        title: '연합 아키텍처',
+        content: '공개 및 비공개 서브레지스트리가 데이터를 수집, 보강, 미러링할 수 있는 연합 구조를 채택했습니다.',
+      },
+      {
+        title: '메타레지스트리',
+        content: '메타데이터만 저장하며, 실제 코드나 패키지는 호스팅하지 않습니다.',
+      },
+      {
+        title: '서브레지스트리 가치',
+        content: '큐레이션, 평점, 보안, 엔터프라이즈 기능을 제공하여 생태계에 가치를 추가합니다.',
+      },
+    ],
+    relatedReadings: [
+      { title: 'MCP Server Authentication', slug: 'mcp-server-authentication' },
+    ],
+  },
+  'week2/mcp-food-for-thought': {
+    slug: 'mcp-food-for-thought',
+    week: 2,
+    title: "APIs don't make good MCP tools",
+    titleKr: 'API는 좋은 MCP 도구가 되기 어렵다',
+    author: 'Reilly Wood',
+    readTime: '약 8분',
+    sourceUrl: 'https://www.reillywood.com/blog/apis-dont-make-good-mcp-tools/',
+    sourceTitle: 'reillywood.com',
+    published: true,
+    sections: [
+      {
+        title: '도입',
+        content:
+          'MCP는 LLM에게 다른 사람이 만든 도구에 대한 접근 권한을 부여하는 사실상의 표준이 되었다. 하지만 기존 API를 MCP 도구로 자동 변환하는 것은 작동하긴 하지만 잘 작동하지는 않는다.',
+      },
+      {
+        title: '에이전트는 도구가 많으면 힘들어한다',
+        content:
+          'VS Code는 128개의 도구 제한이 있고, 많은 모델은 그 숫자에 도달하기 훨씬 전부터 정확한 도구 호출에 어려움을 겪는다. 처음부터 MCP용으로 설계된 도구는 개별 웹 API보다 훨씬 유연하며, 하나의 도구가 여러 개별 API의 역할을 수행할 수 있다.',
+      },
+      {
+        title: 'API는 컨텍스트 윈도우를 빠르게 소진시킨다',
+        content:
+          '한 번에 100개의 레코드를 반환하는 API에서 각 레코드가 넓다면 많은 토큰을 소비한다. JSON은 토큰 효율이 매우 낮은 형식이며, CSV나 YAML이 더 나은 선택이다.',
+        items: [
+          '레코드당 토큰을 절반으로 줄일 수 있는 CSV 형식',
+          '필드 프로젝션, 자동 잘라내기, JSON→CSV 변환 등의 개선 가능',
+          '하지만 대부분의 서버는 이런 최적화를 하지 않음',
+        ],
+      },
+      {
+        title: 'API는 에이전트의 고유한 능력을 활용하지 못한다',
+        content:
+          'API는 구조화된 데이터를 반환하지만, 에이전트는 더 자유로운 형태의 지시도 처리할 수 있다. ask_question 도구로 RAG 쿼리 후 일반 텍스트 반환, 또는 search_cities 도구가 구조화된 목록과 다음 호출 제안을 함께 반환하는 식의 도구 체이닝이 가능하다.',
+      },
+      {
+        title: '에이전트가 API를 직접 호출할 수 있다',
+        content:
+          'Claude Code 같은 에이전트는 코드를 작성하고 실행하는 데 뛰어나다. 에이전트의 샌드박싱이 개선되면서, API를 직접 호출하는 것이 중개자를 통하는 것보다 나을 수 있다.',
+      },
+      {
+        title: '결론',
+        content:
+          '에이전트는 API의 일반적인 소비자들과 근본적으로 다르다. 에이전트는 자신의 고유한 능력과 한계에 맞게 설계된 도구가 주어질 때 가장 잘 작동한다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: 'API 자동 변환의 한계',
+        content: '기존 API를 MCP 도구로 자동 변환하면 작동하긴 하지만 잘 작동하지는 않는다.',
+      },
+      {
+        title: '도구 수 제한',
+        content: '에이전트는 많은 수의 도구를 잘 다루지 못하고, 각 도구는 컨텍스트 윈도우 공간을 차지한다.',
+      },
+      {
+        title: '토큰 효율성',
+        content: 'JSON 대신 CSV나 YAML을 사용하면 토큰 효율성을 크게 높일 수 있다.',
+      },
+      {
+        title: '에이전트 맞춤 설계',
+        content: '에이전트의 고유한 능력(자유 형식 텍스트 처리, 도구 체이닝)을 활용하는 도구가 필요하다.',
+      },
+    ],
+    relatedReadings: [
+      { title: 'MCP Registry', slug: 'mcp-registry' },
+      { title: 'MCP Server Authentication', slug: 'mcp-server-authentication' },
+    ],
+  },
+  'week3/how-contexts-fail': {
+    slug: 'how-contexts-fail',
+    week: 3,
+    title: 'How Long Contexts Fail',
+    titleKr: '긴 컨텍스트가 실패하는 방식',
+    author: 'Drew Breunig',
+    readTime: '약 5분',
+    sourceUrl: 'https://www.dbreunig.com/2025/06/22/how-contexts-fail-and-how-to-fix-them.html',
+    sourceTitle: 'dbreunig.com',
+    published: false,
+    sections: [
+      {
+        title: '개요',
+        content:
+          '이 글에서는 현재 100만 토큰에 도달한 확장된 컨텍스트 윈도우가 왜 AI 에이전트 성능을 자동으로 향상시키지 못하는지 살펴봅니다. 저자는 컨텍스트가 커지면 문제가 해결되는 것이 아니라 새로운 실패 유형이 발생한다고 주장합니다.',
+      },
+      {
+        title: '핵심 전제',
+        content:
+          '최신 프론티어 모델들은 대규모 컨텍스트 윈도우를 지원하지만, 이를 전부 채우면 오히려 문제가 생깁니다. 저자는 다음과 같이 말합니다: "성공적인 에이전트를 구축하려면 컨텍스트를 잘 관리해야 합니다. 100만 토큰 컨텍스트 윈도우가 있다고 해서 그것을 다 채워야 하는 건 아닙니다."',
+      },
+      {
+        title: '1. 컨텍스트 오염 (Context Poisoning)',
+        content:
+          '오류나 환각이 컨텍스트에 남아 반복적으로 참조되면 문제가 복합적으로 악화됩니다. Gemini 2.5 포켓몬 사례 연구에서는 에이전트의 목표 섹션에 잘못된 정보가 유입되자 불가능한 전략을 개발하는 현상이 나타났습니다.',
+      },
+      {
+        title: '2. 컨텍스트 산만 (Context Distraction)',
+        content:
+          '컨텍스트가 최적 임계값을 초과하여 누적되면, 모델이 훈련된 지식을 활용하는 대신 과거 정보에 과도하게 의존하게 됩니다. Gemini 2.5는 10만 토큰을 초과하면 성능이 저하되며, 새로운 전략보다 반복적인 행동을 선호했습니다.',
+      },
+      {
+        title: '3. 컨텍스트 혼란 (Context Confusion)',
+        content:
+          '과도한 정보, 특히 관련 없는 도구 정의들은 모델이 불필요한 데이터를 처리하도록 강제합니다. Berkeley Function-Calling Leaderboard 연구에 따르면 모든 모델이 도구가 많아질수록 성능이 저하되며, 특히 소형 모델은 도구가 19개에서 46개로 늘어나면 급격히 실패합니다.',
+      },
+      {
+        title: '4. 컨텍스트 충돌 (Context Clash)',
+        content:
+          '여러 상호작용에 걸쳐 수집된 정보가 서로 모순될 수 있습니다. Microsoft와 Salesforce 연구에 따르면 정보를 동시에 제시할 때보다 순차적으로 제시할 때 평균 39% 성능이 하락했습니다. OpenAI의 o3 모델은 98.1에서 64.1로 떨어졌습니다.',
+      },
+      {
+        title: '시사점',
+        content:
+          '이러한 실패는 에이전트에 특히 큰 영향을 미칩니다. 에이전트는 바로 이런 조건에서 작동하기 때문입니다: 분산된 정보를 수집하고, 순차적으로 도구를 호출하며, 긴 히스토리를 유지합니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '컨텍스트 윈도우 확장의 한계',
+        content: '컨텍스트 윈도우가 100만 토큰까지 확장되었지만, 이를 모두 채우면 오히려 성능이 저하됨',
+      },
+      {
+        title: '네 가지 실패 유형',
+        content: '오염(잘못된 정보의 지속적 참조), 산만(과거 정보에 대한 과의존), 혼란(불필요한 정보 과부하), 충돌(모순된 정보)',
+      },
+      {
+        title: '에이전트의 취약성',
+        content: '에이전트는 분산 정보 수집, 순차적 도구 호출, 긴 히스토리 유지 특성상 이러한 실패에 취약함',
+      },
+      {
+        title: '핵심 교훈',
+        content: '컨텍스트 크기보다 컨텍스트 품질 관리가 중요함',
+      },
+    ],
+  },
+  'week3/coding-agents-101': {
+    slug: 'coding-agents-101',
+    week: 3,
+    title: 'Devin: Coding Agents 101',
+    titleKr: 'Devin: 코딩 에이전트 101',
+    author: 'Cognition (Devin)',
+    readTime: '약 8분',
+    sourceUrl: 'https://devin.ai/agents101',
+    sourceTitle: 'Devin - Coding Agents 101',
+    published: false,
+    sections: [
+      {
+        title: '소개',
+        content:
+          '이 가이드는 "특정 제품에 종속되지 않는", "실용적", "기술적" 성격을 표방합니다. 2025년에 코딩 에이전트와 효과적으로 협업하려는 엔지니어를 위해 작성했습니다. 고객 경험과 Cognition 팀이 Devin을 개발하며 얻은 교훈을 담았습니다.',
+      },
+      {
+        title: '시작하기: 프롬프트 기초',
+        content: '코딩 에이전트와 효과적으로 소통하는 기본 원칙입니다.',
+        items: [
+          '무엇을 원하는지보다 어떻게 해야 하는지 알려주세요 - 에이전트를 "의사결정이 불안정한 주니어 코딩 파트너"로 대하세요',
+          '에이전트에게 시작점을 알려주세요 - 저장소, 관련 문서, 핵심 컴포넌트를 안내하면 불필요한 시행착오를 줄일 수 있습니다',
+          '방어적 프롬프팅을 실천하세요 - 신입 인턴에게 하듯이 혼란스러울 수 있는 부분을 미리 예상하고 선제적으로 지침을 명확히 하세요',
+          'CI, 테스트, 타입, 린터에 접근 권한을 부여하세요 - 강력한 피드백 루프가 에이전트 성능을 향상시킵니다',
+          '당신의 전문성을 활용하세요 - 인간의 감독은 여전히 필수입니다. 코드의 최종 정확성은 당신이 책임집니다',
+        ],
+      },
+      {
+        title: '워크플로우에서 에이전트 활용하기',
+        content: '일상 업무에 에이전트를 통합하는 방법입니다.',
+        items: [
+          '새 작업을 즉시 처리하세요 - 빠른 조사나 변경 작업을 위임해서 주요 업무에 집중하세요',
+          '이동 중에도 코딩하세요 - 모바일로 접근할 수 있어서 여행이나 출퇴근 중에도 긴급한 이슈를 처리할 수 있습니다',
+          '잡무를 넘기세요 - 커밋 이분법(bisecting)이나 문서 업데이트 같은 반복 작업을 위임하세요',
+          '분석 마비를 피하세요 - 에이전트에게 여러 아키텍처 접근 방식을 구현하게 해서 구체적으로 비교하세요',
+          '프리뷰 배포를 설정하세요 - 각 PR마다 자동으로 프리뷰 배포가 생성되도록 CI/CD 파이프라인을 구성하세요',
+        ],
+      },
+      {
+        title: '중급: 더 큰 티켓 위임하기',
+        content: '복잡한 작업을 에이전트에게 맡기는 전략입니다.',
+        items: [
+          '첫 번째 초안을 자동화하세요 - 에이전트가 초기 PR 초안을 만들 수 있습니다. 현실적 기대치는 완전한 자동화가 아닌 약 80% 시간 절약입니다',
+          'PRD(제품 요구사항 정의서)를 공동 개발하세요 - 복잡하거나 모호하게 정의된 작업은 에이전트와 함께 상세한 계획을 수립하세요',
+          '체크포인트를 설정하세요 - 여러 부분으로 나뉜 작업은 계획 → 청크 구현 → 테스트 → 수정 → 체크포인트 리뷰 → 다음 청크로 진행하세요',
+          '에이전트가 스스로 검증하도록 가르치세요 - 테스팅 프로세스를 명시해서 에이전트가 향후 작업을 독립적으로 검증할 수 있게 하세요',
+          'AI 핫스팟의 테스트 커버리지를 높이세요 - 중요한 코드 마이그레이션이나 리팩터링을 위임하기 전에 자주 수정되는 영역의 테스트를 강화하세요',
+        ],
+      },
+      {
+        title: '고급: 워크플로우 자동화',
+        content: '에이전트를 활용한 자동화 전략입니다.',
+        items: [
+          '반복 작업용 단축키 만들기 - 피처 플래그 제거, 의존성 업그레이드, 피처 PR에 대한 테스트 생성이 일반적인 자동화 후보입니다',
+          '지능형 코드 리뷰 및 강제 적용 - 에이전트는 일부 경우 기존 린트 규칙보다 더 정확하게 일반적인 실수를 점검할 수 있습니다',
+          '인시던트와 알림에 연결하기 - 에이전트는 API나 CLI 통합으로 자동 트리거될 수 있습니다. 단, 프로덕션 이슈에 대해 엔드투엔드 수정을 시도하기보다 의심스러운 오류를 플래그하세요',
+        ],
+      },
+      {
+        title: '커스터마이징 및 성능 향상',
+        content: '에이전트 환경을 최적화하는 방법입니다.',
+        items: [
+          '환경 설정 - 에이전트 환경을 팀 구성과 정확히 맞추세요. 언어 버전, 의존성, 사전 구성된 인증 등을 포함합니다',
+          '커스텀 CLI 도구와 MCP 빌드 - Linear 티켓 정보 가져오기나 개발 환경 재시작 같은 반복 워크플로우용 스크립트를 만드세요',
+          '에이전트의 지식 베이스에 추가하기 - 프레임워크별 패턴, 프로젝트 아키텍처, 테스팅 규칙, 권장 도구에 대한 피드백을 문서화하세요',
+        ],
+      },
+      {
+        title: '실용적 고려사항',
+        content: '에이전트 사용 시 알아야 할 한계와 주의사항입니다.',
+        items: [
+          '자율 에이전트의 한계 - 디버깅 능력이 제한적이고, 세밀한 시각적 추론이 부족하며, 최신 라이브러리에 대한 지식이 단절될 수 있습니다',
+          '시간 관리 및 손실 최소화 - 근본적인 오해 징후가 보이면 상호작용을 중단하고, 막혔을 때는 처음부터 다시 시작하는 것이 정답입니다',
+          '보안 및 권한 - 일회용 이메일로 전용 에이전트 계정을 생성하고, 개발/스테이징 환경만 제공하며, 가능하면 읽기 전용 API 접근 권한을 부여하세요',
+        ],
+      },
+      {
+        title: '결론',
+        content:
+          '가이드에서는 역량이 발전해도 "소프트웨어 엔지니어는 사라지지 않을 것"이라고 강조합니다. 자동화가 개인의 영향력을 증폭시키고 병렬 작업 관리를 가능하게 해도 "프로젝트, 시스템, 코드에 대한 진정한 소유권은 그 어느 때보다 중요합니다."',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '어떻게 할지를 상세히 알려주세요',
+        content:
+          '코딩 에이전트에게 무엇을 할지보다 어떻게 할지를 상세히 알려주는 것이 중요합니다.',
+      },
+      {
+        title: '주니어 코딩 파트너로 대하세요',
+        content:
+          '에이전트를 "주니어 코딩 파트너"로 대하고, 방어적 프롬프팅을 실천하세요.',
+      },
+      {
+        title: '강력한 피드백 루프 구축',
+        content:
+          'CI, 테스트, 타입 시스템을 통한 강력한 피드백 루프가 에이전트 성능을 향상시킵니다.',
+      },
+      {
+        title: '현실적 기대치',
+        content: '완전 자동화가 아닌 약 80% 시간 절약을 기대하세요.',
+      },
+      {
+        title: '체크포인트 설정',
+        content: '복잡한 작업은 체크포인트를 설정하고 단계별로 진행하세요.',
+      },
+      {
+        title: '한계 인지',
+        content:
+          '에이전트의 한계(디버깅 능력, 시각적 추론, 지식 단절)를 인지하세요.',
+      },
+      {
+        title: '처음부터 다시 시작',
+        content:
+          '막혔을 때는 사람보다 에이전트에서 더 자주 "처음부터 다시 시작"이 정답입니다.',
+      },
+      {
+        title: '보안 주의',
+        content:
+          '보안을 위해 전용 계정, 제한된 환경, 읽기 전용 권한을 사용하세요.',
+      },
+    ],
+  },
+  'week3/specs-are-the-new-source-code': {
+    slug: 'specs-are-the-new-source-code',
+    week: 3,
+    title: 'Specs Are the New Source Code',
+    titleKr: '명세서가 새로운 소스 코드다',
+    author: 'Ravi Mehta, Danny Martinez',
+    readTime: '약 9분',
+    sourceUrl: 'https://blog.ravi-mehta.com/p/specs-are-the-new-source-code',
+    sourceTitle: 'Ravi Mehta Blog',
+    published: false,
+    sections: [
+      {
+        title: '서론',
+        content:
+          '필자는 커리어 전반에 걸쳐 명세서(spec)가 점점 짧아지는 것을 목격해왔습니다. Microsoft에서는 PM의 가치를 명세서 무게로 측정했고, Tripadvisor에서 전설적인 명세서는 냅킨에 휘갈겨 쓴 메모였습니다. 하지만 팀들은 명세서를 가치 있는 작업이 아닌 필수적인 서류 절차 정도로 취급합니다. 엔지니어의 코드와 디자이너의 인터페이스는 칭찬하면서, 명세서 품질은 간과합니다. 이것은 근본적인 실수입니다. Ravi Mehta의 Product Competency Toolkit에서 기능 명세서(Feature Specification)는 12가지 역량 중 첫 번째이며, 실행력, 전달, 품질의 기반입니다. 훌륭한 명세서야말로 효과적인 프로덕트 매니지먼트의 기초입니다.',
+      },
+      {
+        title: '변화하는 환경',
+        content:
+          '개발의 역학이 바뀌고 있습니다. 엔지니어들은 그 어느 때보다 빠르게 움직입니다. AI는 대략적인 개념을 몇 분 만에 작동하는 코드로 변환합니다. 병목이 구현에서 이해로 이동했습니다: 무엇을 만들어야 하는지 알고, 팀을 요구사항에 맞춰 정렬하는 것이 핵심입니다. 한때 일시적인 서류 작업에 불과했던 명세서가 이제 프로덕트 매니지먼트의 기반이 되었습니다. 본질적으로 명세서 자체가 소스 코드가 된 것입니다.',
+      },
+      {
+        title: 'PM이 갑자기 병목이 된 이유',
+        content:
+          '앤드류 응(Andrew Ng)은 최근 전례 없는 트렌드를 언급했습니다: "제 인생에서 처음으로 매니저들이 엔지니어의 두 배나 되는 PM을 두자고 제안하는 것을 봤습니다." 이것은 이전 예측을 확인해줍니다. 엔지니어가 AI로 가속화되면서 기업에는 PM이 더 적게 아니라 더 많이 필요합니다. 제품 가속화가 모든 PM 역량에 압력을 가중합니다. 고객 이해, 기능 설계, 임팩트 검증. 이 모든 수요가 하나의 산출물에 집중됩니다: 명세서입니다.',
+      },
+      {
+        title: '명세서가 새로운 소스 코드인 이유',
+        content:
+          '전통적인 프로그래밍에서 사람이 읽을 수 있는 소스 코드는 최적화된 기계 코드로 컴파일됩니다. OpenAI의 션 그로브(Sean Grove)는 도발적인 논제를 제시합니다: 잘 작성된 프롬프트(명세서)가 새로운 소스 코드를 구성한다는 것입니다. 코드는 명세서의 "손실 투영(lossy projection)"입니다. 코드를 읽어도 완전한 의도를 알 수 없습니다. 명세서는 모든 것을 담고 있습니다. 충분히 상세한 명세서가 있으면 "좋은 TypeScript, 좋은 Rust, 서버, 클라이언트, 문서, 튜토리얼, 블로그 포스트, 심지어 팟캐스트까지" 생성할 수 있습니다.',
+      },
+      {
+        title: '프로토타입이 명세서를 대체하지 못한 이유',
+        content:
+          '역사적으로 제품 수명주기는 명세서가 와이어프레이밍, 디자인, 프로토타이핑, MVP 개발을 주도하는 방식으로 시작했습니다. 이 패러다임이 근본적으로 바뀌었습니다: 이제 명세서는 종종 입력이 아니라 출력입니다. v0, Lovable, Replit 같은 현대적 도구들은 엔지니어링 없이도 몇 시간 안에 작동하는 프로토타입을 만들게 해줍니다. 프로토타입이 명세서를 없앤 것이 아닙니다. 명세서를 더 좋게 만들었습니다.',
+      },
+      {
+        title: '명세서 주도 개발 실전',
+        content:
+          'decimals 창업자 대니 마르티네즈(Danny Martinez)가 실용적인 명세서 주도 개발을 보여줍니다. 그의 플랫폼은 크리에이터 이코노미 전문가들이 네트워크의 인재를 채용 기회에 연결하도록 돕습니다. 핵심 인사이트: 비기술자가 전략적인 Claude 프롬프트만으로 Linear 티켓, 코드베이스, 엔지니어링 협업을 성공적으로 탐색했습니다.',
+        items: [
+          '구체적으로 작성하기: 모호한 명세서는 지저분한 코드베이스를 만듭니다',
+          '선별하기: 이 접근법은 단순한 작업에 적합합니다',
+          '게이트키핑: 엔지니어 리뷰가 단순함과 기능성 사이의 균형을 보장합니다',
+        ],
+      },
+      {
+        title: '결론',
+        content:
+          '윌리엄 깁슨(William Gibson)은 이렇게 말했습니다: "미래는 이미 여기에 있다. 다만 고르게 분포되어 있지 않을 뿐이다." AI의 이득은 여전히 극심하게 불균등합니다. 코드, 텍스트, 이미지 생성은 양자 도약을 이루며 "AI 속도"로 작동합니다. 고객 대화, 니즈 발굴, 구매 설득은 여전히 "인간 속도"입니다. 이러한 불균등한 분포가 제품 팀을 재편하고 있습니다. 초점이 구현에서 이해로 이동합니다. 전통적인 PM 스킬인 고객 니즈 이해, 명확한 문제 정의, 우아한 솔루션 설계가 기하급수적으로 가치가 높아졌습니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '명세서의 부활',
+        content:
+          '명세서가 일시적인 서류 작업에서 제품 개발의 기반으로 변화함',
+      },
+      {
+        title: 'PM 역할 확대',
+        content:
+          'AI가 엔지니어를 가속화하면서 PM의 역할과 명세서 작성 능력이 더 중요해짐',
+      },
+      {
+        title: '코드는 손실 투영',
+        content:
+          '션 그로브: 명세서는 새로운 소스 코드, 코드는 명세서의 "손실 투영"',
+      },
+      {
+        title: '새로운 워크플로우',
+        content:
+          '바이브 코딩 도구로 프로토타입 먼저, 명세서 나중 워크플로우가 가능해짐',
+      },
+      {
+        title: '비기술자 기여 가능',
+        content:
+          '비기술자도 잘 작성된 명세서와 AI 도구로 코드베이스에 기여 가능',
+      },
+      {
+        title: '미래의 프로그래머',
+        content:
+          '미래의 가장 가치 있는 프로그래머는 가장 효과적으로 소통하는 사람',
+      },
+    ],
+  },
 }
