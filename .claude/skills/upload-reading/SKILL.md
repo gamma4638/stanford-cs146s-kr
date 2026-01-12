@@ -53,7 +53,7 @@ arguments:
 ## 입출력
 
 ### 단일 페이지
-- **입력**: `docs/week{N}/kr/{slug}.md` (한국어 번역본)
+- **입력**: `docs/week{N}/{slug}/kr/index.md` (한국어 번역본)
 - **출력**:
   - `src/content/readings.ts`에 새 ReadingContent 추가
   - `src/content/syllabus.ts` translationStatus 업데이트
@@ -72,8 +72,8 @@ arguments:
            ▼
 ┌──────────────────────────────────────┐
 │ 1. 번역 파일 읽기                      │
-│    docs/week1/kr/how-openai-uses-    │
-│    codex.md                          │
+│    docs/week1/how-openai-uses-codex/ │
+│    kr/index.md                       │
 └──────────────────────────────────────┘
            │
            ▼
@@ -197,16 +197,16 @@ arguments:
 
 **단일 페이지**:
 ```
-1. docs/week{N}/kr/{slug}.md 파일 읽기
+1. docs/week{N}/{slug}/kr/index.md 파일 읽기
 2. 파일이 없으면 에러: "번역 파일을 찾을 수 없습니다. /translate-reading을 먼저 실행하세요."
-3. 원본 파일도 읽기: docs/week{N}/{slug}.md (메타데이터 보완용)
+3. 원본 파일도 읽기: docs/week{N}/{slug}/eng/index.md (메타데이터 보완용)
 ```
 
 **자식 페이지**:
 ```
 1. docs/week{N}/{parent}/kr/{child}.md 파일 읽기
 2. 파일이 없으면 에러: "번역 파일을 찾을 수 없습니다. /translate-reading을 먼저 실행하세요."
-3. 원본 파일도 읽기: docs/week{N}/{parent}/{child}.md (메타데이터 보완용)
+3. 원본 파일도 읽기: docs/week{N}/{parent}/eng/{child}.md (메타데이터 보완용)
 ```
 
 ### Step 2: 마크다운 파싱

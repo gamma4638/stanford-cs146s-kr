@@ -42,7 +42,7 @@ Task tool 호출 시 다음 정보가 prompt에 포함됩니다:
 - 정확히 일치하는 용어가 있으면 `source: "glossary"`, `confidence: "high"` 반환
 
 ### 2단계: 기존 번역 문서 검색
-- Grep 도구로 `docs/week*/kr/*.md` 파일들에서 동일 용어 사용 사례 검색
+- Grep 도구로 `docs/week*/**/kr/*.md` 파일들에서 동일 용어 사용 사례 검색
 - 발견 시 `source: "existing"`, `confidence: "high"` 반환
 
 ### 3단계: 웹 검색 (고유명사/새 용어)
@@ -87,7 +87,7 @@ Task tool 호출 시 다음 정보가 prompt에 포함됩니다:
 ## 도구 사용
 
 1. **Read 도구**: `docs/glossary.md` 읽기
-2. **Grep 도구**: `docs/week*/kr/*.md`에서 용어 검색
+2. **Grep 도구**: `docs/week*/**/kr/*.md`에서 용어 검색
 3. **WebSearch 도구**: 한국어 표기 확인 필요 시
 
 ## 실행 지침

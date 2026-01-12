@@ -175,14 +175,16 @@ YouTube URL 입력
 
    ```
    docs/week{N}/{slug}/
-   ├── _index.md           # 인덱스 파일 (전체 개요 + ToC)
-   ├── introduction.md     # 챕터 1
-   ├── pretraining-data.md # 챕터 2
-   ├── tokenization.md     # 챕터 3
-   └── ...                 # 나머지 챕터들
+   ├── eng/                    # 원본 (영어)
+   │   ├── _index.md           # 인덱스 파일 (전체 개요 + ToC)
+   │   ├── introduction.md     # 챕터 1
+   │   ├── pretraining-data.md # 챕터 2
+   │   ├── tokenization.md     # 챕터 3
+   │   └── ...                 # 나머지 챕터들
+   └── kr/                     # 번역본 (번역 시 생성)
    ```
 
-   **인덱스 파일 (`_index.md`)** 생성:
+   **인덱스 파일 (`eng/_index.md`)** 생성:
    - 영상 메타데이터 (제목, 저자, 길이)
    - Table of Contents (챕터 목록 + 링크)
    - 전체 요약
@@ -192,7 +194,7 @@ YouTube URL 입력
    - 파일명: 챕터 제목에서 slug 생성 (예: "Tokenization" → `tokenization.md`)
 
    **챕터가 없는 경우**:
-   - 기존처럼 단일 파일로 저장: `docs/week{N}/{slug}.md`
+   - 단일 페이지도 폴더 구조로 저장: `docs/week{N}/{slug}/eng/index.md`
 
 ##### 챕터 데이터 구조
 
@@ -390,11 +392,13 @@ PDF 파일 읽기
 
 ```
 docs/week1/prompt-engineering-guide/
-├── zeroshot.md           # 하위 페이지 1
-├── fewshot.md            # 하위 페이지 2
-├── cot.md                # 하위 페이지 3
-├── self-consistency.md   # 하위 페이지 4
-└── ... (N개 하위 페이지)
+├── eng/                      # 원본 (영어)
+│   ├── zeroshot.md           # 하위 페이지 1
+│   ├── fewshot.md            # 하위 페이지 2
+│   ├── cot.md                # 하위 페이지 3
+│   ├── self-consistency.md   # 하위 페이지 4
+│   └── ... (N개 하위 페이지)
+└── kr/                       # 번역본 (번역 시 생성)
 ```
 
 **개별 하위 페이지 파일 형식**:
@@ -445,7 +449,7 @@ translation_status: none
 
 챕터가 있는 YouTube 영상은 자동으로 디렉토리 구조로 분리됩니다.
 
-**인덱스 파일 (`docs/week{N}/{slug}/_index.md`)**:
+**인덱스 파일 (`docs/week{N}/{slug}/eng/_index.md`)**:
 
 ```markdown
 ---
@@ -478,7 +482,7 @@ is_parent: true
 ...
 ```
 
-**챕터별 파일 (`docs/week{N}/{slug}/{childSlug}.md`)**:
+**챕터별 파일 (`docs/week{N}/{slug}/eng/{childSlug}.md`)**:
 
 ```markdown
 ---
@@ -580,38 +584,49 @@ meaningful_pages: 4
 
 ### 4. 파일 저장
 
+**모든 콘텐츠는 폴더 구조로 저장됩니다 (eng/kr 분리)**:
+
 **단일 페이지 (일반 문서, 챕터 없는 YouTube)**:
-- 경로: `docs/week{N}/{slug}.md`
+- 경로: `docs/week{N}/{slug}/eng/index.md`
 
 **YouTube 자동 분리 (챕터가 있는 경우)**:
-- 디렉토리: `docs/week{N}/{slug}/`
-- 인덱스: `docs/week{N}/{slug}/_index.md`
-- 챕터: `docs/week{N}/{slug}/{childSlug}.md`
+- 디렉토리: `docs/week{N}/{slug}/eng/`
+- 인덱스: `docs/week{N}/{slug}/eng/_index.md`
+- 챕터: `docs/week{N}/{slug}/eng/{childSlug}.md`
 
-**계층적 구조 (--parent, --child 사용 시)**:
-- 경로: `docs/week{N}/{parent-slug}/{child-slug}.md`
+**계층적 구조 (--parent, --child 사용 시 또는 웹 하위페이지)**:
+- 경로: `docs/week{N}/{parent-slug}/eng/{child-slug}.md`
 - 부모 디렉토리가 없으면 자동 생성
 
 **예시**:
 ```
 # 단일 페이지 (일반 문서)
-docs/week1/how-openai-uses-codex.md
+docs/week1/how-openai-uses-codex/
+├── eng/
+│   └── index.md              # 원본
+└── kr/                       # 번역 시 생성
+    └── index.md
 
 # YouTube 자동 분리 (챕터 있음)
 docs/week1/deep-dive-llms/
-├── _index.md                 # 인덱스 (개요 + 목차)
-├── introduction.md           # 챕터 1
-├── pretraining-data.md       # 챕터 2
-├── tokenization.md           # 챕터 3
-├── neural-network-io.md      # 챕터 4
-└── ... (24개 챕터)
+├── eng/
+│   ├── _index.md             # 인덱스 (개요 + 목차)
+│   ├── introduction.md       # 챕터 1
+│   ├── pretraining-data.md   # 챕터 2
+│   ├── tokenization.md       # 챕터 3
+│   └── ... (24개 챕터)
+└── kr/                       # 번역 시 생성
+    ├── _index.md
+    ├── introduction.md
+    └── ...
 
-# 수동 계층적 구조 (--parent, --child)
+# 웹 하위페이지 / 수동 계층적 구조
 docs/week1/prompt-engineering-guide/
-├── zeroshot.md
-├── fewshot.md
-├── cot.md
-└── kr/
+├── eng/
+│   ├── zeroshot.md
+│   ├── fewshot.md
+│   └── cot.md
+└── kr/                       # 번역 시 생성
     ├── zeroshot.md
     └── fewshot.md
 ```
@@ -631,19 +646,19 @@ docs/week1/prompt-engineering-guide/
 ```
 /fetch-reading https://stytch.com/blog/model-context-protocol-introduction/
 ```
-결과: `docs/week2/mcp-introduction.md` 생성
+결과: `docs/week2/mcp-introduction/eng/index.md` 생성
 
 **PDF (로컬)**:
 ```
 /fetch-reading how-openai-uses-codex.pdf
 ```
-결과: `docs/week1/how-openai-uses-codex.md` 생성
+결과: `docs/week1/how-openai-uses-codex/eng/index.md` 생성
 
 **Week 지정**:
 ```
 /fetch-reading https://some-url.com/article --week 3
 ```
-결과: `docs/week3/` 디렉토리에 저장
+결과: `docs/week3/{slug}/eng/index.md` 에 저장
 
 ### 웹 하위 페이지 자동 수집
 
@@ -656,15 +671,17 @@ docs/week1/prompt-engineering-guide/
 1. 메인 페이지에서 하위 페이지 링크 자동 탐색
 2. 발견된 하위 페이지 목록 표시 (예: zeroshot, fewshot, cot...)
 3. AskUserQuestion으로 사용자 확인
-4. 승인 시 모든 하위 페이지를 `docs/week1/prompt-engineering-guide/` 구조로 저장
+4. 승인 시 모든 하위 페이지를 `docs/week1/prompt-engineering-guide/eng/` 구조로 저장
 
 결과:
 ```
 docs/week1/prompt-engineering-guide/
-├── zeroshot.md
-├── fewshot.md
-├── cot.md
-└── ... (자동 탐색된 하위 페이지들)
+├── eng/
+│   ├── zeroshot.md
+│   ├── fewshot.md
+│   ├── cot.md
+│   └── ... (자동 탐색된 하위 페이지들)
+└── kr/                       # 번역 시 생성
 ```
 
 ### 계층적 구조 수동 수집 (부모-자식)
@@ -675,13 +692,14 @@ docs/week1/prompt-engineering-guide/
 ```
 /fetch-reading https://www.promptingguide.ai/techniques/zeroshot --week 1 --parent prompt-engineering-guide --child zeroshot
 ```
-결과: `docs/week1/prompt-engineering-guide/zeroshot.md` 생성
+결과: `docs/week1/prompt-engineering-guide/eng/zeroshot.md` 생성
 
 **여러 자식 순차 수집**:
 ```
 /fetch-reading https://www.promptingguide.ai/techniques/fewshot --week 1 --parent prompt-engineering-guide --child fewshot
 /fetch-reading https://www.promptingguide.ai/techniques/cot --week 1 --parent prompt-engineering-guide --child cot
 ```
+결과: `docs/week1/prompt-engineering-guide/eng/` 디렉토리에 각각 저장
 
 ## 참고 파일
 
@@ -701,7 +719,7 @@ docs/week1/prompt-engineering-guide/
 ```
 ✅ Reading 수집 완료!
 
-📄 파일: docs/week1/how-openai-uses-codex.md
+📄 파일: docs/week1/how-openai-uses-codex/eng/index.md
 📊 콘텐츠: 5,432자
 🔗 원본: https://...
 
@@ -714,15 +732,15 @@ docs/week1/prompt-engineering-guide/
 ```
 ✅ YouTube 영상 수집 완료! (챕터별 분리)
 
-📁 디렉토리: docs/week1/deep-dive-llms/
+📁 디렉토리: docs/week1/deep-dive-llms/eng/
 📊 챕터 수: 24개
 ⏱️ 영상 길이: 3:31:05
 
 생성된 파일:
-  - _index.md (인덱스)
-  - introduction.md (0:00)
-  - pretraining-data.md (1:00)
-  - tokenization.md (7:47)
+  - eng/_index.md (인덱스)
+  - eng/introduction.md (0:00)
+  - eng/pretraining-data.md (1:00)
+  - eng/tokenization.md (7:47)
   ... (21개 더)
 
 다음 단계:
@@ -740,15 +758,15 @@ docs/week1/prompt-engineering-guide/
 ```
 ✅ 웹 문서 수집 완료! (하위 페이지 자동 탐색)
 
-📁 디렉토리: docs/week1/prompt-engineering-guide/
+📁 디렉토리: docs/week1/prompt-engineering-guide/eng/
 📊 하위 페이지: 18개
 🔗 원본: https://www.promptingguide.ai/techniques
 
 생성된 파일:
-  - zeroshot.md (Zero-shot Prompting)
-  - fewshot.md (Few-shot Prompting)
-  - cot.md (Chain-of-Thought Prompting)
-  - self-consistency.md (Self-Consistency)
+  - eng/zeroshot.md (Zero-shot Prompting)
+  - eng/fewshot.md (Few-shot Prompting)
+  - eng/cot.md (Chain-of-Thought Prompting)
+  - eng/self-consistency.md (Self-Consistency)
   ... (14개 더)
 
 다음 단계:

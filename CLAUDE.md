@@ -131,6 +131,7 @@ Reading 콘텐츠의 수집 → 번역 → 웹 게시를 3단계 스킬로 자�
 | `/nanobanana` | 완료 | 치트시트 프롬프트 생성 (`--per-chapter` 지원) |
 | `/publish-cheatsheet` | 완료 | 치트시트 이미지 게시 |
 | `/split-youtube-chapters` | 레거시 | 기존 단일 파일 마이그레이션용 |
+| `/review-translation` | 완료 | 번역 품질 AI 검증 (Claude, Codex, Gemini 교차 검증) |
 
 ---
 
@@ -141,11 +142,13 @@ YouTube 영상은 다음 순서로 처리합니다. 챕터가 있는 경우 **�
 ```
 1. /fetch-reading <youtube-url>
    → 챕터 있음: docs/week{N}/{slug}/ 디렉토리 생성
-       ├── _index.md (인덱스)
-       ├── introduction.md (챕터 1)
-       ├── tokenization.md (챕터 2)
-       └── ... (N개 챕터)
-   → 챕터 없음: docs/week{N}/{slug}.md (단일 파일)
+       ├── eng/                    # 원본 (영어)
+       │   ├── _index.md (인덱스)
+       │   ├── introduction.md (챕터 1)
+       │   ├── tokenization.md (챕터 2)
+       │   └── ... (N개 챕터)
+       └── kr/                     # 번역 시 생성
+   → 챕터 없음: docs/week{N}/{slug}/eng/index.md (폴더 구조)
 
 2. /translate-reading week{N}/{slug} --all-chapters
    → docs/week{N}/{slug}/kr/*.md (챕터별 번역)
@@ -199,7 +202,7 @@ URL에서 Reading 콘텐츠를 수집하여 마크다운으로 저장합니다.
 ```
 
 **지원 형식**: YouTube, PDF, GitHub, 일반 웹
-**출력**: `docs/week{N}/{slug}.md`
+**출력**: `docs/week{N}/{slug}/eng/index.md` (모든 콘텐츠는 eng/kr 폴더 구조)
 
 ---
 
@@ -227,8 +230,8 @@ terminology-lookup → translator → refiner(1차) → validator → refiner(2�
 - `translation-validator.md`: 누락/오역 검증
 - `translation-qa.md`: 최종 품질 검증
 
-**입력**: `docs/week{N}/{slug}.md`
-**출력**: `docs/week{N}/kr/{slug}.md`
+**입력**: `docs/week{N}/{slug}/eng/index.md`
+**출력**: `docs/week{N}/{slug}/kr/index.md`
 
 ---
 
@@ -244,12 +247,12 @@ terminology-lookup → translator → refiner(1차) → validator → refiner(2�
 ```
 
 **동작**:
-1. `docs/week{N}/kr/{slug}.md` 파싱
+1. `docs/week{N}/{slug}/kr/index.md` 파싱
 2. `ReadingContent` 객체 생성
 3. `src/content/readings.ts` 업데이트
 4. `src/content/syllabus.ts`에 `krSlug`, `translationStatus` 추가
 
-**입력**: `docs/week{N}/kr/{slug}.md`
+**입력**: `docs/week{N}/{slug}/kr/index.md`
 **출력**: `readings.ts`, `syllabus.ts` 자동 수정
 
 **옵션**:
@@ -284,7 +287,7 @@ content-analyzer → structure-planner → prompt-generator
 - `tutorial-style.md`: 튜토리얼/가이드용
 - `lecture-style.md`: 강의 콘텐츠용
 
-**입력**: `docs/week{N}/{slug}.md`
+**입력**: `docs/week{N}/{slug}/eng/index.md`
 **출력**:
 - 기본: `.claude/outputs/nanobanana/week{N}/{slug}-cheatsheet-prompt.md`
 - `--per-chapter`: `.claude/outputs/nanobanana/week{N}/{slug}/{childSlug}-cheatsheet-prompt.md`

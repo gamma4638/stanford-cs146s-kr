@@ -41,8 +41,8 @@ YouTube 콘텐츠를 챕터별 하위페이지 구조로 변환합니다.
 ## 입출력
 
 ### 입력
-- `docs/week{N}/{slug}.md` - 챕터 구조가 포함된 YouTube 콘텐츠 원본
-- `docs/week{N}/kr/{slug}.md` - 전체 번역 파일 (챕터 파일 생성 시 필요)
+- `docs/week{N}/{slug}/eng/index.md` - 챕터 구조가 포함된 YouTube 콘텐츠 원본
+- `docs/week{N}/{slug}/kr/index.md` - 전체 번역 파일 (챕터 파일 생성 시 필요)
 
 ### 출력
 - `src/content/readings.ts` 수정:
@@ -128,7 +128,7 @@ YouTube 콘텐츠를 챕터별 하위페이지 구조로 변환합니다.
 ### Step 1: 원본 마크다운 읽기
 
 ```
-1. docs/week{N}/{slug}.md 파일 읽기
+1. docs/week{N}/{slug}/eng/index.md 파일 읽기
 2. 파일이 없으면 에러: "원본 파일을 찾을 수 없습니다."
 3. 프론트매터에서 메타데이터 추출:
    - source_url
@@ -242,7 +242,7 @@ readings.ts 업데이트 완료 후 다음 단계로 진행합니다.
 #### 8.1 전체 번역 파일 확인
 
 ```
-파일 경로: docs/week{N}/kr/{slug}.md
+파일 경로: docs/week{N}/{slug}/kr/index.md
 
 파일이 없으면:
   ⚠ 전체 번역 파일이 없습니다.

@@ -80,42 +80,42 @@ arguments:
 ## 입출력
 
 ### 단일 페이지
-- **입력**: `docs/week{N}/{slug}.md` (영문 원문)
-- **출력**: `docs/week{N}/kr/{slug}.md` (한국어 번역본)
+- **입력**: `docs/week{N}/{slug}/eng/index.md` (영문 원문)
+- **출력**: `docs/week{N}/{slug}/kr/index.md` (한국어 번역본)
 
 ### YouTube 챕터 (자동 분리된 경우)
-- **입력**: `docs/week{N}/{slug}/{childSlug}.md` (영문 원문)
+- **입력**: `docs/week{N}/{slug}/eng/{childSlug}.md` (영문 원문)
 - **출력**: `docs/week{N}/{slug}/kr/{childSlug}.md` (한국어 번역본)
 
 ### --all-chapters 모드
-- **입력**: `docs/week{N}/{slug}/` 디렉토리의 모든 .md 파일
+- **입력**: `docs/week{N}/{slug}/eng/` 디렉토리의 모든 .md 파일
 - **출력**: `docs/week{N}/{slug}/kr/` 디렉토리에 번역본 생성
 - **제외**: `_index.md` (별도 처리 필요)
 
 ### 계층적 구조 (수동 설정)
-- **입력**: `docs/week{N}/{parent-slug}/{child-slug}.md` (영문 원문)
+- **입력**: `docs/week{N}/{parent-slug}/eng/{child-slug}.md` (영문 원문)
 - **출력**: `docs/week{N}/{parent-slug}/kr/{child-slug}.md` (한국어 번역본)
 
 ### 경로 예시
 ```
 # 단일 페이지
 week1/how-openai-uses-codex
-→ 입력: docs/week1/how-openai-uses-codex.md
-→ 출력: docs/week1/kr/how-openai-uses-codex.md
+→ 입력: docs/week1/how-openai-uses-codex/eng/index.md
+→ 출력: docs/week1/how-openai-uses-codex/kr/index.md
 
 # YouTube 챕터 (개별)
 week1/deep-dive-llms/tokenization
-→ 입력: docs/week1/deep-dive-llms/tokenization.md
+→ 입력: docs/week1/deep-dive-llms/eng/tokenization.md
 → 출력: docs/week1/deep-dive-llms/kr/tokenization.md
 
 # YouTube 챕터 (전체)
 week1/deep-dive-llms --all-chapters
-→ 입력: docs/week1/deep-dive-llms/*.md
+→ 입력: docs/week1/deep-dive-llms/eng/*.md
 → 출력: docs/week1/deep-dive-llms/kr/*.md (24개 파일)
 
 # 수동 계층 구조
 week1/prompt-engineering-guide/zeroshot
-→ 입력: docs/week1/prompt-engineering-guide/zeroshot.md
+→ 입력: docs/week1/prompt-engineering-guide/eng/zeroshot.md
 → 출력: docs/week1/prompt-engineering-guide/kr/zeroshot.md
 ```
 
@@ -133,7 +133,7 @@ week1/prompt-engineering-guide/zeroshot
            ▼
 ┌──────────────────────────────────────┐
 │ 1. 원본 파일 읽기                      │
-│    docs/week1/deep-dive-llms.md      │
+│    docs/week1/deep-dive-llms/eng/index.md │
 │    + docs/glossary.md                 │
 │    + YouTube 여부 확인 (frontmatter)  │
 └──────────────────────────────────────┘
@@ -232,13 +232,13 @@ CRITICAL: 한글이 포함된 파일을 수정할 때 절대 Edit 도구를 사�
 - 3단계 (week1/parent/child): 자식 페이지
 
 단일 페이지:
-1. docs/week{N}/{slug}.md 읽기 (원문)
+1. docs/week{N}/{slug}/eng/index.md 읽기 (원문)
 2. docs/glossary.md 읽기 (용어집)
-3. docs/week{N}/kr/ 디렉토리 없으면 생성
+3. docs/week{N}/{slug}/kr/ 디렉토리 없으면 생성
 4. frontmatter에서 source_type 또는 chapters 확인 → isYouTube 플래그 설정
 
 자식 페이지:
-1. docs/week{N}/{parent}/{child}.md 읽기 (원문)
+1. docs/week{N}/{parent}/eng/{child}.md 읽기 (원문)
 2. docs/glossary.md 읽기 (용어집)
 3. docs/week{N}/{parent}/kr/ 디렉토리 없으면 생성
 4. frontmatter에서 source_type 또는 chapters 확인 → isYouTube 플래그 설정
@@ -396,7 +396,7 @@ hasSummary: true
 #### 일반 콘텐츠 (기존 형식)
 ```
 단일 페이지:
-Write tool로 docs/week{N}/kr/{slug}.md 저장
+Write tool로 docs/week{N}/{slug}/kr/index.md 저장
 
 자식 페이지:
 Write tool로 docs/week{N}/{parent}/kr/{child}.md 저장
@@ -411,7 +411,7 @@ Write tool로 docs/week{N}/{parent}/kr/{child}.md 저장
 
 ### --refine-only
 이미 번역된 콘텐츠의 품질만 개선합니다.
-- `docs/week{N}/kr/{slug}.md` 파일이 존재해야 함
+- `docs/week{N}/{slug}/kr/index.md` 파일이 존재해야 함
 - translator 단계 스킵
 - refiner → validator → refiner → qa → refiner 만 실행
 
@@ -428,11 +428,11 @@ QA 단계를 스킵합니다 (빠른 번역용).
 YouTube 디렉토리의 모든 챕터를 순차적으로 번역합니다.
 
 **사용 조건**:
-- `docs/week{N}/{slug}/` 디렉토리가 존재해야 함
+- `docs/week{N}/{slug}/eng/` 디렉토리가 존재해야 함
 - 디렉토리 내에 챕터별 .md 파일이 있어야 함
 
 **동작**:
-1. 디렉토리 내 모든 .md 파일 목록 조회
+1. eng/ 디렉토리 내 모든 .md 파일 목록 조회
 2. `_index.md` 제외
 3. 각 챕터 파일에 대해 순차적으로 번역 파이프라인 실행
 4. 결과를 `docs/week{N}/{slug}/kr/` 에 저장
@@ -444,7 +444,7 @@ YouTube 디렉토리의 모든 챕터를 순차적으로 번역합니다.
            ▼
 ┌──────────────────────────────────────┐
 │ 1. 디렉토리 검색                      │
-│    docs/week1/deep-dive-llms/*.md    │
+│    docs/week1/deep-dive-llms/eng/*.md │
 │    → 24개 파일 발견 (_index.md 제외)  │
 └──────────────────────────────────────┘
            │

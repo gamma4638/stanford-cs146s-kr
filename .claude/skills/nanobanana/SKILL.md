@@ -47,23 +47,23 @@ Reading 원문에서 나노바나나 프로용 치트시트 프롬프트를 생�
 ## 입출력
 
 ### 기본 모드 (단일 프롬프트)
-- **입력**: `docs/week{N}/{slug}.md` (원문)
+- **입력**: `docs/week{N}/{slug}/eng/index.md` (원문)
 - **출력**: `.claude/outputs/nanobanana/week{N}/{slug}-cheatsheet-prompt.md`
 
 ### --per-chapter 모드 (챕터별 프롬프트)
-- **입력**: `docs/week{N}/{slug}.md` (챕터 포함 원문)
+- **입력**: `docs/week{N}/{slug}/eng/` 디렉토리의 챕터 파일들
 - **출력**: `.claude/outputs/nanobanana/week{N}/{slug}/{childSlug}-cheatsheet-prompt.md` (N개)
 
 ### 경로 예시
 ```
 # 기본 모드
 week1/how-openai-uses-codex
-→ 입력: docs/week1/how-openai-uses-codex.md
+→ 입력: docs/week1/how-openai-uses-codex/eng/index.md
 → 출력: .claude/outputs/nanobanana/week1/how-openai-uses-codex-cheatsheet-prompt.md
 
 # --per-chapter 모드
 week1/deep-dive-llms --per-chapter
-→ 입력: docs/week1/deep-dive-llms.md
+→ 입력: docs/week1/deep-dive-llms/eng/*.md (각 챕터)
 → 출력: .claude/outputs/nanobanana/week1/deep-dive-llms/
          ├── introduction-cheatsheet-prompt.md
          ├── tokenization-cheatsheet-prompt.md
@@ -81,7 +81,8 @@ week1/deep-dive-llms --per-chapter
            ▼
 ┌──────────────────────────────────────┐
 │ 1. 원본 파일 읽기                      │
-│    docs/week1/how-openai-uses-codex.md│
+│    docs/week1/how-openai-uses-codex/ │
+│    eng/index.md                      │
 └──────────────────────────────────────┘
            │
            ▼
@@ -148,7 +149,7 @@ week1/deep-dive-llms --per-chapter
 입력: week1/how-openai-uses-codex
 → weekNum: 1
 → slug: how-openai-uses-codex
-→ 입력 경로: docs/week1/how-openai-uses-codex.md
+→ 입력 경로: docs/week1/how-openai-uses-codex/eng/index.md
 → 출력 경로: .claude/outputs/nanobanana/week1/how-openai-uses-codex-cheatsheet-prompt.md
 ```
 
@@ -156,7 +157,7 @@ week1/deep-dive-llms --per-chapter
 
 Read tool로 원본 파일 읽기:
 ```
-docs/week{N}/{slug}.md
+docs/week{N}/{slug}/eng/index.md
 ```
 
 파일이 없으면 에러 메시지 출력 후 종료.
