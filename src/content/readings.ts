@@ -4229,6 +4229,268 @@ export const readings: Record<string, ReadingContent> = {
       },
     ],
   },
+  'week6/owasp-top-ten': {
+    slug: 'owasp-top-ten',
+    week: 6,
+    title: 'OWASP Top Ten: The Leading Web Application Security Risks',
+    titleKr: 'OWASP Top Ten: 주요 웹 애플리케이션 보안 위협',
+    author: 'OWASP Foundation',
+    readTime: '약 10분',
+    sourceUrl: 'https://owasp.org/www-project-top-ten/',
+    sourceTitle: 'OWASP',
+    published: true,
+    sections: [
+      {
+        title: '개요',
+        content:
+          'OWASP Top Ten은 "개발자와 웹 애플리케이션 보안 전문가를 위한 표준 인식 문서"입니다. 최신 버전인 OWASP Top Ten 2025와 이전 버전인 2021, 2017을 확인할 수 있습니다.',
+      },
+      {
+        title: '목적',
+        content:
+          '이 문서는 보안 코딩을 실천하려는 개발자를 위한 기초 자료입니다. 조직은 이 문서를 채택하여 웹 애플리케이션의 위험을 최소화하는 프로세스를 시작할 것을 권장합니다.',
+      },
+      {
+        title: '번역 현황',
+        content:
+          'OWASP Top Ten은 아랍어, 스페인어, 프랑스어, 인도네시아어, 이탈리아어, 일본어, 포르투갈어, 중국어 등 다양한 언어로 번역되어 있습니다.',
+      },
+      {
+        title: '2025 데이터 분석 계획',
+        content:
+          '이 이니셔티브의 목표는 현재까지 식별된 애플리케이션 취약점에 관해 가장 포괄적인 데이터셋을 수집하는 것입니다. 보안 벤더, 컨설팅 업체, 버그바운티, 조직 기여 등에서 데이터를 수집합니다.',
+        items: [
+          'HaT(Human assisted Tools)와 TaH(Tool assisted Human) 접근 방식 비교',
+          'CWE 기반의 체계적인 분석',
+          '커뮤니티 설문조사로 데이터 분석에 반영되지 않은 위험 식별',
+        ],
+      },
+      {
+        title: '프로젝트 정보',
+        content:
+          'OWASP Foundation은 오픈 소스 프로젝트, 글로벌 챕터, 멤버십 네트워크, 컨퍼런스 개최를 통해 소프트웨어 보안 향상에 전념하는 비영리 조직입니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '표준 인식 문서',
+        content:
+          'OWASP Top Ten은 개발자와 웹 애플리케이션 보안 전문가를 위한 표준 인식 문서',
+      },
+      {
+        title: '최신 버전',
+        content:
+          '최신 버전은 2025년 버전이며, 2021년과 2017년 버전도 제공',
+      },
+      {
+        title: '데이터 기반 분석',
+        content:
+          '보안 벤더, 컨설팅 업체, 버그바운티 등 다양한 소스에서 데이터 수집',
+      },
+      {
+        title: 'CWE 기반 분석',
+        content:
+          'CWE 기반의 체계적인 분석으로 Top 10 순위 결정',
+      },
+      {
+        title: '글로벌 접근성',
+        content:
+          '다국어 번역 지원으로 글로벌 접근성 확보',
+      },
+    ],
+  },
+  'week6/context-rot': {
+    slug: 'context-rot',
+    week: 6,
+    title: 'Context Rot: Understanding Degradation in AI Context Windows',
+    titleKr: '컨텍스트 로트: AI 컨텍스트 윈도우의 성능 저하 이해하기',
+    author: 'Chroma Research',
+    readTime: '약 30분',
+    sourceUrl: 'https://research.trychroma.com/context-rot',
+    sourceTitle: 'Chroma Research',
+    published: true,
+    sections: [
+      {
+        title: '서론',
+        content:
+          '대규모 언어 모델(LLM)은 일반적으로 컨텍스트를 균일하게 처리한다고 가정됩니다. 하지만 실제로 이 가정은 맞지 않습니다. 간단한 작업에서도 입력 길이가 달라지면 모델 성능이 크게 변하는 것을 확인할 수 있습니다. 이 보고서에서는 GPT-4.1, Claude 4, Gemini 2.5, Qwen3 등 18개 LLM을 평가합니다.',
+      },
+      {
+        title: 'Needle in a Haystack 확장',
+        content:
+          '고전적인 NIAH 작업은 긴 컨텍스트 윈도우 중간에 무작위 사실을 배치한 다음 모델에게 그 사실을 질문하는 것입니다. 실제 긴 컨텍스트 사용은 종종 모호한 작업에 대한 의미론적 이해를 요구합니다.',
+      },
+      {
+        title: 'Needle-Question 유사도',
+        content:
+          '질문과 답변의 의미적 유사도가 낮을수록 입력 길이 증가에 따른 성능 저하가 더 빠릅니다. 짧은 입력 길이에서 모델은 낮은 유사도 쌍에서도 잘 수행하지만, 더 긴 입력 길이에서 관찰된 성능 저하는 needle-question 쌍의 본질적 난이도 때문이 아닙니다.',
+      },
+      {
+        title: '방해 요소의 영향',
+        content:
+          '방해 요소의 영향과 비균일성이 최신 모델을 포함한 모든 모델에서 입력 길이가 증가하면 증폭됩니다. Claude 모델은 일관되게 가장 낮은 환각률을 보이며, GPT 모델은 가장 높은 환각률을 보입니다.',
+      },
+      {
+        title: 'Haystack 구조',
+        content:
+          '놀랍게도 구조적 일관성이 모델 성능을 일관되게 저하시킨다는 것을 발견했습니다. haystack이 아이디어의 논리적 흐름을 유지하면 모델이 더 나쁜 성능을 보입니다. haystack을 셔플하고 로컬 일관성을 제거하면 성능이 일관되게 향상됩니다.',
+      },
+      {
+        title: 'LongMemEval',
+        content:
+          '더 현실적인 설정에서 이 모델들을 평가하기 위해 대화형 질문-응답용 긴 컨텍스트 벤치마크인 LongMemEval을 사용합니다. 관련 없는 컨텍스트를 추가하면 모델의 신뢰할 수 있는 성능 유지 능력에 상당한 영향을 미칩니다.',
+      },
+      {
+        title: '결론',
+        content:
+          'LLM이 입력 길이 전반에 걸쳐 일관된 성능을 유지하지 않습니다. 비어휘적 검색이나 텍스트 복제만큼 간단한 작업에서도 입력 길이가 증가하면 성능의 비균일성이 증가합니다. 효과적인 컨텍스트 엔지니어링이 신뢰할 수 있는 성능에 필수적입니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '컨텍스트 로트',
+        content:
+          '입력 토큰이 증가할수록 LLM 성능이 비균일하게 저하되는 현상',
+      },
+      {
+        title: '18개 LLM 평가',
+        content:
+          'GPT-4.1, Claude 4, Gemini 2.5, Qwen3 등 최신 모델 포함, 모든 모델이 긴 컨텍스트에서 성능 저하',
+      },
+      {
+        title: 'Needle-Question 유사도',
+        content:
+          '질문과 답변의 의미적 유사도가 낮을수록 입력 길이 증가에 따른 성능 저하가 더 빠름',
+      },
+      {
+        title: '방해 요소의 영향',
+        content:
+          '방해 요소는 비균일한 영향을 미치며, Claude는 낮은 환각률, GPT는 높은 환각률',
+      },
+      {
+        title: 'Haystack 구조',
+        content:
+          '논리적으로 구조화된 텍스트보다 무작위로 셔플된 텍스트에서 모델이 더 좋은 성능',
+      },
+      {
+        title: '컨텍스트 엔지니어링',
+        content:
+          '정보가 컨텍스트에 존재하는지보다 어떻게 제시되는지가 더 중요',
+      },
+    ],
+  },
+  'week6/sast-vs-dast': {
+    slug: 'sast-vs-dast',
+    week: 6,
+    title: 'SAST vs. DAST vs. RASP: Comparing Application Security Testing Methods',
+    titleKr: 'SAST vs DAST vs RASP: 애플리케이션 보안 테스팅 방법 비교',
+    author: 'Splunk',
+    readTime: '약 15분',
+    sourceUrl: 'https://www.splunk.com/en_us/blog/learn/sast-vs-dast.html',
+    sourceTitle: 'Splunk Blog',
+    published: true,
+    sections: [
+      {
+        title: '소개',
+        content:
+          '전 세계 정보 보안 지출은 2025년까지 2,120억 달러에 이를 전망이며, 2024년 대비 15% 증가한 수치입니다. Gartner는 생성형 AI와 클라우드 도입이 이러한 성장을 이끈다고 분석하며, 2027년까지 GenAI가 전체 사이버 공격의 17%에 관여할 것으로 예측합니다. 기업은 기존 접근 방식을 넘어서는 정교한 보안 전략이 필요합니다.',
+      },
+      {
+        title: 'SAST란?',
+        content:
+          '정적 애플리케이션 보안 테스팅(SAST)은 화이트박스 보안 테스팅 방법론입니다. 애플리케이션이 실행되지 않는 상태에서 소스 코드나 바이너리를 분석해 보안 취약점을 찾아냅니다. SDLC 초기에 취약점을 발견해 수정 비용을 크게 절감할 수 있습니다.',
+        items: [
+          '크로스 사이트 스크립팅(XSS)',
+          '안전하지 않은 역직렬화',
+          '버퍼 오버플로우',
+          'OWASP 취약점',
+        ],
+      },
+      {
+        title: 'DAST란?',
+        content:
+          '동적 애플리케이션 보안 테스팅(DAST)은 블랙박스 테스팅 방식을 사용합니다. 애플리케이션이 실행되는 동안 보안을 평가하며, 소스 코드 접근이 필요 없습니다. 실제 공격 시나리오를 모방해 정적 테스팅이 놓칠 수 있는 약점을 드러냅니다.',
+        items: [
+          '서비스 거부(DoS) 취약점',
+          '안전하지 않은 서버 구성',
+        ],
+      },
+      {
+        title: 'SAST 작동 방식',
+        content:
+          'SAST 도구는 사전 정의된 규칙과 탐지 방법(패턴 매칭, 데이터 흐름 분석 등)을 적용해 코딩 오류와 취약점을 찾습니다. IDE나 CI/CD 파이프라인에 통합되어 자동 스캔을 수행합니다.',
+        items: [
+          '패턴 매칭: 취약한 암호화 알고리즘이나 안전하지 않은 API 호출 탐지',
+          '데이터 흐름 분석: SQL 인젝션이나 버퍼 오버플로우 취약점 추적',
+          '제어 흐름 분석: 경쟁 조건 같은 논리적 결함 발견',
+          '의존성 스캐닝: 서드파티 라이브러리 취약점 분석',
+        ],
+      },
+      {
+        title: 'DAST 작동 방식',
+        content:
+          'DAST 도구는 입력 필드에 악성 데이터를 전송하는 것 같은 실제 공격을 시뮬레이션해 애플리케이션 동작과 응답의 취약점을 찾습니다.',
+        items: [
+          '1단계: 웹 애플리케이션 스캐닝으로 진입점 발견',
+          '2단계: 크로스 사이트 스크립팅 등 취약점 테스트를 위한 공격 시뮬레이션',
+          '3단계: 애플리케이션 응답 분석으로 취약점 탐지',
+          '4단계: 탐지된 취약점과 수정 권장 사항 보고서 생성',
+        ],
+      },
+      {
+        title: 'SAST vs DAST: 주요 차이점',
+        content:
+          'SAST는 화이트박스 테스팅으로 소스 코드에 접근해 내부에서 테스트하고, DAST는 블랙박스 테스팅으로 소스 코드 접근 없이 외부에서 테스트합니다. SAST는 SDLC 초기에 수행되어 수정 비용이 낮고, DAST는 SDLC 후반에 수행되어 런타임 취약점을 식별합니다.',
+      },
+      {
+        title: 'SAST와 DAST의 장단점',
+        content:
+          'SAST는 초기 취약점 발견, 종합적 코드 분석, 자동화된 분석이 장점이지만 오탐이 많고 런타임 취약점 식별이 불가합니다. DAST는 런타임 취약점 식별, 소스 코드 불필요, 실제 공격 시뮬레이션이 장점이지만 깊은 취약점을 놓칠 수 있고 SDLC 후반에 적용되어 수정 비용이 높습니다.',
+      },
+      {
+        title: '하이브리드 접근 방식',
+        content:
+          'SAST와 DAST를 결합하면 정적 코드와 런타임 취약점을 모두 다루는 다층 보안을 구축할 수 있습니다. CI/CD 파이프라인에서 둘 다 자동화하면 지속적인 피드백을 제공하고 보안을 유지하면서 개발을 가속화합니다.',
+      },
+      {
+        title: 'RASP: SAST와 DAST의 대안',
+        content:
+          'Runtime Application Self-Protection(RASP)은 애플리케이션이 실행되는 서버에 직접 설치하는 고급 보안 솔루션입니다. 실시간으로 작동해 실행 중 애플리케이션 동작을 모니터링하고, 세션 종료나 보안팀 경고를 통해 실시간 위협에 대응합니다.',
+      },
+      {
+        title: '미래: AppSec 테스팅',
+        content:
+          '애플리케이션 테스팅의 미래는 SAST, DAST, RASP를 결합하는 것입니다. AI와 머신 러닝의 발전으로 오탐을 줄이고 위협 탐지를 개선해 테스팅 효율성이 높아질 것입니다. 금융 서비스와 IoT 분야에서 이러한 도구들이 함께 보안을 강화합니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: 'SAST(정적 분석)',
+        content:
+          '소스 코드를 분석해 SDLC 초기에 취약점을 발견하고 비용을 절감',
+      },
+      {
+        title: 'DAST(동적 분석)',
+        content:
+          '실행 중인 애플리케이션을 테스트해 런타임 취약점과 구성 오류를 식별',
+      },
+      {
+        title: 'RASP(런타임 보호)',
+        content:
+          '애플리케이션 내부에서 실시간으로 공격을 탐지하고 차단',
+      },
+      {
+        title: '다층 방어 전략',
+        content:
+          '최상의 보안을 위해 SAST, DAST, RASP를 결합한 다층 방어 전략 채택',
+      },
+      {
+        title: 'DevSecOps 자동화',
+        content:
+          'CI/CD 파이프라인에 보안 도구를 통합해 DevSecOps 실천을 자동화',
+      },
+    ],
+  },
   'week9/introduction-to-sre': {
     slug: 'introduction-to-sre',
     week: 9,
@@ -4330,6 +4592,111 @@ export const readings: Record<string, ReadingContent> = {
         title: '비난 없는 포스트모템',
         content:
           '비난 없는 포스트모템 문화가 결함을 노출하고 수정하는 데 중요하다',
+      },
+    ],
+  },
+  'week4/awesome-claude-agents': {
+    slug: 'awesome-claude-agents',
+    week: 4,
+    title: 'Awesome Claude Agents',
+    titleKr: 'Awesome Claude Agents: AI 개발팀 프레임워크',
+    author: 'vijaythecoder',
+    readTime: '약 10분',
+    sourceUrl: 'https://github.com/vijaythecoder/awesome-claude-agents',
+    sourceTitle: 'GitHub',
+    published: true,
+    sections: [
+      {
+        title: '개요',
+        content:
+          'Awesome Claude Agents는 Claude Code CLI를 위한 AI 개발팀 프레임워크입니다. 24개의 전문 에이전트가 협업하여 기능 구현, 버그 디버깅, 다양한 기술 스택을 처리합니다.',
+      },
+      {
+        title: '에이전트 구성',
+        content:
+          '프레임워크는 4가지 카테고리의 전문 에이전트로 구성됩니다.',
+        items: [
+          '오케스트레이터 (3개): Tech Lead, Project Analyst, Team Configurator',
+          '프레임워크 전문가 (13개): Laravel, Django, Rails, React, Vue 등',
+          '유니버설 전문가 (4개): Backend, Frontend, API, Tailwind CSS',
+          '코어 팀 (4개): Code Archaeologist, Reviewer, Performance Optimizer, Documentation',
+        ],
+      },
+      {
+        title: '설치 방법',
+        content:
+          'git clone 후 symlink 또는 직접 복사로 설치할 수 있습니다. symlink 방식이 자동 업데이트를 지원하여 권장됩니다.',
+      },
+      {
+        title: '사용 방법',
+        content:
+          '@agent-team-configurator로 기술 스택을 자동 감지하고, @tech-lead-orchestrator로 작업을 요청하면 Tech Lead가 적절한 전문가들에게 작업을 분배합니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '토큰 주의',
+        content: '이 프로젝트는 토큰 집약적입니다. 복잡한 워크플로우에서 10-50k 토큰을 소비할 수 있습니다.',
+      },
+      {
+        title: '병렬 처리',
+        content: '여러 에이전트가 동시에 작업하여 개발 속도를 향상시킵니다.',
+      },
+      {
+        title: '자동 스택 감지',
+        content: 'package.json, 빌드 파일 분석으로 기술 스택을 자동 인식하여 적합한 팀을 구성합니다.',
+      },
+    ],
+  },
+  'week4/super-claude': {
+    slug: 'super-claude',
+    week: 4,
+    title: 'SuperClaude Framework',
+    titleKr: 'SuperClaude: Claude Code 향상 프레임워크',
+    author: 'SuperClaude-Org',
+    readTime: '약 15분',
+    sourceUrl: 'https://github.com/SuperClaude-Org/SuperClaude_Framework',
+    sourceTitle: 'GitHub',
+    published: true,
+    sections: [
+      {
+        title: '개요',
+        content:
+          'SuperClaude는 Claude Code를 구조화된 개발 플랫폼으로 변환하는 메타 프로그래밍 프레임워크입니다. 30개의 슬래시 명령어, 16개의 전문 에이전트, 8개의 MCP 서버 통합을 제공합니다.',
+      },
+      {
+        title: '핵심 구성',
+        content: 'SuperClaude의 주요 구성 요소입니다.',
+        items: [
+          '30개 슬래시 명령어: /plan, /build, /test, /review, /magic 등',
+          '16개 전문 에이전트: PM Agent, Security Engineer, Frontend/Backend Architect 등',
+          '7가지 행동 모드: Brainstorming, Deep Research, Orchestration, Token-Efficiency 등',
+          '8개 MCP 서버: Tavily, Context7, Playwright, Chrome DevTools 등',
+        ],
+      },
+      {
+        title: '설치 방법',
+        content:
+          'pipx install superclaude로 설치하고, superclaude install로 30개 명령어를 초기화합니다.',
+      },
+      {
+        title: '딥 리서치 기능',
+        content:
+          'v4.2에서 도입된 자율 웹 리서치 시스템으로, 적응형 계획, 다중 홉 추론(최대 5회), 품질 점수, 케이스 기반 학습을 지원합니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '통합 워크플로우',
+        content: '기획부터 배포까지 일관된 환경에서 개발할 수 있습니다.',
+      },
+      {
+        title: 'MCP 통합',
+        content: '8개 MCP 서버로 웹 검색, 브라우저 자동화, 메모리 유지 등 기능을 확장합니다.',
+      },
+      {
+        title: '문서 표준화',
+        content: 'PLANNING.md, TASK.md, KNOWLEDGE.md 등 일관된 프로젝트 문서 구조를 제공합니다.',
       },
     ],
   },

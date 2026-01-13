@@ -232,10 +232,14 @@ export const syllabus: Week[] = [
       {
         title: 'Awesome Claude Agents',
         url: 'https://github.com/vijaythecoder/awesome-claude-agents',
+        krSlug: 'awesome-claude-agents',
+        translationStatus: 'complete',
       },
       {
         title: 'Super Claude',
         url: 'https://github.com/SuperClaude-Org/SuperClaude_Framework',
+        krSlug: 'super-claude',
+        translationStatus: 'complete',
       },
       {
         title: 'Good Context Good Code',
@@ -361,10 +365,14 @@ export const syllabus: Week[] = [
       {
         title: 'OWASP Top Ten: The Leading Web Application Security Risks',
         url: 'https://owasp.org/www-project-top-ten/',
+        krSlug: 'owasp-top-ten',
+        translationStatus: 'complete',
       },
       {
         title: 'Context Rot: Understanding Degradation in AI Context Windows',
         url: 'https://research.trychroma.com/context-rot',
+        krSlug: 'context-rot',
+        translationStatus: 'complete',
       },
       {
         title: 'Vulnerability Prompt Analysis with O3',
