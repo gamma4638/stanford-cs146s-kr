@@ -12,6 +12,11 @@ function getTranslationStatus(reading: Reading): TranslationStatus {
   return reading.krSlug ? 'complete' : 'none'
 }
 
+// GitHub 소스인지 확인
+function isGitHubSource(url: string): boolean {
+  return url.includes('github.com') && !url.includes('github.blog')
+}
+
 // 상태별 라벨
 const statusLabel: Record<Exclude<TranslationStatus, 'complete'>, string> = {
   in_progress: '번역중',
@@ -24,14 +29,15 @@ export default function ReadingList({ readings, weekNumber }: ReadingListProps) 
       {readings.map((reading, i) => {
         const status = getTranslationStatus(reading)
         const hasKorean = reading.krSlug && status === 'complete'
-        const isGitHubReading = reading.url.includes('github.com')
+        const isGitHub = isGitHubSource(reading.url)
 
         return (
           <li key={i} className="text-[20.8px] leading-[33.28px] text-text-body">
             <div>• {reading.title}</div>
             <div className="ml-4 text-[14px]">
               <span className="text-text-secondary">→ </span>
-              {isGitHubReading ? (
+              {isGitHub ? (
+                // GitHub 소스인 경우 텍스트 링크로 표시
                 <a
                   href={reading.url}
                   target="_blank"
@@ -41,6 +47,7 @@ export default function ReadingList({ readings, weekNumber }: ReadingListProps) 
                   GitHub
                 </a>
               ) : (
+                // 일반 소스인 경우 한국어/English 링크 표시
                 <>
                   {hasKorean ? (
                     <Link

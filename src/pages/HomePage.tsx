@@ -49,19 +49,6 @@ export default function HomePage() {
                 <WeekCard key={week.number} week={week} />
               ))}
             </div>
-
-            {/* Grading Section */}
-            <h2 className="text-[32px] font-semibold text-text-primary mb-6 pb-2 border-b-2 border-stanford-red mt-12">
-              Grading
-            </h2>
-            <div className="grid grid-cols-2 gap-4 max-w-md">
-              <div className="text-[16px] text-text-primary">Final Project</div>
-              <div className="text-[16px] text-text-primary font-semibold">80%</div>
-              <div className="text-[16px] text-text-primary">Weekly Assignments</div>
-              <div className="text-[16px] text-text-primary font-semibold">15%</div>
-              <div className="text-[16px] text-text-primary">Class Participation</div>
-              <div className="text-[16px] text-text-primary font-semibold">5%</div>
-            </div>
           </div>
         )}
 
