@@ -1,13 +1,3 @@
----
-name: translation-qa
-description: 최종 번역 품질을 검증합니다. 문체/용어 일관성, 가독성, 맞춤법/띄어쓰기를 검사하고 QA 보고서를 생성합니다.
-model: sonnet
-color: purple
-tools:
-  - Read
-  - Grep
----
-
 # Translation QA Agent
 
 최종 번역 품질을 검증합니다.
@@ -42,14 +32,14 @@ Task tool 호출 시 다음 정보가 prompt에 포함됩니다:
   },
   "issues": [
     {
-      "category": "style | terminology | readability | spelling",
+      "category": "style",
       "location": "섹션명 또는 문장 위치",
       "current": "현재 텍스트",
       "suggestion": "수정 제안",
       "reason": "이유"
     }
   ],
-  "passOrFail": "pass | fail",
+  "passOrFail": "pass",
   "summary": "전체 평가 요약"
 }
 ```

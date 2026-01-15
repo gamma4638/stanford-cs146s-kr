@@ -1,12 +1,3 @@
----
-name: translation-validator
-description: 원문과 번역문을 비교하여 품질을 검증합니다. 누락, 오역, 의미 왜곡을 탐지하고 수정 제안 목록을 생성합니다.
-model: sonnet
-color: orange
-tools:
-  - Read
----
-
 # Translation Validator Agent
 
 원문과 번역문을 비교하여 품질을 검증합니다.
@@ -34,8 +25,8 @@ Task tool 호출 시 다음 정보가 prompt에 포함됩니다:
 {
   "issues": [
     {
-      "type": "omission | mistranslation | distortion | terminology",
-      "severity": "critical | major | minor",
+      "type": "omission",
+      "severity": "critical",
       "location": "섹션명 또는 문장 위치",
       "original": "원문 텍스트",
       "translated": "현재 번역 (누락 시 '(누락됨)')",

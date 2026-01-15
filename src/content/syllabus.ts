@@ -167,7 +167,9 @@ export const syllabus: Week[] = [
       },
       {
         title: 'How FAANG Vibe Codes',
-        url: 'https://x.com/rohanpaul_ai/status/1959414096589422619',
+        url: 'https://www.reddit.com/r/vibecoding/comments/1myakhd/how_we_vibe_code_at_a_faang/',
+        krSlug: 'how-faang-vibe-codes',
+        translationStatus: 'complete',
       },
       {
         title: 'Writing Effective Tools for Agents',
@@ -250,6 +252,8 @@ export const syllabus: Week[] = [
       {
         title: 'Peeking Under the Hood of Claude Code',
         url: 'https://medium.com/@outsightai/peeking-under-the-hood-of-claude-code-70f5a94a9a62',
+        krSlug: 'peeking-under-hood-claude-code',
+        translationStatus: 'complete',
       },
     ],
     assignments: [
@@ -300,6 +304,8 @@ export const syllabus: Week[] = [
       {
         title: 'How Warp Uses Warp to Build Warp',
         url: 'https://notion.warp.dev/How-Warp-uses-Warp-to-build-Warp-21643263616d81a6b9e3e63fd8a7380c',
+        krSlug: 'how-warp-uses-warp',
+        translationStatus: 'complete',
       },
     ],
     assignments: [
@@ -447,6 +453,8 @@ export const syllabus: Week[] = [
       {
         title: 'Lessons from millions of AI code reviews',
         url: 'https://www.youtube.com/watch?v=TswQeKftnaw',
+        krSlug: 'lessons-millions-ai-code-reviews',
+        translationStatus: 'complete',
       },
     ],
     assignments: [

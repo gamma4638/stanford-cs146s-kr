@@ -4662,6 +4662,56 @@ export const readings: Record<string, ReadingContent> = {
       },
     ],
   },
+  'week3/how-faang-vibe-codes': {
+    slug: 'how-faang-vibe-codes',
+    week: 3,
+    title: 'How FAANG Vibe Codes',
+    titleKr: 'FAANG에서는 어떻게 바이브 코딩을 하는가',
+    author: 'Reddit',
+    readTime: '약 3분',
+    sourceUrl: 'https://www.reddit.com/r/vibecoding/comments/1myakhd/how_we_vibe_code_at_a_faang/',
+    sourceTitle: 'Reddit',
+    published: true,
+    sections: [
+      {
+        title: '배경',
+        content:
+          'AI 어시스턴트를 활용한 코딩이 프로덕션 코드에 사용될 수 없다고 생각하는 분들이 많지만, 이는 사실이 아닙니다. 저자는 10년 넘게 일해온 AI 소프트웨어 엔지니어로, 그중 절반은 FAANG이나 비슷한 수준의 회사에서 근무했습니다.',
+      },
+      {
+        title: 'FAANG의 AI 활용 프로덕션 워크플로우',
+        content: 'FAANG에서 AI를 프로덕션 코드에 활용하는 단계별 프로세스입니다.',
+        items: [
+          '기술 설계 문서(Technical Design Document)로 시작 - 대부분의 작업이 여기서 이루어짐',
+          '설계 리뷰 - 시니어 엔지니어들이 설계 문서를 철저하게 검토 ("고통의 선결제")',
+          '하위 시스템 문서화 - 개별 개발팀이 구축할 각 하위 시스템에 대한 문서화',
+          '백로그 개발과 스프린트 플래닝 - PM, TPM과 함께 세부 태스크와 순서 결정',
+          '소프트웨어 개발 - TDD 방식으로 AI가 먼저 테스트 작성, 그 후 기능 구현',
+          '코드 리뷰 - 두 명의 개발자 승인 필요, AI가 리뷰 보조',
+          '스테이징 테스트 후 프로덕션 배포',
+        ],
+      },
+      {
+        title: '결과',
+        content:
+          '기능 제안부터 프로덕션 배포까지 약 30% 속도 향상을 경험하고 있습니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '설계 문서 먼저',
+        content: '항상 탄탄한 설계 문서와 아키텍처로 시작하세요.',
+      },
+      {
+        title: '작은 단위로 구축',
+        content: '설계 문서에서부터 작은 단위로 나눠서 구축하세요.',
+      },
+      {
+        title: '테스트 먼저',
+        content: 'TDD 방식으로 AI에게 먼저 테스트를 작성하게 한 후 기능을 구현하세요.',
+      },
+    ],
+  },
   'week4/super-claude': {
     slug: 'super-claude',
     week: 4,
@@ -4711,6 +4761,274 @@ export const readings: Record<string, ReadingContent> = {
       {
         title: '문서 표준화',
         content: 'PLANNING.md, TASK.md, KNOWLEDGE.md 등 일관된 프로젝트 문서 구조를 제공합니다.',
+      },
+    ],
+  },
+  'week4/peeking-under-hood-claude-code': {
+    slug: 'peeking-under-hood-claude-code',
+    week: 4,
+    title: 'Peeking Under the Hood of Claude Code',
+    titleKr: 'Claude Code의 내부 들여다보기',
+    author: 'OutSight AI',
+    readTime: '약 15분',
+    sourceUrl: 'https://medium.com/@outsightai/peeking-under-the-hood-of-claude-code-70f5a94a9a62',
+    sourceTitle: 'Medium',
+    published: true,
+    sections: [
+      {
+        title: 'TL;DR',
+        content:
+          'Claude Code는 실제 작업 전에 작고 타겟팅된 프롬프트로 컨텍스트를 선행 로딩합니다. 드리프트를 줄이기 위해 시스템/사용자 프롬프트, 도구 호출, 도구 결과에 "system-reminder"를 곳곳에 뿌립니다. Bash 실행 전 명시적인 명령어 접두사 추출과 인젝션 검사로 위험을 제어하며, 작업이 다단계가 되면 더 좁은 지시를 가진 서브 에이전트를 생성합니다.',
+      },
+      {
+        title: '설정: LiteLLM으로 Claude Code 모니터링하기',
+        content:
+          'Claude Code의 동작을 이해하기 위해, Claude Code와 Anthropic API 서버 사이에 LiteLLM을 투명한 프록시로 배치하여 수백 건의 API 호출을 캡처했습니다.',
+      },
+      {
+        title: '놀라움의 원천',
+        content:
+          'API 요청을 관찰하면서, 마법은 Claude Code 세션을 시작하기도 전에 시작된다는 것을 알게 되었습니다. 기존 프로젝트로 세션을 시작하면 먼저 대화를 요약해서 제목을 추출하고, 현재 메시지가 새로운 주제인지 분석합니다.',
+      },
+      {
+        title: 'system-reminder 태그',
+        content:
+          '가장 흥미로운 발견은 <system-reminder> 태그의 광범위한 사용이었습니다. 이 태그들은 시스템 프롬프트 내에서만 사용되는 것이 아니라, 사용자 메시지부터 도구 호출 결과까지 전체 파이프라인에 걸쳐 삽입되어 있습니다.',
+      },
+      {
+        title: '명령어 인젝션 감지',
+        content:
+          '명령어 권한들은 하드코딩된 것이 아니라 생성형입니다. Claude는 권한을 요청하거나 명령어 인젝션을 감지하기 위한 특정 서브 프롬프트를 가지고 있으며, 명령어 접두사를 추출하고 위험한 패턴을 탐지합니다.',
+      },
+      {
+        title: '서브 에이전트 아키텍처',
+        content:
+          'Task 도구는 내부에서 자체 버전의 Claude Code를 실행합니다. 핵심 차이점은 서브 에이전트에서 todoWrite 도구 사용을 피한다는 것입니다. 그러나 작업이 복잡해지면 system-reminder 태그를 조건부로 주입하여 todoWrite 사용을 상기시킵니다.',
+      },
+      {
+        title: '진짜 비밀 소스',
+        content:
+          'Claude Code의 마법은 기본 모델이 다르거나 특별한 것 때문이 아니라, 하나의 크고 아름다운 프롬프트와 영리한 도구 설명, 그리고 올바른 태그를 사용한 체계적인 컨텍스트 엔지니어링의 조합입니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '컨텍스트 선행 로딩',
+        content: '실제 작업 전에 대화를 요약하고, 주제를 분석하고, 컨텍스트를 설정합니다.',
+      },
+      {
+        title: 'system-reminder 태그',
+        content: '드리프트 방지를 위해 시스템 전체에서 <system-reminder> 태그를 사용합니다.',
+      },
+      {
+        title: '내장된 안전 및 권한',
+        content:
+          '명령어 검증과 인젝션 감지를 에이전트 루프에 직접 통합합니다.',
+      },
+      {
+        title: '특화된 서브 에이전트',
+        content:
+          '메인 루프가 작업 복잡도에 따라 조건부 컨텍스트 엔지니어링으로 서브 에이전트를 조율합니다.',
+      },
+    ],
+  },
+  'week5/how-warp-uses-warp': {
+    slug: 'how-warp-uses-warp',
+    week: 5,
+    title: 'How Warp Uses Warp to Build Warp',
+    titleKr: 'Warp가 Warp를 만들기 위해 Warp를 사용하는 방법',
+    author: 'Warp Team',
+    readTime: '약 10분',
+    sourceUrl: 'https://www.warp.dev',
+    sourceTitle: 'Warp',
+    published: true,
+    sections: [
+      {
+        title: '코딩 의무 규정',
+        content:
+          'Warp의 코딩 의무 규정은 모든 코딩 작업을 Warp 프롬프트로 시작하는 것입니다. 10분이 지나도 진전이 없으면 피드백을 공유하고, 다른 AI 도구를 시도하거나, 수동 코딩으로 전환합니다.',
+        items: [
+          '모든 코딩 작업은 Warp에서 프롬프트로 시작한다',
+          '성공하면 #warped-it 채널에 공유',
+          '10분 후 진전 없으면 #feedback- 채널에 피드백 공유',
+          '다른 AI 도구(Cursor, Claude)로 비교 시도',
+          '필요시 수동 코딩으로 전환',
+        ],
+      },
+      {
+        title: '코딩 의무 규정의 이유',
+        content:
+          'Warp로 프롬프트 코딩은 실제로 많은 작업에서 더 빠르며, 자사 제품을 직접 사용(dogfooding)하는 것이 제품 개선의 최선책입니다.',
+        items: [
+          '코드를 직접 작성하는 시간 절약',
+          '여러 작업을 동시에 병렬로 진행 가능',
+          '익숙하지 않은 코드 영역에서 특히 유용',
+          '경쟁 제품 사용으로 제품 개선 직관 형성',
+        ],
+      },
+      {
+        title: '리뷰를 위해 제출하는 코드에 대한 책임',
+        content:
+          '리뷰를 위해 제출하는 모든 코드는 직접 작성한 것과 동일한 수준으로 이해해야 합니다. AI가 생성한 코드도 동일한 품질 기준을 적용해야 합니다.',
+        items: [
+          '잘 구조화되어야 한다',
+          '잘 테스트되어야 한다',
+          '코딩 컨벤션을 따라야 한다',
+          '"AI가 작성했다"는 버그나 낮은 품질의 변명이 될 수 없다',
+        ],
+      },
+      {
+        title: '에이전트에게 엔지니어링 방법을 말하라',
+        content:
+          '에이전트에게 원하는 결과만 말하지 말고, 변경 사항을 어떻게 엔지니어링할지 구체적으로 지시하세요.',
+        items: [
+          '데이터 모델은 어떤 형태여야 하는가',
+          '원하는 API는 무엇인가',
+          '코드는 어디에 위치해야 하는가',
+          '어떤 테스트를 작성해야 하는가',
+        ],
+      },
+      {
+        title: '작은 단위로 분해하라',
+        content:
+          '큰 변경을 원샷으로 처리하지 말고 작은 단위로 분해하여 점진적으로 진행하세요. 에이전트가 진행하면서 자주 테스트를 작성하게 하면 점진적 작업을 강제할 수 있습니다.',
+        items: [
+          '작고 독립적인 변경과 커밋 요청',
+          '진행 중인 변경 사항을 자주 확인',
+          '필요할 때 되돌릴 수 있도록 좋은 메시지와 함께 커밋',
+        ],
+      },
+      {
+        title: 'Warp가 무엇을 하는지 이해하라',
+        content:
+          'Warp가 변경을 시작하기 전에 설명이나 계획을 요청하세요. 계획을 반복적으로 수정하고 변경 옵션과 다른 접근 방식을 요청하세요.',
+      },
+      {
+        title: '학습에 시간을 투자하라',
+        content:
+          'Warp를 더 많이 사용할수록 어떤 컨텍스트를 포함해야 하는지, 어떤 유형의 프롬프팅이 가장 효과적인지에 대한 직관이 쌓입니다.',
+        items: [
+          '규칙, 프롬프트, Warp Drive 객체를 영구적인 컨텍스트로 활용',
+          '파일 태깅에 "@"를 사용',
+          'UI 변경 및 디버깅을 위해 이미지 첨부',
+          '다른 모델로 실험',
+        ],
+      },
+      {
+        title: '이슈를 보고하라',
+        content:
+          '무언가가 잘 작동하지 않으면 적절한 #feedback- 채널에 보고하세요. 피드백 처리의 첫 번째 본능은 평가(eval) 케이스를 만드는 것이어야 합니다.',
+        items: [
+          '서버 오류 또는 클라이언트 버그',
+          '에이전트가 빙빙 돌면서 요청 소모',
+          '에이전트가 컨텍스트를 잊어버림',
+          '누락된 기능, 높은 지연 시간 등',
+        ],
+      },
+      {
+        title: 'MCP 서버 및 규칙 설정',
+        content:
+          'Sentry, Linear, Notion, Slack 등 MCP 서버를 설정하여 컨텍스트 검색을 용이하게 하고, 반복되는 컨벤션과 워크플로우를 위한 Warp Drive 규칙과 프롬프트를 설정하세요.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: '코딩 의무 규정',
+        content:
+          '모든 코딩 작업은 Warp 프롬프트로 시작하며, 10분 후에도 진전이 없으면 피드백을 공유하고 다른 도구를 시도하거나 수동 코딩으로 전환한다.',
+      },
+      {
+        title: '코드 품질 및 책임',
+        content:
+          'AI가 생성한 코드도 직접 작성한 코드와 동일한 품질 기준을 적용해야 하며, "AI가 작성했다"는 변명이 될 수 없다.',
+      },
+      {
+        title: '효과적인 에이전트 사용법',
+        content:
+          '원하는 결과뿐 아니라 어떻게 엔지니어링할지 구체적으로 지시하고, 큰 변경을 원샷으로 처리하지 말고 작은 단위로 분해하여 진행한다.',
+      },
+      {
+        title: '생산성 향상 팁',
+        content:
+          'MCP 서버를 설정하여 컨텍스트 검색을 용이하게 하고, 반복되는 컨벤션과 워크플로우를 위한 Warp Drive 규칙과 프롬프트를 설정한다.',
+      },
+    ],
+  },
+  'week7/lessons-millions-ai-code-reviews': {
+    slug: 'lessons-millions-ai-code-reviews',
+    week: 7,
+    title: 'Lessons from millions of AI code reviews',
+    titleKr: '수백만 AI 코드 리뷰에서 배운 교훈',
+    author: 'Tomas Reimers (Graphite)',
+    readTime: '약 10분',
+    sourceUrl: 'https://www.youtube.com/watch?v=TswQeKftnaw',
+    sourceTitle: 'YouTube - AI Engineer Conference',
+    published: true,
+    contentType: 'youtube',
+    duration: '10:21',
+    tldr: 'Graphite의 Diamond는 AI 기반 코드 리뷰 시스템으로, AI가 생성한 코드의 버그를 AI로 검출하는 접근법을 제시합니다. 10,000개의 코멘트 분석을 통해 AI가 효과적으로 잡을 수 있는 버그 유형과 인간이 실제로 원하는 피드백의 교집합을 찾아 52%의 코멘트 수용률을 달성했습니다.',
+    learningGoals: [
+      'AI 코드 리뷰 시스템의 효과적인 피드백 유형과 한계 이해하기',
+      '2x2 매트릭스를 활용한 AI 코드 리뷰 품질 평가 프레임워크 학습하기',
+      'AI 코드 리뷰의 성공 지표(다운보트 비율, 변경 수용률) 측정 방법 파악하기',
+    ],
+    sections: [
+      {
+        title: '개요',
+        content:
+          'Graphite CPO Tomas Reimers가 AI Engineer 컨퍼런스에서 발표한 강연으로, AI 코드 리뷰 시스템 Diamond를 수백만 건의 코드 리뷰에 적용하면서 얻은 교훈을 공유합니다.',
+      },
+      {
+        title: 'AI 코드 리뷰의 가능성',
+        content:
+          'AI가 작성하는 코드의 양이 늘어남에 따라 버그도 증가하고 있습니다. Diamond는 Claude에게 PR을 분석하도록 요청하여 인스턴스화되지 않은 ORM 클래스나 음수 나눗셈 버그 같은 실제 문제를 찾아냅니다.',
+      },
+      {
+        title: '버그 분류 2x2 매트릭스',
+        content:
+          'LLM이 잡을 수 있는 것 vs 잡을 수 없는 것, 인간이 원하는 피드백 vs 원치 않는 피드백의 2x2 매트릭스로 코드 리뷰 코멘트를 분류합니다. 오른쪽 상단 사분면(LLM이 잡을 수 있고 인간이 원하는 것)이 핵심 영역입니다.',
+      },
+      {
+        title: 'AI가 효과적으로 잡는 버그 유형',
+        content:
+          '논리적 불일치(버그), 실수로 커밋된 코드, 성능/보안 문제, 문서화 불일치, 스타일 변경 등이 AI가 잘 잡고 개발자도 환영하는 피드백 유형입니다.',
+      },
+      {
+        title: 'AI의 한계와 필터링 필요성',
+        content:
+          '부족 지식(tribal knowledge)처럼 조직 고유의 맥락이 필요한 버그는 AI가 탐지하기 어렵습니다. 반면 "주석 추가해라", "테스트 작성해라" 같은 현학적 코멘트는 기술적으로 맞지만 개발자가 원치 않는 피드백으로, 반드시 필터링해야 합니다.',
+      },
+      {
+        title: '성공 지표 측정',
+        content:
+          '다운보트 비율(현재 4% 미만)로 LLM의 환각 여부를 측정하고, 코멘트 수용률(현재 52%)로 실제 코드 변경으로 이어지는 비율을 측정합니다. 인간 코멘트의 수용률이 약 50%인 것과 비교하면 AI가 인간 수준의 충실도를 달성했습니다.',
+      },
+    ],
+    keyTakeaways: [
+      {
+        title: 'AI 코드 리뷰의 잠재력',
+        content:
+          'AI 코드 생성량 증가에 따라 버그도 증가하며, AI 기반 코드 리뷰가 이를 해결할 수 있는 잠재력을 가집니다.',
+      },
+      {
+        title: '2x2 매트릭스 분류',
+        content:
+          "효과적인 AI 리뷰를 위해 'LLM이 잡을 수 있는 것 vs 못 잡는 것'과 '인간이 원하는 것 vs 원치 않는 것'의 2x2 매트릭스로 분류합니다.",
+      },
+      {
+        title: 'AI가 잘 잡는 버그',
+        content:
+          '논리적 불일치, 실수로 커밋된 코드, 성능/보안 문제, 문서화 문제, 스타일 변경 등이 AI가 효과적으로 탐지하는 영역입니다.',
+      },
+      {
+        title: 'AI의 한계',
+        content:
+          '부족 지식(tribal knowledge)처럼 조직 고유의 맥락이 필요한 버그는 탐지가 불가능합니다.',
+      },
+      {
+        title: '필터링의 중요성',
+        content:
+          '현학적 코멘트(주석 추가, 테스트 작성 요구 등)는 AI가 잡을 수 있어도 개발자가 원치 않는 피드백으로, 반드시 필터링해야 합니다.',
       },
     ],
   },

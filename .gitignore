@@ -26,20 +26,8 @@ dist-ssr
 # Legacy files (old HTML/CSS/JS implementation)
 _legacy/
 .vercel
+.env
 .env*.local
 
 # YouTube media files (large files)
 docs/**/media/*.mp3
-
-# Build outputs
-.next/
-.vite/
-next-env.d.ts
-
-# Environment variables
-.env
-.env.local
-
-# Local files
-todo.md
-*.pptx
