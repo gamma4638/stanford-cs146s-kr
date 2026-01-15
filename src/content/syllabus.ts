@@ -63,7 +63,6 @@ export const syllabus: Week[] = [
     number: 2,
     title: 'The Anatomy of Coding Agents',
     titleKr: '코딩 에이전트의 구조',
-    disabled: true,
     topics: [
       '에이전트 아키텍처와 구성 요소',
       '도구 사용과 함수 호출',
@@ -138,7 +137,6 @@ export const syllabus: Week[] = [
     number: 3,
     title: 'The AI IDE',
     titleKr: 'AI IDE',
-    disabled: true,
     topics: [
       '컨텍스트 관리와 코드 이해',
       '에이전트를 위한 PRD 작성',
@@ -214,7 +212,6 @@ export const syllabus: Week[] = [
     number: 4,
     title: 'Coding Agent Patterns',
     titleKr: '코딩 에이전트 패턴',
-    disabled: true,
     topics: [
       '에이전트 자율성 수준 관리',
       '인간-에이전트 협업 패턴',
@@ -285,7 +282,6 @@ export const syllabus: Week[] = [
     number: 5,
     title: 'The Modern Terminal',
     titleKr: '현대적 터미널',
-    disabled: true,
     topics: [
       'AI 강화 커맨드라인 인터페이스',
       '터미널 자동화와 스크립팅',
@@ -336,7 +332,6 @@ export const syllabus: Week[] = [
     number: 6,
     title: 'AI Testing and Security',
     titleKr: 'AI 테스팅과 보안',
-    disabled: true,
     topics: [
       '안전한 바이브 코딩',
       '취약점 탐지의 역사',
@@ -413,7 +408,6 @@ export const syllabus: Week[] = [
     number: 7,
     title: 'Modern Software Support',
     titleKr: '현대적 소프트웨어 지원',
-    disabled: true,
     topics: [
       '신뢰할 수 있는 AI 코드 시스템',
       '디버깅과 진단',
@@ -485,7 +479,6 @@ export const syllabus: Week[] = [
     number: 8,
     title: 'Automated UI and App Building',
     titleKr: '자동화된 UI 및 앱 개발',
-    disabled: true,
     topics: [
       '모두를 위한 디자인과 프론트엔드',
       '빠른 UI/UX 프로토타이핑과 반복',
@@ -521,7 +514,6 @@ export const syllabus: Week[] = [
     number: 9,
     title: 'Agents Post-Deployment',
     titleKr: '배포 후 에이전트 관리',
-    disabled: true,
     topics: [
       'AI 시스템 모니터링과 관측성',
       '자동화된 장애 대응',
@@ -597,7 +589,6 @@ export const syllabus: Week[] = [
     number: 10,
     title: "What's Next for AI Software Engineering",
     titleKr: 'AI 소프트웨어 엔지니어링의 미래',
-    disabled: true,
     topics: [
       '소프트웨어 개발 역할의 미래',
       '새로운 AI 코딩 패러다임',
