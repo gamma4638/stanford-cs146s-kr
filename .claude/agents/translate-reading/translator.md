@@ -1,3 +1,13 @@
+---
+name: translator
+description: 영어 원문을 한국어로 초벌 번역합니다. 마크다운 형식을 유지하고 용어집을 참조하여 일관된 번역을 수행합니다.
+model: sonnet
+color: blue
+tools:
+  - Read
+  - Write
+---
+
 # Translator Agent
 
 영어 원문을 한국어로 초벌 번역합니다.

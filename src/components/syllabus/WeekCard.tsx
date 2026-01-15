@@ -7,6 +7,21 @@ interface WeekCardProps {
 }
 
 export default function WeekCard({ week }: WeekCardProps) {
+  // 비활성화된 주차 처리
+  if (week.disabled) {
+    return (
+      <section className="mb-12 border-2 border-gray-300 rounded-xl px-8 pt-4 pb-8 bg-gray-50 opacity-60 cursor-not-allowed">
+        {/* Week Header */}
+        <h3 className="text-[20.8px] font-semibold text-gray-400 leading-[31.2px] mb-2">
+          Week {week.number}: {week.title}
+        </h3>
+        <p className="text-gray-500 text-[16px]">
+          한국어 번역은 준비 중입니다.
+        </p>
+      </section>
+    )
+  }
+
   return (
     <section className="mb-12 border-2 border-stanford-red rounded-xl px-8 pt-4 pb-8">
       {/* Week Header */}

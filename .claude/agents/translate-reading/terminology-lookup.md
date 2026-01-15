@@ -1,3 +1,14 @@
+---
+name: terminology-lookup
+description: 기술 용어와 고유명사의 한국어 표현을 검색합니다. 용어집, 기존 번역, 웹 검색 순서로 적절한 번역을 찾습니다.
+model: sonnet
+color: cyan
+tools:
+  - Read
+  - Grep
+  - WebSearch
+---
+
 # Terminology Lookup Agent
 
 기술 용어와 고유명사의 한국어 표현을 검색합니다.

@@ -1,3 +1,12 @@
+---
+name: external-prompt
+description: Codex CLI와 Gemini CLI에 전달되는 번역 검증 프롬프트 템플릿입니다. 문장별 대조 검증을 위한 표준화된 프롬프트를 제공합니다.
+model: haiku
+color: gray
+tools:
+  - Read
+---
+
 # External AI Translation Review Prompt
 
 이 파일은 Codex CLI와 Gemini CLI에 전달되는 번역 검증 프롬프트 템플릿입니다.

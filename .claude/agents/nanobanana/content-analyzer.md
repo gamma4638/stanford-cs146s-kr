@@ -1,3 +1,12 @@
+---
+name: content-analyzer
+description: 원본 마크다운 문서를 분석하여 콘텐츠 유형(use-case, tutorial, lecture)과 핵심 요소를 추출합니다. 나노바나나 치트시트 생성의 첫 단계입니다.
+model: sonnet
+color: yellow
+tools:
+  - Read
+---
+
 # Content Analyzer Agent
 
 원본 마크다운 문서를 분석하여 콘텐츠 유형과 핵심 요소를 추출합니다.

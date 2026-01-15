@@ -45,6 +45,7 @@ export interface Week {
   readings: Reading[]
   assignments: Assignment[]
   lectures: Lecture[]
+  disabled?: boolean // 한국어 번역 준비 중인 주차
 }
 
 export interface FaqItem {

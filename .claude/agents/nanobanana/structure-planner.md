@@ -1,3 +1,12 @@
+---
+name: structure-planner
+description: 콘텐츠 분석 결과를 바탕으로 나노바나나 치트시트의 섹션 구조, Mermaid 다이어그램, 표 구조를 설계합니다.
+model: sonnet
+color: orange
+tools:
+  - Read
+---
+
 # Structure Planner Agent
 
 콘텐츠 분석 결과를 바탕으로 나노바나나 치트시트의 구조를 설계합니다.

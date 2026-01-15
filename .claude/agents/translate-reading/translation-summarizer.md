@@ -1,3 +1,12 @@
+---
+name: translation-summarizer
+description: 번역된 YouTube 콘텐츠에서 TL;DR과 챕터별 요약을 생성합니다. 핵심 포인트 추출, 학습 목표 정리를 수행합니다.
+model: sonnet
+color: yellow
+tools:
+  - Read
+---
+
 # Translation Summarizer Agent
 
 번역된 YouTube 콘텐츠에서 TL;DR과 챕터별 요약을 생성합니다.

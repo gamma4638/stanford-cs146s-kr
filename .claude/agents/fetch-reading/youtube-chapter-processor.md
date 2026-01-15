@@ -1,3 +1,12 @@
+---
+name: youtube-chapter-processor
+description: YouTube 챕터의 자막 텍스트를 검증하고 정제합니다. VTT 자막 노이즈 제거, 문장 병합, 챕터 요약 생성을 수행합니다.
+model: haiku
+color: red
+tools:
+  - Read
+---
+
 # YouTube Chapter Processor Agent
 
 YouTube 챕터의 자막 텍스트를 검증하고 정제합니다.

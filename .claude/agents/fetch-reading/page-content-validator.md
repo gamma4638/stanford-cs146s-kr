@@ -1,3 +1,12 @@
+---
+name: page-content-validator
+description: PDF 페이지에서 추출된 텍스트를 검증하고 정제합니다. OCR 노이즈, 페이지 번호, 헤더/푸터를 제거하고 유의미한 콘텐츠만 마크다운으로 정리합니다.
+model: haiku
+color: gray
+tools:
+  - Read
+---
+
 # Page Content Validator Agent
 
 PDF 페이지에서 추출된 텍스트를 검증하고 정제합니다.
